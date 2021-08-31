@@ -28,6 +28,17 @@ review_columns = (
     "reg_time",  # 리뷰 등록 시간
 )
 
+menu_columns = (
+    "store", # 음식점 고유번호
+    "menu_name", # 메뉴 이름
+    "price", # 메뉴 가격
+)
+
+user_columns = (
+    "id", # 유저 고유 번호
+    "gender", # 유저 성별
+    "age", # 유저 나이
+)
 
 def import_data(data_path=DATA_FILE):
     """
@@ -43,6 +54,8 @@ def import_data(data_path=DATA_FILE):
 
     stores = []  # 음식점 테이블
     reviews = []  # 리뷰 테이블
+    users = [] # 유저 테이블
+    menus = [] # 메뉴 테이블
 
     for d in data:
 
@@ -60,6 +73,14 @@ def import_data(data_path=DATA_FILE):
                 "|".join(categories),
             ]
         )
+        for menu in d["menu_list"]:
+            menus.append(
+                [
+                    d["id"],
+                    menu["menu"],
+                    menu["price"]
+                ]
+            )
 
         for review in d["review_list"]:
             r = review["review_info"]
@@ -68,11 +89,21 @@ def import_data(data_path=DATA_FILE):
             reviews.append(
                 [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
             )
-
+            users.append(
+                [
+                    u["id"],
+                    u["gender"],
+                    u["born_year"]
+                ]
+            )
+        
+    # DataFrame은 행과 열이 있는 데이블 데이터로 받아들인다. 
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
+    menu_frame = pd.DataFrame(data=menus, columns=menu_columns)
+    user_frame = pd.DataFrame(data=users, columns=user_columns)
 
-    return {"stores": store_frame, "reviews": review_frame}
+    return {"stores": store_frame, "reviews": review_frame, "menus": menu_frame, "users": user_frame}
 
 
 def dump_dataframes(dataframes):
@@ -108,6 +139,15 @@ def main():
     print(data["reviews"].head())
     print(f"\n{separater}\n\n")
 
+    print("[메뉴]")
+    print(f"{separater}\n")
+    print(data["menus"].head())
+    print(f"\n{separater}\n\n")
+
+    print("[유저]")
+    print(f"{separater}\n")
+    print(data["users"].head())
+    print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":
     main()
