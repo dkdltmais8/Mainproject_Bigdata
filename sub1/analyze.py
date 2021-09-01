@@ -11,9 +11,18 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
+    print(stores_reviews.head())
+    # 리뷰의 개수가 30개 미만인 음식점 거르기
+    stores_reviews = stores_reviews[stores_reviews["review_cnt"] >= min_reviews]
+    print(stores_reviews.head())
     scores_group = stores_reviews.groupby(["store", "store_name"])
+    # 평균평점구하기 => mean()
     scores = scores_group.mean()
-    return scores.head(n=n).reset_index()
+    scores["rank"] = scores['score'].rank(ascending=False)
+    scores["rank"] = scores["rank"].astype(int)
+    final = scores["score"].sort_values(ascending=False)
+    print(final)
+    return final.head(n=n).reset_index()
 
 
 def get_most_reviewed_stores(dataframes, n=20):
@@ -46,6 +55,16 @@ def main():
                 rank=i + 1, store=store.store_name, score=store.score
             )
         )
+    print(f"\n{separater}\n\n")
+
+    print("[최다 리뷰 음식점]")
+    print(f"{separater}\n")
+
+    print(f"\n{separater}\n\n")
+
+    print("[최다 리뷰 유저]")
+    print(f"{separater}\n")
+
     print(f"\n{separater}\n\n")
 
 
