@@ -49,13 +49,19 @@ def get_most_active_users(dataframes, n=20):
     stores_user_reviews = dataframes["reviews"]
     users = dataframes['users']
     
+    # user개수 세기
     freq = stores_user_reviews['user'].value_counts()
 
+    # 인덱스 초기화하고
     user_freq = freq.reset_index()
+    # 합치기위해서 columns이름 바꿔줌
     user_freq.rename(columns = {'index': 'id', 'user': 'counts'}, inplace=True)
 
+    # user랑 리뷰개수 합치고
     user_reviews = pd.merge(users, user_freq)
+    # counts의 따라 재정렬
     user_reviews = user_reviews.sort_values(by=["counts"], ascending=False)
+    # 중복값 삭제해줌
     user_reviews.drop_duplicates(inplace=True)
 
     return user_reviews.head(n=n).reset_index()
