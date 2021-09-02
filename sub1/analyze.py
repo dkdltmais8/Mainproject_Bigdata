@@ -1,3 +1,5 @@
+from collections import UserString
+from typing import Tuple
 from parse import load_dataframes
 import pandas as pd
 import shutil
@@ -11,17 +13,18 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
-    print(stores_reviews.head())
+
     # 리뷰의 개수가 30개 미만인 음식점 거르기
     stores_reviews = stores_reviews[stores_reviews["review_cnt"] >= min_reviews]
-    print(stores_reviews.head())
     scores_group = stores_reviews.groupby(["store", "store_name"])
+
     # 평균평점구하기 => mean()
     scores = scores_group.mean()
     scores["rank"] = scores['score'].rank(ascending=False)
     scores["rank"] = scores["rank"].astype(int)
     final = scores["score"].sort_values(ascending=False)
-    print(final)
+
+    # reset_index => 인덱스 초기화
     return final.head(n=n).reset_index()
 
 
@@ -29,14 +32,33 @@ def get_most_reviewed_stores(dataframes, n=20):
     """
     Req. 1-2-3 가장 많은 리뷰를 받은 `n`개의 음식점을 정렬하여 리턴합니다
     """
-    raise NotImplementedError
+    stores_reviews = dataframes["stores"]
+    # 리뷰개수 기준으로 랭크선정
+    stores_reviews["rank"] = stores_reviews["review_cnt"].rank(ascending=False)
+    # 랭크를 int타입으로 변환
+    stores_reviews["rank"] = stores_reviews["rank"].astype(int)
+    # 랭크기준으로 새로운 데이터로 복사
+    final = stores_reviews.sort_values(by=["rank"], ascending=True)
+    return final.head(n=n).reset_index()
 
 
 def get_most_active_users(dataframes, n=20):
     """
     Req. 1-2-4 가장 많은 리뷰를 작성한 `n`명의 유저를 정렬하여 리턴합니다.
     """
-    raise NotImplementedError
+    stores_user_reviews = dataframes["reviews"]
+    users = dataframes['users']
+    
+    freq = stores_user_reviews['user'].value_counts()
+
+    user_freq = freq.reset_index()
+    user_freq.rename(columns = {'index': 'id', 'user': 'counts'}, inplace=True)
+
+    user_reviews = pd.merge(users, user_freq)
+    user_reviews = user_reviews.sort_values(by=["counts"], ascending=False)
+    user_reviews.drop_duplicates(inplace=True)
+
+    return user_reviews.head(n=n).reset_index()
 
 
 def main():
@@ -59,12 +81,24 @@ def main():
 
     print("[최다 리뷰 음식점]")
     print(f"{separater}\n")
-
+    stores_most_reviews = get_most_reviewed_stores(data)
+    for i, store in stores_most_reviews.iterrows():
+        print(
+            "{rank}위: {store}({review_cnt}개)".format(
+                rank=i + 1, store=store.store_name, review_cnt=store.review_cnt
+            )
+        )
     print(f"\n{separater}\n\n")
 
     print("[최다 리뷰 유저]")
     print(f"{separater}\n")
-
+    stores_most_reviews_user = get_most_active_users(data)
+    for i, store in stores_most_reviews_user.iterrows():
+        print(
+            "{rank}위: {user}님({review_cnt}개)".format(
+                rank=i + 1, user=store.id, review_cnt=store.counts
+            )
+        )
     print(f"\n{separater}\n\n")
 
 
