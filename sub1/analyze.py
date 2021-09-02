@@ -20,6 +20,10 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
 
     # 평균평점구하기 => mean()
     scores = scores_group.mean()
+    # df = pd.DataFrame(scores, columns=["store_name", "score"]).sort_values(
+    #     by=["score"], ascending=False
+    # )
+    # print(df)
     scores["rank"] = scores['score'].rank(ascending=False)
     scores["rank"] = scores["rank"].astype(int)
     final = scores["score"].sort_values(ascending=False)
