@@ -1,6 +1,7 @@
 from collections import UserString
 from typing import Tuple
 import numpy as np
+from pandas.core.indexes import category
 from parse import load_dataframes
 import pandas as pd
 import shutil
@@ -99,6 +100,34 @@ def get_user_store(dataframes):
 
     print(df)
 
+def get_user_category(dataframes):
+    """
+    Req. 1-4-1 유저-카테고리 행렬 생성하기
+    """
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
+
+    # user id값을 모두 가져와서 중복 값 제거
+    user_list = list(set(stores_reviews['user'].values.tolist()))
+    user_list.sort() # 정렬
+
+    # category를 모두 가져와서 중복값 제거
+    category_list = list(set(stores_reviews['category'].values.tolist()))
+
+    # user id값을 행으로 가게 이름을 열로 만들고 값을 모두 nan으로 초기화시킴
+    df = pd.DataFrame(data=np.nan, index=user_list, columns=category_list)
+
+    user_group = stores_reviews.sort_values(
+        by='user'
+    ).groupby(['user', 'category']).mean().loc[:, 'score'] # user_id와 category로 그룹핑한 후 평균을 내고 그 중 score값만 남김
+
+    for index, score in user_group.items(): # index에는 user_id, category가 score에는 평점이 담김
+        user, category = index
+        df.loc[user, category] = score # user id와 가게 이름을 연결하야 평점으로 변경
+
+    print(df)
+
 def main():
     data = load_dataframes()
 
@@ -142,6 +171,11 @@ def main():
     print("[유저-음식점 행렬]")
     print(f"{separater}\n")
     get_user_store(data)
+    print(f"\n{separater}\n\n")
+
+    print("[유저-카테고리 행렬]")
+    print(f"{separater}\n")
+    get_user_category(data)
     print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":

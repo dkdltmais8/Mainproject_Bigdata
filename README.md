@@ -152,7 +152,12 @@ vscode자체에서 띄우는것을 어떻게 하는지 몰라서 .html로 저장
 
 이렇게 작성하게되면 user가 가본 곳에 따른 평점 파악을 행렬로 할 수 있다. 
 
+![image-20210903112422322](C:\Users\multicampus\Documents\S05P21B305\README.assets\image-20210903112422322.png)
+
 
 
 4-2. 유저-카테고리 행렬 생성
 
+-> 1번과 같은 방법으로 카테고리 이름을 가져온뒤 그에 맞게 유저별로 평균 평점을 구해서 행렬에 넣어주었다. 
+
+![image-20210903112438958](C:\Users\multicampus\Documents\S05P21B305\README.assets\image-20210903112438958.png)
