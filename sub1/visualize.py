@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-
+import folium
 
 def set_config():
     # 폰트, 그래프 색상 설정
@@ -142,16 +142,60 @@ def show_user_age_gender_distribution_graph(dataframes):
     """
     Req. 1-3-4 전체 유저의 성별/나이대 분포를 그래프로 나타냅니다.
     """
-    users = dataframes['users']
-    print(users)
+    # 인구통계처럼 그리고 싶은데,,?
+    users = dataframes["users"]
+
+    genders = users.groupby(["gender"])
+    genders = genders.size().reset_index(name='gender_counts')
+    print(genders)
+
+    ages = users.groupby(["age"])
+    ages = ages.size().reset_index(name='ages_counts')
+    print(ages)
+
+    df1 = pd.DataFrame(genders, columns=["gender", "gender_counts"]).sort_values(
+        by=["gender_counts"], ascending=False
+    )
+
+    df2 = pd.DataFrame(ages, columns=["age", "ages_counts"]).sort_values(
+        by=["ages_counts"], ascending=False
+    )
+
+    # 그래프로 나타냅니다
+    fig, ax = plt.subplots(ncols=2)
+    chart1 = sns.barplot(x="gender", y="gender_counts", data=df1, ax=ax[0])
+    chart1.set_xticklabels(chart1.get_xticklabels(), rotation=45)
+    fig
+
+    chart2 = sns.barplot(x="age", y="ages_counts", data=df2, ax=ax[1])
+    chart2.set_xticklabels(chart2.get_xticklabels(), rotation=45)
+    fig
+    plt.title("전체 유저의 성별/나이대 분포")
+    plt.show()
 
 
 def show_stores_distribution_graph(dataframes):
     """
     Req. 1-3-5 각 음식점의 위치 분포를 지도에 나타냅니다.
     """
-    raise NotImplementedError
-
+    stores = dataframes["stores"]
+    # print(stores)
+    location = pd.DataFrame(stores, columns=["id", "store_name", "area", "address", "latitude", "longitude"]).sort_values(
+        by=["id"], ascending=True
+    )
+    # 너무 많아서 상위, 하위 50개 자르기
+    dfm_top = location.head(50)
+    dfm_bottom = location.tail(50)
+    # print(dfm_top)
+    # print(dfm_bottom)
+    map_osm = folium.Map(location=[35.166804, 129.083479], zoom_start=12) # 지도 초기 위치
+    for store in dfm_top.index:
+        lat = dfm_top.loc[store, 'latitude']
+        long = dfm_top.loc[store, 'longitude']
+        folium.CircleMarker([lat, long], popup=dfm_top.loc[store, 'store_name'], color = 'blue', fill=True).add_to(map_osm)
+    
+    # 지도 저장
+    map_osm.save('./store_map_top.html')
 
 def main():
     set_config()
@@ -160,7 +204,7 @@ def main():
     show_store_review_distribution_graph(data)
     show_store_average_ratings_graph(data)
     show_user_review_distribution_graph(data)
-    # show_user_age_gender_distribution_graph(data)
-
+    show_user_age_gender_distribution_graph(data)
+    show_stores_distribution_graph(data)
 if __name__ == "__main__":
     main()
