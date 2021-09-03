@@ -156,11 +156,11 @@ def show_stores_distribution_graph(dataframes):
 def main():
     set_config()
     data = load_dataframes()
-    # show_store_categories_graph(data)
-    # show_store_review_distribution_graph(data)
-    # show_store_average_ratings_graph(data)
-    # show_user_review_distribution_graph(data)
-    show_user_age_gender_distribution_graph(data)
+    show_store_categories_graph(data)
+    show_store_review_distribution_graph(data)
+    show_store_average_ratings_graph(data)
+    show_user_review_distribution_graph(data)
+    # show_user_age_gender_distribution_graph(data)
 
 if __name__ == "__main__":
     main()
