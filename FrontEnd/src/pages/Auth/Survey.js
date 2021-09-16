@@ -1,13 +1,13 @@
 import React, { Component }from "react";
 
-class Main extends Component {
+class Survey extends Component {
   render() {
     return (
         <div>
-            <h3> here Main Page </h3>
+            <h3> here survey page </h3>
         </div>
     );
   }
 }
 
-export default Main;
+export default Survey;
