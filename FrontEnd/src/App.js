@@ -29,3 +29,4 @@ export default App;
 //npm install --save styled-reset 
 //npm install @material-ui/core
 //npm install @material-ui/icons
+//npm install react-star-rating-component --save
