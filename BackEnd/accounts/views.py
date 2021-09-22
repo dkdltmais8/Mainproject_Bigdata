@@ -1,3 +1,27 @@
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import UserSerializer
+from .models import User
+
+
+@api_view(['POST'])
+def signup(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    password_confirmation = request.data.get('passwordConfirmation')
+
+    if password != password_confirmation:
+        return Response({'error': '비밀번호가 일치하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer = UserSerializer(data=request.data)
+
+    if serializer.is_valid(raise_exception=True):
+        user = serializer.save()
+        user.set_email(request.data.get('email'))
+        user.set_password(request.data.get('password'))
+        user.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -25,27 +25,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = my_settings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 # 개발할때 로그를 남기는 부분, 운영할때 꼭 False로 변경해주기
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 # 생성한 APP을 모두 등록해준다. 생성한 앱은 맨 위에 써주세요!
 INSTALLED_APPS = [
     'api',
+    'accounts',
     'rest_framework',
-    'corsheaders', #cors관련 추가
+    'corsheaders',  # cors관련 추가
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', #cors관련
+    'corsheaders.middleware.CorsMiddleware',  # cors관련
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
