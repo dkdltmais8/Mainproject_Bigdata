@@ -1,20 +1,21 @@
 from django.db import models
+from django.db.models.fields import TextField
 
 # Create your models here.
 
-class Cast(models.Model):
-    castid = models.AutoField(primary_key=True)
-    movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid')
-    tmdb_cast_id = models.PositiveIntegerField()
-    name = models.CharField(max_length=128)
-    profile_path = models.CharField(max_length=128, blank=True, null=True)
-    department = models.CharField(max_length=128, blank=True, null=True)
-    order = models.PositiveIntegerField(blank=True, null=True)
-    character = models.CharField(max_length=128, blank=True, null=True)
+# class Cast(models.Model):
+#     castid = models.AutoField(primary_key=True)
+#     movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid')
+#     tmdb_cast_id = models.PositiveIntegerField()
+#     name = models.CharField(max_length=128)
+#     profile_path = models.CharField(max_length=128, blank=True, null=True)
+#     department = models.CharField(max_length=128, blank=True, null=True)
+#     order = models.PositiveIntegerField(blank=True, null=True)
+#     character = models.CharField(max_length=128, blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'cast'
+#     class Meta:
+#         managed = False
+#         db_table = 'cast'
 
 
 class Comment(models.Model):
@@ -30,8 +31,8 @@ class Comment(models.Model):
 
 class Keyword(models.Model):
     keywordid = models.AutoField(primary_key=True)
-    movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid', blank=True, null=True)
-    keyword = models.CharField(max_length=128, blank=True, null=True)
+    movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid')
+    keyword = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -42,15 +43,17 @@ class Movie(models.Model):
     movieid = models.AutoField(primary_key=True)
     tmdb_id = models.PositiveIntegerField()
     title = models.CharField(max_length=128)
-    genre = models.CharField(max_length=128, blank=True, null=True)
+    genre = models.TextField(blank=True, null=True)
     overview = models.TextField(blank=True, null=True)
     release_date = models.DateField(blank=True, null=True)
     backdrop_path = models.CharField(max_length=128, blank=True, null=True)
     poster_path = models.CharField(max_length=128, blank=True, null=True)
-    production_countries = models.CharField(max_length=128, blank=True, null=True)
+    production_countries = models.TextField(blank=True, null=True)
     runtime = models.PositiveIntegerField(blank=True, null=True)
     vote_average = models.FloatField(blank=True, null=True)
     vote_count = models.PositiveIntegerField(blank=True, null=True)
+    cast = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
