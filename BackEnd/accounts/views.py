@@ -10,7 +10,6 @@ from .models import User
 
 @api_view(['POST'])
 def signup(request):
-    email = request.data.get('email')
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
 
@@ -19,9 +18,10 @@ def signup(request):
 
     serializer = UserSerializer(data=request.data)
 
+    # auth_user에 저장
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
-        user.set_email(request.data.get('email'))
         user.set_password(request.data.get('password'))
         user.save()
+
     return Response(serializer.data, status=status.HTTP_201_CREATED)

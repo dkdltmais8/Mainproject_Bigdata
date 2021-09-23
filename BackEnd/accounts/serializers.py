@@ -5,9 +5,10 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField()
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ('nickname', 'email', 'password')
