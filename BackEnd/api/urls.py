@@ -5,5 +5,5 @@ urlpatterns = [
     path('get-movie/', views.get_movie_list),
     path('get-detail/', views.get_datail_movie),
     path('get-credits/', views.get_movie_credits),
-    path('get-kewords/', views.get_movie_keywords),
+    path('get-keywords/', views.get_movie_keywords),
 ]
