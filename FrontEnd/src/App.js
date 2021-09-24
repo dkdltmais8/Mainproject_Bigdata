@@ -30,3 +30,7 @@ export default App;
 //npm install @material-ui/core
 //npm install @material-ui/icons
 //npm install react-star-rating-component --save
+
+//npm install @mui/material @mui/styled-engine-sc styled-components 매터리어UI 스타일드컴포넌트
+//npm install @mui/material @emotion/react @emotion/styled 매터리얼 UI
+//npm install @mui/icons-material  매터리얼 ui svg
