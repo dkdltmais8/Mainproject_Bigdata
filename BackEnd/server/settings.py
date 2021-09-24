@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'api',
     'accounts',
+    'movie',
     'rest_framework',
     'corsheaders',  # cors관련 추가
     'django.contrib.admin',
