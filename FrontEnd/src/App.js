@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'; // 라우터
 import './App.css';
 import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니다.
-import Main from './pages/Main/Main.js'; // main 불러오기
+import main from './pages/Main/main.js'; // main 불러오기
 import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
 import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
 
@@ -12,7 +12,7 @@ function App () {
         <GlobalStyle/>
             <BrowserRouter>
               <Switch>
-                <Route path="/main" component={Main}/>
+                <Route path="/main" component={main}/>
                 <Route path="/mypage" component={MyPage}/>
                 <Route path="/survey" component={Survey}/>
               </Switch>

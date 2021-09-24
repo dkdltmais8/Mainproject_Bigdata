@@ -4,7 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import "./Survey.css";
-// import axios from 'axios';
+import axios from 'axios';
 
 
 
@@ -17,11 +17,14 @@ function Survey( {history} ){
   const [isRate, setisRate] = useState(false);
   const [scores,setScores] = useState([]);
 
-  // const url = "http://localhost:8000/movie/survey"
-  // axios.get(url)
-  //   .then((res)=>{
-  //     console.log
-  //   })
+  const url = "http://localhost:8000/movie/survey"
+  axios.get(url)
+    .then((res)=>{
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 
 
 
