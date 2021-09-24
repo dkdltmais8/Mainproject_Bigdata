@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 // import Cookies from 'js-cookie';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',  
@@ -74,7 +73,7 @@ export default function SignIn() {
                 user_id: user_id,
                 password: password,
               }
-              axios.post('/auth/login', body)
+              axios.post('/accounts/login', body) //라우터 설정 맞추기
                 .then(res => {
                   history.push('/')
                 })
