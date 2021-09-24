@@ -59,7 +59,7 @@ export default function SignUp() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [passwordConfirmation, setpasswordConfirmation] = useState('')
 
 
   return (
@@ -77,7 +77,7 @@ export default function SignUp() {
               e.preventDefault();
               let body = {
                 password: password,
-                password2: password2,
+                passwordConfirmation: passwordConfirmation,
                 email: email,
               }
               axios.post('/accounts/signup', body) //백쪽 api로 post 요청
@@ -127,16 +127,16 @@ export default function SignUp() {
             />
             <TextField
               className={classes.Field}
-              onChange={(e)=>{setPassword2(e.target.value)}}
+              onChange={(e)=>{setpasswordConfirmation(e.target.value)}}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="password2"
+              name="passwordConfirmation"
               label="Confirm Password"
               type="password"
-              id="password2"
-              autoComplete="password2"
+              id="passwordConfirmation"
+              autoComplete="passwordConfirmation"
             />   
             <div>        
               <Button
