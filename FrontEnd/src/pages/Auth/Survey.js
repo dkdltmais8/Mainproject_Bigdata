@@ -11,11 +11,10 @@ import axios from 'axios';
 function Survey( {history} ){
   const countryNames = ["미국","중국","일본","인도","한국","프랑스","대만","이탈리아","상관없어요"];
   const [countries,setCountries] = useState(["상관없어요"]);
-  
-  const posters = [1,2,3,4,5];
-  const [rating, setRating] = useState(0);
-  const [isRate, setisRate] = useState(false);
-  const [scores,setScores] = useState([]);
+
+  const [rating, setRating] = useState([0,0,0,0,0]); // 점수 저장하는곳
+  const [isRate, setisRate] = useState([false,false,false,false,false]); // 클릭되있는지 확인
+  const [scores,setScores] = useState([false,false,false,false,false]); // 호버 되있는지 확인
 
   const url = "http://localhost:8000/movie/survey"
   axios.get(url)
@@ -29,11 +28,16 @@ function Survey( {history} ){
 
 
   const onStarClick = (params, nextValue, prevValue, name)=>{
-    setRating(nextValue);
+    let newRating = [...rating]
+    newRating[params] = nextValue
+    setRating(newRating);
   };
 
   const EnterEvent = (params,e) => {
-    setScores([...scores,params]);
+    let newScores =[...scores];
+    newScores[params] = true;
+    setScores(newScores);
+
     document.getElementById("posterId"+params).style.filter = "brightness(10%)";
     console.log("1들어갑니다.");
     console.log(scores)
@@ -42,16 +46,23 @@ function Survey( {history} ){
   const LeaveEvent = (params,e) => {
     console.log("1나갑니다.");
     const poster = document.getElementById("posterId"+params);
-    isRate?poster.style.filter = "brightness(10%)":poster.style.filter = "brightness(100%)";
-    console.log(isRate);
-    let filtered = scores.filter((element)=> element !==params);
-    setScores(filtered);
+    if(isRate[params]){
+      poster.style.filter = "brightness(10%)"
+    }else{
+      poster.style.filter = "brightness(100%)"
+      let newScores =[...scores];
+      newScores[params] = false;
+      setScores(newScores);
+
+    }
   }
 
 
   const clickEvent = (params,e) => {
     console.log("2클릭합니다");
-    setisRate(true);
+    let newIsRate = [...isRate]
+    newIsRate[params] = true
+    setisRate(newIsRate);
   }
 
   const onClilckCountry = (selectedCountry) =>{
@@ -105,32 +116,34 @@ function Survey( {history} ){
         justifyContent="center"
         alignItems="center"
       >
-        {posters.map((postersId,idx) =>(
-          <div style={{position:"relative",width:"20%"}}
-            onMouseEnter={(e)=>EnterEvent(idx,e)}
-            onMouseLeave={(e)=>LeaveEvent(idx,e)}
-            key={idx}
-          >
-            <MoviePoster 
-              id={`posterId${idx}`} 
-              src={`/carousel_test_img/img${postersId}.png`} 
-              alt="img1"
-            /><span 
-              onClick={(e) => clickEvent(idx,e)}
-              style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
-              {
-                postersId in scores?
-                  <StarRatingComponent
-                    id={`starId${idx}`}
-                    starCount={5}
-                    value={rating}
-                    onStarClick= {(e)=>onStarClick(postersId,e)}
-                  />
-                  :null
-              }
-            </span>
-          </div>
-        )) }
+        {
+          posters.map((postersId,idx) =>(
+            <div style={{position:"relative",width:"20%"}}
+              onMouseEnter={(e)=>EnterEvent(idx,e)}
+              onMouseLeave={(e)=>LeaveEvent(idx,e)}
+              key={idx}
+            >
+              <MoviePoster 
+                id={`posterId${idx}`} 
+                src={`/carousel_test_img/img${postersId}.png`} 
+                alt="img1"
+              /><span 
+                onClick={(e) => clickEvent(idx,e)}
+                style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
+                {
+                  scores[idx]?
+                    <StarRatingComponent
+                      id={`starId${idx}`}
+                      starCount={5}
+                      value={rating[idx]}
+                      onStarClick= {(e)=>onStarClick(idx,e)}
+                    />
+                    :null
+                }
+              </span>
+            </div>
+          )) 
+        }
       </Grid>
       <Grid 
         container
