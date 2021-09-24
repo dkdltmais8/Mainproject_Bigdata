@@ -1,66 +1,51 @@
-// import React from 'react';
-// import Button from '@@material-ui/core/';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import Grid from '@mui/material/Grid';
-// import Stack from '@mui/material/Stack';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-// import Container from '@mui/material/Container';
-// import Link from '@mui/material/Link';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react'
+import {useHistory} from 'react-router-dom';
+import {
+  Button,
+  Typography,
+  makeStyles,
+} from '@material-ui/core'
 
+const useStyles = makeStyles((theme) => ({
+  submit: {
+    width: '10%',
+    margin: theme.spacing(3, 0, 2),
 
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  },
+}));
+function Movietimain() {
+  const classes = useStyles();
+  const history = useHistory();
 
-// const theme = createTheme();
+  return (
+    <div>
+      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+        나는 어떤 영화 캐릭터와 비슷할까?        
+      </Typography>
+      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+        MovieTI      
+      </Typography>
+      <div
+        style={{
+          display: 'flex' ,
+          justifyContent: 'center'          
+          }} 
+      >
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick = {() => {
+            history.push(`/movie/movieti/1`)
+          }}
+        >
+          GoGo!
+        </Button>
+      </div>
+    </div>
+  )
+}
 
-// export default function Album() {
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <CssBaseline />
-//       <AppBar position="relative">
-//         <Toolbar>
-//           <Typography variant="h6" color="inherit" noWrap>
-//             Album layout
-//           </Typography>
-//         </Toolbar>
-//       </AppBar>
-//       <main>
-//         {/* Hero unit */}
-//         <Box
-//           sx={{
-//             bgcolor: 'background.paper',
-//             pt: 8,
-//             pb: 6,
-//           }}
-//         >
-//           <Container maxWidth="sm">
-//             <Typography
-//               component="h1"
-//               variant="h2"
-//               align="center"
-//               color="text.primary"
-//               gutterBottom
-//             >
-//               Album layout
-//             </Typography>
-//             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-//               Something short and leading about the collection below—its contents,
-//               the creator, etc. Make it short and sweet, but not too short so folks
-//               don&apos;t simply skip over it entirely.
-//             </Typography>
-//             <Stack
-//               sx={{ pt: 4 }}
-//               direction="row"
-//               spacing={2}
-//               justifyContent="center"
-//             >
-//               <Button variant="contained">Main call to action</Button>
-//               <Button variant="outlined">Secondary action</Button>
-//             </Stack>
-//           </Container>
-//         </Box>
-//       </main>
-//     </ThemeProvider>
-//   );
-// }
+export default Movietimain

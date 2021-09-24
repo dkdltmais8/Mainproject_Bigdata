@@ -35,19 +35,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   Field: {
-    width: '65%', 
+    width: '45%', 
     marginTop: theme.spacing(1),
     // margin: 3,
   },
   submit: {
-    width: '30%', 
+    width: '25%', 
     margin: theme.spacing(3, 0, 2),
     alignItems: "center"
   },
   submit2: {
     width: '25%', 
     marginLeft: theme.spacing(1),
-    marginTop: theme.spacing(2),
+    margin: theme.spacing(2, 0, 2),
     alignItems: "center"
   },
 }));
@@ -68,7 +68,12 @@ export default function SignUp() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5"
+            style={{
+              display: 'flex' ,
+              justifyContent: 'center'
+              }} 
+          >
             회원가입
           </Typography>
           <form noValidate
@@ -90,7 +95,12 @@ export default function SignUp() {
                 })
             }}  
           >
-            <div>
+            <div
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center'
+                }} 
+            >
               <TextField
                 className={classes.Field}
                 onChange={(e)=>{setEmail(e.target.value)}}
@@ -112,33 +122,52 @@ export default function SignUp() {
                   중복확인
               </Button>
             </div>
-            <TextField
-              className={classes.Field}
-              onChange={(e)=>{setPassword(e.target.value)}}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password1"
-              label="Password"
-              type="password"
-              id="password1"
-              autoComplete="password1"
-            />
-            <TextField
-              className={classes.Field}
-              onChange={(e)=>{setpasswordConfirmation(e.target.value)}}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="passwordConfirmation"
-              label="Confirm Password"
-              type="password"
-              id="passwordConfirmation"
-              autoComplete="passwordConfirmation"
-            />   
-            <div>        
+            <div
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center'
+                }} 
+            >
+              <TextField
+                className={classes.Field}
+                onChange={(e)=>{setPassword(e.target.value)}}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password1"
+                label="Password"
+                type="password"
+                id="password1"
+                autoComplete="password1"
+              />
+            </div>
+            <div
+            style={{
+              display: 'flex' ,
+              justifyContent: 'center'
+              }} 
+            >
+              <TextField
+                className={classes.Field}
+                onChange={(e)=>{setpasswordConfirmation(e.target.value)}}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="passwordConfirmation"
+                label="Confirm Password"
+                type="password"
+                id="passwordConfirmation"
+                autoComplete="passwordConfirmation"
+              />   
+            </div>
+            <div 
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center'
+                }}
+            >    
               <Button
                 type="submit"
                 fullWidth

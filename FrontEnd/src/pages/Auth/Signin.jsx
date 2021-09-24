@@ -125,16 +125,23 @@ export default function SignIn() {
                   {"회원가입"}
                 </Link>
               </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+            </Grid>            
+            <div 
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center'
+                }}
             >
-              로그인
-            </Button>
+              <Button            
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                로그인
+              </Button>
+            </div>
           </form>
         </div>
       </Grid>
