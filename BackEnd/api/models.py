@@ -21,7 +21,8 @@ from django.db.models.fields import TextField
 class Comment(models.Model):
     commentid = models.AutoField(primary_key=True)
     uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid')
-    movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid')
+    movieid = models.ForeignKey(
+        'Movie', models.DO_NOTHING, db_column='movieid')
     comment = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
@@ -31,7 +32,8 @@ class Comment(models.Model):
 
 class Keyword(models.Model):
     keywordid = models.AutoField(primary_key=True)
-    movieid = models.ForeignKey('Movie', models.DO_NOTHING, db_column='movieid')
+    movieid = models.ForeignKey(
+        'Movie', models.DO_NOTHING, db_column='movieid')
     keyword = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -62,8 +64,10 @@ class Movie(models.Model):
 
 class Rating(models.Model):
     ratingid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid', blank=True, null=True)
-    movieid = models.ForeignKey(Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+    uid = models.ForeignKey('User', models.DO_NOTHING,
+                            db_column='uid', blank=True, null=True)
+    movieid = models.ForeignKey(
+        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
     rating = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
@@ -73,8 +77,10 @@ class Rating(models.Model):
 
 class Recommendationmovie(models.Model):
     recommendid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid', blank=True, null=True)
-    movieid = models.ForeignKey(Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+    uid = models.ForeignKey('User', models.DO_NOTHING,
+                            db_column='uid', blank=True, null=True)
+    movieid = models.ForeignKey(
+        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -83,8 +89,10 @@ class Recommendationmovie(models.Model):
 
 class Scrap(models.Model):
     scrapid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid', blank=True, null=True)
-    movieid = models.ForeignKey(Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+    uid = models.ForeignKey('User', models.DO_NOTHING,
+                            db_column='uid', blank=True, null=True)
+    movieid = models.ForeignKey(
+        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -108,9 +116,26 @@ class User(models.Model):
 
 class Usermovielike(models.Model):
     likeid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(User, models.DO_NOTHING, db_column='uid', blank=True, null=True)
-    movieid = models.ForeignKey(Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+    uid = models.ForeignKey(User, models.DO_NOTHING,
+                            db_column='uid', blank=True, null=True)
+    movieid = models.ForeignKey(
+        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'usermovielike'
+
+
+class Movieti(models.Model):
+    movieti = models.CharField(primary_key=True, max_length=4)
+    character = models.CharField(max_length=128, blank=True, null=True)
+    title = models.CharField(max_length=128, blank=True, null=True)
+    imgurl = models.CharField(max_length=128, blank=True, null=True)
+    content1 = models.TextField(blank=True, null=True)
+    content2 = models.TextField(blank=True, null=True)
+    content3 = models.TextField(blank=True, null=True)
+    movielist = models.JSONField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'movieti'
