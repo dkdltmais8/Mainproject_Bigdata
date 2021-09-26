@@ -11,7 +11,7 @@ import axios from 'axios';
 function Survey( {history} ){
   const countryNames = ["미국","중국","일본","인도","한국","프랑스","대만","이탈리아","상관없어요"];
   const [countries,setCountries] = useState(["상관없어요"]);
-
+  const posters = [1,2,3,4,5];
   const [rating, setRating] = useState([0,0,0,0,0]); // 점수 저장하는곳
   const [isRate, setisRate] = useState([false,false,false,false,false]); // 클릭되있는지 확인
   const [scores,setScores] = useState([false,false,false,false,false]); // 호버 되있는지 확인

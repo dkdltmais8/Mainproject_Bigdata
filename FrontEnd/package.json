@@ -2,6 +2,7 @@
   "name": "leadme",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000/",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -23,8 +24,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.1",
     "styled-reset": "^4.3.4",
-    "web-vitals": "^1.0.1",
-    "proxy": "http://localhost:8000/"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
