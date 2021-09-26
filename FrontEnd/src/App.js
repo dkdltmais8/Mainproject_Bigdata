@@ -18,22 +18,23 @@ import Movietipage9 from './pages/MovieTi/Movietipage9';
 import Movietipage10 from './pages/MovieTi/Movietipage10';
 import Movietipage11 from './pages/MovieTi/Movietipage11';
 import Movietipage12 from './pages/MovieTi/Movietipage12';
+import Movietipage13 from './pages/MovieTi/Movietipage13';
 import Movietiresult from './pages/MovieTi/Movietiresult';
 
-import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니다.
-import Main from './pages/Main/Main.js'; // main 불러오기
-import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
-import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
+// import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니다.
+// import Main from './pages/Main/Main.js'; // main 불러오기
+// import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
+// import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
 
 function App () {
     return(
       <>
-        <GlobalStyle/>
+        {/* <GlobalStyle/> */}
             <BrowserRouter>
               <Switch>
-                <Route path="/main" component={Main}/>
+                {/* <Route path="/main" component={Main}/>
                 <Route path="/mypage" component={MyPage}/>
-                <Route path="/survey" component={Survey}/>
+                <Route path="/survey" component={Survey}/> */}
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/movie/movieti" component={Movietimain} />
@@ -49,6 +50,7 @@ function App () {
                 <Route exact path="/movie/movieti/10" component={Movietipage10} />
                 <Route exact path="/movie/movieti/11" component={Movietipage11} />
                 <Route exact path="/movie/movieti/12" component={Movietipage12} />
+                <Route exact path="/movie/movieti/13" component={Movietipage13} />
                 <Route exact path="/movie/movieti/result" component={Movietiresult} />
               </Switch>
             </BrowserRouter>

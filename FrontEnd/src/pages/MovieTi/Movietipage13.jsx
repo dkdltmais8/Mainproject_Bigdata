@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-function Movietipage8() {
+function Movietipage13() {
   const classes = useStyles();
   const history = useHistory();
 
@@ -22,10 +22,10 @@ function Movietipage8() {
         MoVieTI   
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        Q 08.  
+        Q 13.  
       </Typography>
       <Typography variant="h5" align="center" color="text.secondary" paragraph>
-        영화 원데이클래스에 참여하게 된 당신! 
+        내가 본 영화에 대해서 친구가 어땠는지 물어본다. 나는..
       </Typography>
       <div 
       style={{
@@ -40,10 +40,10 @@ function Movietipage8() {
           color="primary"          
           className={classes.submit}
           onClick = {() => {
-            history.push(`/movie/movieti/9`)
+            history.push(`/movie/movieti/result`)
           }}
         >
-          저도 그 영화 재밌게봤어요, 대화에 적극적으로 참여한다.
+          구체적으로 영화의 줄거리를 알려준다.
         </Button>
       </div>
       <div 
@@ -59,17 +59,17 @@ function Movietipage8() {
           color="primary"
           className={classes.submit}
           onClick = {() => {
-            history.push(`/movie/movieti/9`)
+            history.push(`/movie/movieti/result`)
           }}
         >
-          다른사람들이 하는말을 들으며 고개를 끄덕이며 공감의 표시를 한다. 
+          영화를 보며 느꼈던 큰 감정에 대해 얘기한다.
         </Button>
       </div>
         <Typography variant="h6" align="center" gutterBottom>
-          8/13
+          13/13
         </Typography>
     </div>
   )
 }
 
-export default Movietipage8
+export default Movietipage13

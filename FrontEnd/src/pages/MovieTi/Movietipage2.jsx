@@ -25,7 +25,7 @@ function Movietipage2() {
         Q 02.  
       </Typography>
       <Typography variant="h5" align="center" color="text.secondary" paragraph>
-        어떤 영화를 좋아하세요?  
+        같이 영화를 보러가기로 한 친구가 늦어서 영화를 못보게 된 당신! 친구에게 듣고 싶은 말은?
       </Typography>
       <div 
       style={{
@@ -43,7 +43,7 @@ function Movietipage2() {
             history.push(`/movie/movieti/3`)
           }}
         >
-          볼거리 많은 액션
+          왜 늦었는지 이유가 궁금해
         </Button>
       </div>
       <div 
@@ -62,49 +62,11 @@ function Movietipage2() {
             history.push(`/movie/movieti/3`)
           }}
         >
-          감동적인 드라마
+          변명은 나중에, 사과부터 해야지
         </Button>
       </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/3`)
-          }}
-        >
-          심장 쪼이는 스릴러
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/3`)
-          }}
-        >
-          알콩달콩 로맨스
-        </Button>
-      </div>     
         <Typography variant="h6" align="center" gutterBottom>
-          1/13
+          2/13
         </Typography>
     </div>
   )
