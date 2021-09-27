@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '45%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',    
   },
 }));
 function Movietipage13() {
@@ -18,40 +22,40 @@ function Movietipage13() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >        
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 13.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h3" align="center" color="text.secondary" paragraph>
         내가 본 영화에 대해서 친구가 어땠는지 물어본다. 나는..
       </Typography>
       <div 
-      style={{
-        display: 'flex' ,
-        justifyContent: 'center'
-        }}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          alignItems:"center",
+          marginTop: 50
+          }}
       >
         <Button
-          type="submit"
-          fullWidth
+          type="submit"          
           variant="contained"
           color="primary"          
-          className={classes.submit}
+          className={classes.submit}          
           onClick = {() => {
             history.push(`/movie/movieti/result`)
           }}
         >
           구체적으로 영화의 줄거리를 알려준다.
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
+        </Button>              
         <Button
           type="submit"
           fullWidth
@@ -63,12 +67,13 @@ function Movietipage13() {
           }}
         >
           영화를 보며 느꼈던 큰 감정에 대해 얘기한다.
-        </Button>
-      </div>
+        </Button>      
         <Typography variant="h6" align="center" gutterBottom>
           13/13
         </Typography>
-    </div>
+      </div>
+    </Grid>
+  </div>
   )
 }
 
