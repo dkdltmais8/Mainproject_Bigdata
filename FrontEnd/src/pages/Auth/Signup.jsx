@@ -68,13 +68,14 @@ export default function SignUp() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5"
+          <Typography component="h1" variant="h1"
             style={{
               display: 'flex' ,
-              justifyContent: 'center'
+              justifyContent: 'center',
+              marginTop: 60,
               }} 
           >
-            회원가입
+            Lead me
           </Typography>
           <form noValidate
             className={classes.form}
@@ -98,7 +99,8 @@ export default function SignUp() {
             <div
               style={{
                 display: 'flex' ,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                marginTop: 50,
                 }} 
             >
               <TextField
@@ -113,19 +115,20 @@ export default function SignUp() {
                 id="email"
                 autoComplete="email"
               />
-              <Button
+              {/* <Button
                   type="submit"
                   variant="contained"
                   color="primary"
                   className={classes.submit2}
                 >
                   중복확인
-              </Button>
+              </Button> */}
             </div>
             <div
               style={{
                 display: 'flex' ,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                marginTop: 30,
                 }} 
             >
               <TextField
@@ -145,7 +148,8 @@ export default function SignUp() {
             <div
             style={{
               display: 'flex' ,
-              justifyContent: 'center'
+              justifyContent: 'center',
+              marginTop: 30,
               }} 
             >
               <TextField
@@ -165,7 +169,8 @@ export default function SignUp() {
             <div 
               style={{
                 display: 'flex' ,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                marginTop: 60,
                 }}
             >    
               <Button
