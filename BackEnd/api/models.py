@@ -54,7 +54,7 @@ class Movie(models.Model):
     runtime = models.PositiveIntegerField(blank=True, null=True)
     vote_average = models.FloatField(blank=True, null=True)
     vote_count = models.PositiveIntegerField(blank=True, null=True)
-    cast = models.TextField(blank=True, null=True)
+    cast = models.JSONField(blank=True, null=True)
     keywords = models.TextField(blank=True, null=True)
 
     class Meta:
