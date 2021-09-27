@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '35%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',
   },
 }));
 function Movietipage4() {
@@ -18,19 +22,27 @@ function Movietipage4() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >        
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 04.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h4" align="center" color="text.secondary" paragraph>
         귀신이 나온다는 소문이 있는 집에 머물게 된 당신! 자정이 넘은 시각 어디선가 알 수 없는 소리가 들려오는데,,,?
       </Typography>
       <div 
-      style={{
+        style={{
         display: 'flex' ,
-        justifyContent: 'center'
+        flexDirection: 'column',
+        alignItems:"center",
+        marginTop: 50
         }}
       >
         <Button
@@ -44,14 +56,7 @@ function Movietipage4() {
           }}
         >
           이미 공포영화 한 편 뚝딱임
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
+        </Button>      
         <Button
           type="submit"
           fullWidth
@@ -64,11 +69,13 @@ function Movietipage4() {
         >
           어디서 누가 왜 나는 소리인지 궁금해! 
         </Button>
-      </div>
+      
         <Typography variant="h6" align="center" gutterBottom>
           4/13
         </Typography>
-    </div>
+      </div>
+    </Grid>
+  </div>
   )
 }
 
