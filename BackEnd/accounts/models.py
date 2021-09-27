@@ -10,12 +10,53 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from django.contrib.auth.models import UserManager
 
 
+class Movie(models.Model):
+    movieid = models.AutoField(primary_key=True)
+    tmdb_id = models.PositiveIntegerField()
+    title = models.CharField(max_length=128)
+    genre = models.TextField(blank=True, null=True)
+    overview = models.TextField(blank=True, null=True)
+    release_date = models.DateField(blank=True, null=True)
+    backdrop_path = models.CharField(max_length=128, blank=True, null=True)
+    poster_path = models.CharField(max_length=128, blank=True, null=True)
+    production_countries = models.TextField(blank=True, null=True)
+    runtime = models.PositiveIntegerField(blank=True, null=True)
+    vote_average = models.FloatField(blank=True, null=True)
+    vote_count = models.PositiveIntegerField(blank=True, null=True)
+    cast = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'movie'
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    uid = models.AutoField(primary_key=True)
+    email = models.CharField(max_length=128, unique=True)
+    password = models.CharField(max_length=128)
+    nickname = models.CharField(max_length=128)
+    profileimg = models.CharField(max_length=128, blank=True, null=True)
+    like_country = models.CharField(max_length=128, blank=True, null=True)
+    movieti = models.CharField(max_length=4, blank=True, null=True)
+    like_genre = models.CharField(max_length=128, blank=True, null=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+
+    REQUIRED_FIELDS = ['username']
+
+    class Meta:
+        db_table = 'user'
+
+
 class Comment(models.Model):
     commentid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid')
+    uid = models.ForeignKey(User, on_delete=models.CASCADE, db_column='uid')
     movieid = models.ForeignKey(
-        'Movie', models.DO_NOTHING, db_column='movieid')
-    comment = models.CharField(max_length=255, blank=True, null=True)
+        Movie, on_delete=models.CASCADE, db_column='movieid')
+    comment = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -39,8 +80,6 @@ class Movie(models.Model):
     tmdb_id = models.PositiveIntegerField()
     title = models.CharField(max_length=128)
     genre = models.TextField(blank=True, null=True)
-    cast = models.TextField(blank=True, null=True)
-    keywords = models.TextField(blank=True, null=True)
     overview = models.TextField(blank=True, null=True)
     release_date = models.DateField(blank=True, null=True)
     backdrop_path = models.CharField(max_length=128, blank=True, null=True)
@@ -49,18 +88,19 @@ class Movie(models.Model):
     runtime = models.PositiveIntegerField(blank=True, null=True)
     vote_average = models.FloatField(blank=True, null=True)
     vote_count = models.PositiveIntegerField(blank=True, null=True)
+    cast = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'movie'
 
-
 class Rating(models.Model):
     ratingid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING,
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
                             db_column='uid', blank=True, null=True)
     movieid = models.ForeignKey(
-        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+        Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
     rating = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
@@ -70,10 +110,10 @@ class Rating(models.Model):
 
 class Recommendationmovie(models.Model):
     recommendid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING,
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
                             db_column='uid', blank=True, null=True)
     movieid = models.ForeignKey(
-        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+        Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -82,42 +122,22 @@ class Recommendationmovie(models.Model):
 
 class Scrap(models.Model):
     scrapid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING,
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
                             db_column='uid', blank=True, null=True)
     movieid = models.ForeignKey(
-        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+        Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'scrap'
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    uid = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=128, unique=True)
-    password = models.CharField(max_length=128)
-    nickname = models.CharField(max_length=128)
-    profileimg = models.CharField(max_length=128, blank=True, null=True)
-    like_country = models.CharField(max_length=128, blank=True, null=True)
-    movieti = models.CharField(max_length=4, blank=True, null=True)
-    like_genre = models.CharField(max_length=128, blank=True, null=True)
-
-    objects = UserManager()
-
-    USERNAME_FIELD = 'email'
-
-    REQUIRED_FIELDS = ['username']
-
-    class Meta:
-        db_table = 'user'
-
-
 class Usermovielike(models.Model):
     likeid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(User, models.DO_NOTHING,
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
                             db_column='uid', blank=True, null=True)
     movieid = models.ForeignKey(
-        Movie, models.DO_NOTHING, db_column='movieid', blank=True, null=True)
+        Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
         managed = False

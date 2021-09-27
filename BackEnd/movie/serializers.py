@@ -1,7 +1,14 @@
 from rest_framework import serializers
-from api.models import Movie
+from api.models import Movie, Movieti
+
 
 class MovieSurveyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('title', 'poster_path')
+        fields = ('tmdb_id', 'title', 'poster_path')
+
+
+class MovietiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movieti
+        fields = '__all__'
