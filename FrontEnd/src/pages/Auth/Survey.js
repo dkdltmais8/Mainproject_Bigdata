@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StarRatingComponent from 'react-star-rating-component';
 import Grid from '@material-ui/core/Grid';
@@ -9,23 +9,24 @@ import axios from 'axios';
 
 
 function Survey( {history} ){
-  const countryNames = ["미국","중국","일본","인도","한국","프랑스","대만","이탈리아","상관없어요"];
-  const [countries,setCountries] = useState(["상관없어요"]);
-  const posters = [1,2,3,4,5];
-  const [rating, setRating] = useState([0,0,0,0,0]); // 점수 저장하는곳
-  const [isRate, setisRate] = useState([false,false,false,false,false]); // 클릭되있는지 확인
-  const [scores,setScores] = useState([false,false,false,false,false]); // 호버 되있는지 확인
-
+  const [movies,setMovies] = useState([])
   const url = "http://localhost:8000/movie/survey"
-  axios.get(url)
+  useEffect(()=>{
+    axios.get(url)
     .then((res)=>{
-      console.log(res.data)
+      console.log(res.data);
+      setMovies(res.data);
     })
     .catch((err)=>{
       console.log(err)
     })
-
-
+  },[]);
+  
+  // const countryNames = ["미국","중국","일본","인도","한국","프랑스","대만","이탈리아","상관없어요"];
+  // const [countries,setCountries] = useState(["상관없어요"]);
+  const [rating, setRating] = useState(Array.from({length:movies.length}, ()=>0)); // 점수 저장하는곳
+  const [isRate, setisRate] = useState(Array.from({length:movies.length}, ()=>undefined)); // 클릭되있는지 확인
+  const [scores, setScores] = useState(Array.from({length:movies.length}, ()=>undefined)); // 호버 되있는지 확인
 
   const onStarClick = (params, nextValue, prevValue, name)=>{
     let newRating = [...rating]
@@ -50,10 +51,9 @@ function Survey( {history} ){
       poster.style.filter = "brightness(10%)"
     }else{
       poster.style.filter = "brightness(100%)"
-      let newScores =[...scores];
-      newScores[params] = false;
-      setScores(newScores);
-
+      let newwScores =[...scores];
+      newwScores[params] = undefined;
+      setScores(newwScores);
     }
   }
 
@@ -65,27 +65,26 @@ function Survey( {history} ){
     setisRate(newIsRate);
   }
 
-  const onClilckCountry = (selectedCountry) =>{
-    if (selectedCountry==="상관없어요"){
-      setCountries([selectedCountry]);
-    }
-    else if (countries.includes(selectedCountry)){
-      setCountries(countries => countries.filter(country => country !== selectedCountry));
-      return;
-    }
-    else{
-      if(countries.includes("상관없어요")){
-        setCountries([selectedCountry]);
-      }
-      else{
-        setCountries([...countries, selectedCountry]);
-      }
-    }
-  };
+  // const onClilckCountry = (selectedCountry) =>{
+  //   if (selectedCountry==="상관없어요"){
+  //     setCountries([selectedCountry]);
+  //   }
+  //   else if (countries.includes(selectedCountry)){
+  //     setCountries(countries => countries.filter(country => country !== selectedCountry));
+  //     return;
+  //   }
+  //   else{
+  //     if(countries.includes("상관없어요")){
+  //       setCountries([selectedCountry]);
+  //     }
+  //     else{
+  //       setCountries([...countries, selectedCountry]);
+  //     }
+  //   }
+  // };
   return (
     <div>
-      <h3> here survey page </h3>
-      <p>선호 지역을 선택해주세요</p>
+      {/* <p>선호 지역을 선택해주세요</p>
         <Grid 
           id="country"
           container
@@ -108,7 +107,7 @@ function Survey( {history} ){
               {countryName}
             </Button>
           ))}
-        </Grid>
+        </Grid> */}
       <p>시청한 영화를 평가해주세요</p>
       <Grid
         container
@@ -117,30 +116,32 @@ function Survey( {history} ){
         alignItems="center"
       >
         {
-          posters.map((postersId,idx) =>(
-            <div style={{position:"relative",width:"20%"}}
+          movies.map((postersId,idx) =>(
+            <div style={{position:"relative",width:"10%"}}
+              key={idx}
               onMouseEnter={(e)=>EnterEvent(idx,e)}
               onMouseLeave={(e)=>LeaveEvent(idx,e)}
-              key={idx}
             >
               <MoviePoster 
                 id={`posterId${idx}`} 
-                src={`/carousel_test_img/img${postersId}.png`} 
+                src={`https://image.tmdb.org/t/p/w200${movies[idx].poster_path}`} 
                 alt="img1"
-              /><span 
-                onClick={(e) => clickEvent(idx,e)}
-                style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
-                {
-                  scores[idx]?
-                    <StarRatingComponent
-                      id={`starId${idx}`}
-                      starCount={5}
-                      value={rating[idx]}
-                      onStarClick= {(e)=>onStarClick(idx,e)}
-                    />
-                    :null
-                }
-              </span>
+              />
+            <span 
+              onClick={(e) => clickEvent(idx,e)}
+              style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
+              <p>{movies[idx].title}</p>
+              {
+                scores[idx]?
+                  <StarRatingComponent
+                    id={`starId${idx}`}
+                    starCount={5}
+                    value={rating[idx]}
+                    onStarClick= {(e)=>onStarClick(idx,e)}
+                  />
+                  :null
+              }
+            </span>
             </div>
           )) 
         }
