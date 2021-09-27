@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '31%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',
   },
 }));
 function Movietipage8() {
@@ -18,20 +22,28 @@ function Movietipage8() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >        
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 08.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h3" align="center" color="text.secondary" paragraph>
         영화 원데이클래스에 참여하게 된 당신! 
       </Typography>
       <div 
-      style={{
-        display: 'flex' ,
-        justifyContent: 'center'
-        }}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          alignItems:"center",
+          marginTop: 50
+          }}
       >
         <Button
           type="submit"
@@ -44,14 +56,7 @@ function Movietipage8() {
           }}
         >
           저도 그 영화 재밌게봤어요, 대화에 적극적으로 참여한다.
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
+        </Button>    
         <Button
           type="submit"
           fullWidth
@@ -63,12 +68,13 @@ function Movietipage8() {
           }}
         >
           다른사람들이 하는말을 들으며 고개를 끄덕이며 공감의 표시를 한다. 
-        </Button>
-      </div>
+        </Button>     
         <Typography variant="h6" align="center" gutterBottom>
           8/13
         </Typography>
-    </div>
+     </div>
+    </Grid>
+  </div>
   )
 }
 
