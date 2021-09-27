@@ -130,10 +130,12 @@ class Movieti(models.Model):
     movieti = models.CharField(primary_key=True, max_length=4)
     character = models.CharField(max_length=128, blank=True, null=True)
     title = models.CharField(max_length=128, blank=True, null=True)
-    imgurl = models.CharField(max_length=128, blank=True, null=True)
+    imgurl = models.CharField(max_length=1024, blank=True, null=True)
     content1 = models.TextField(blank=True, null=True)
     content2 = models.TextField(blank=True, null=True)
     content3 = models.TextField(blank=True, null=True)
+    content4 = models.TextField(blank=True, null=True)
+    content5 = models.TextField(blank=True, null=True)
     movielist = models.JSONField(blank=True, null=True)
 
     class Meta:

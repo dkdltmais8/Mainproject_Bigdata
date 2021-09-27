@@ -1,13 +1,13 @@
 from django.db import models
 from django.http import response
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers, status
 import requests
 import random
 from api.models import Movie, Movieti
-from .serializers import MovieSurveyListSerializer
+from .serializers import MovieSurveyListSerializer, MovietiSerializer
 
 # Create your views here.
 
@@ -31,4 +31,6 @@ def get_survey_movie(request):
 
 @api_view(['GET'])
 def get_movieti_result(request, result):
-    return Response(result, status=status.HTTP_200_OK)
+    movieti = get_object_or_404(Movieti, pk=result)
+    serializers = MovietiSerializer(movieti)
+    return Response(serializers.data, status=status.HTTP_200_OK)
