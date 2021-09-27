@@ -6,8 +6,6 @@ import {
   Grid,
   Card,
   CardMedia,
-  AppBar,
-  Button,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
 
