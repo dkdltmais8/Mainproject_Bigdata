@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '40%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',
   },
 }));
 function Movietipage10() {
@@ -18,20 +22,28 @@ function Movietipage10() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >       
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 10.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h3" align="center" color="text.secondary" paragraph>
         영화를 보는데 열린 결말로 끝났다! 당신의 행동은?
       </Typography>
       <div 
-      style={{
-        display: 'flex' ,
-        justifyContent: 'center'
-        }}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          alignItems:"center",
+          marginTop: 50
+          }}
       >
         <Button
           type="submit"
@@ -45,13 +57,6 @@ function Movietipage10() {
         >
           감독의 의도를 생각하고 찾아보다가 만다
         </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
         <Button
           type="submit"
           fullWidth
@@ -63,12 +68,13 @@ function Movietipage10() {
           }}
         >
           열린결말이니 내 마음대로 상상하고 만족해한다
-        </Button>
-      </div>
+        </Button>      
         <Typography variant="h6" align="center" gutterBottom>
           10/13
         </Typography>
-    </div>
+      </div>
+    </Grid>
+  </div>
   )
 }
 

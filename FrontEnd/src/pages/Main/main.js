@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Grid from '@material-ui/core/Grid';
+import {useHistory} from 'react-router-dom';
 
 const main_carousel_settings = {
   dots: true,
@@ -22,7 +23,9 @@ const sub_carousel_settings = {
   centerMode: true,
   slidesToScroll: 5
 };
-function Main( {history} ){
+function Main(){
+  const history = useHistory();
+  
     return (
       <MainPage>
             <h3> here Main Page? </h3>

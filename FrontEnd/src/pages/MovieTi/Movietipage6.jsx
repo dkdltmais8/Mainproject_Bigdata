@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '36%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',
   },
 }));
 function Movietipage6() {
@@ -18,19 +22,27 @@ function Movietipage6() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >       
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 06.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h3" align="center" color="text.secondary" paragraph>
         오랜만의 휴식시간. 더 끌리는 쪽은?
       </Typography>
       <div 
-      style={{
+       style={{
         display: 'flex' ,
-        justifyContent: 'center'
+        flexDirection: 'column',
+        alignItems:"center",
+        marginTop: 50
         }}
       >
         <Button
@@ -44,14 +56,7 @@ function Movietipage6() {
           }}
         >
           집에서 편하게 즐기는 넷플릭스
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
+        </Button>   
         <Button
           type="submit"
           fullWidth
@@ -63,12 +68,13 @@ function Movietipage6() {
           }}
         >
           영화는 큰 스크린으로 봐야지! 용아맥 가자!
-        </Button>
-      </div>
+        </Button>      
         <Typography variant="h6" align="center" gutterBottom>
           6/13
         </Typography>
-    </div>
+      </div>
+    </Grid>
+  </div>
   )
 }
 
