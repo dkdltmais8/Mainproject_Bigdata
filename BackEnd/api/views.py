@@ -102,60 +102,34 @@ def get_movie_keywords(request):
 
 
 # 영화 출연진 정보 
-# @api_view(['GET'])
-# def get_movie_credits(request):
-#     url = 'https://api.themoviedb.org/3/movie'
-#     api_key = 'e65e678451c2b671218a36fb34998488'
+@api_view(['GET'])
+def get_movie_credits(request):
     
-    # movie_id_list = Movie.objects.values('tmdb_id')
+    movie_id_list = Movie.objects.values('tmdb_id')
     # 새로운 리스트에 담기
-    # tmdb_id_list = []
-    # for x in range(len(movie_id_list)):
-    #     tmdb_id_list.append(movie_id_list[x].get('tmdb_id')) 
-    # for i in tmdb_id_list:
-    #     response = requests.get(f'{url}/{i}/credits?api_key={api_key}&language=ko-KR')
-    # response = requests.get('https://api.themoviedb.org/3/movie/497698/credits?api_key=e65e678451c2b671218a36fb34998488&language=ko-KR')
-    # result_cast = response.json().get('cast')
-    # print(result_cast)
-
-    # cast_list = []
-    # for j in range(len(result_cast)):
-    #     if result_cast[j].get('order') < 8:
-    #         cast_list.append(result_cast[j])
-    
-    # movie = Movie.objects.get(tmdb_id = 497698)
-    # movie.cast = cast_list
-    # movie.save()
-
-    # movie = Movie.objects.get(tmdb_id = 497698)
-    # json_list = []
-    # json_list.append(json.loads(movie.cast))
-    #temp = json.dumps(movie.cast, separators=(',', ':'))
-    # temp = json.dumps(movie.cast)
-    # print(type(json.loads(temp)))
-    # temp = []
-    # temp = movie.cast
-    # for i in temp : 
-    #     print(i)
+    tmdb_id_list = []
+    for x in range(len(movie_id_list)):
+        tmdb_id_list.append(movie_id_list[x].get('tmdb_id')) 
+    for i in tmdb_id_list:
+        response = requests.get(f'{url}/{i}/credits?api_key={api_key}&language=ko-KR')
 
         # 출연진 리스트
-        # result_cast = response.json().get('cast')
+        result_cast = response.json().get('cast')
         # 크루 리스트
-        #result_crew = response.json().get('crew')
-        # cast_list = []
-        # for j in range(len(result_cast)):
+        result_crew = response.json().get('crew')
+        cast_list = []
+        for j in range(len(result_cast)):
 
-        #     if result_cast[j].get('order') < 8:
-        #         cast_list.append(result_cast[j])
+            if result_cast[j].get('order') < 8:
+                cast_list.append(result_cast[j])
             
-        # for k in range(len(result_crew)):
-        #     # 감독만 추출해서 담았음
-        #     if result_crew[k].get('job') == 'Director':
-        #         cast_list.append(result_crew[k])
+        for k in range(len(result_crew)):
+            # 감독만 추출해서 담았음
+            if result_crew[k].get('job') == 'Director':
+                cast_list.append(result_crew[k])
 
-        # movie = Movie.objects.get(tmdb_id = i)
-        # movie.cast = cast_list
-        # movie.save()
+        movie = Movie.objects.get(tmdb_id = i)
+        movie.cast = cast_list
+        movie.save()
 
-    # return Response(status=status.HTTP_200_OK)
-
+    return Response(status=status.HTTP_200_OK)
