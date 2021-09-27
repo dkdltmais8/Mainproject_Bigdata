@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Grid from '@material-ui/core/Grid';
 import {useHistory} from 'react-router-dom';
+import Layout from '../../Layout';
 
 const main_carousel_settings = {
   dots: true,
@@ -28,6 +29,8 @@ function Main(){
   
     return (
       <MainPage>
+        <Layout>
+        </Layout>
             <h3> here Main Page? </h3>
             <button onClick = { ()=> {history.push("/mypage")}  } > MyPage </button>
             <button onClick = { ()=> {history.push("/survey")} }> Survey </button>
