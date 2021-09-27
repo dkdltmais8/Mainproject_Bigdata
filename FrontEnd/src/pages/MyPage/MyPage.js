@@ -6,10 +6,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@material-ui/core/Grid';
+import Layout from '../../Layout';
 
 function MyPage() {
     return (
-      <div style={{margin:"15%", border:"solid 2px"}}>
+      <Layout>        
+      <div style={{margin:"15%", border:"solid 2px"}}>        
         <Grid
           container
           direction="row"
@@ -55,6 +57,7 @@ function MyPage() {
           </Grid>
         </Grid>
       </div>
+      </Layout>
     );
   
 }

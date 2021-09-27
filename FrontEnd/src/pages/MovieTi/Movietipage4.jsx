@@ -10,7 +10,7 @@ import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '35%',  
+    width: '40%',  
     height: '50%',  
     margin: theme.spacing(3, 0, 2),
     fontSize: '2rem',
@@ -39,10 +39,10 @@ function Movietipage4() {
       </Typography>
       <div 
         style={{
-        display: 'flex' ,
-        flexDirection: 'column',
-        alignItems:"center",
-        marginTop: 50
+          display: 'flex' ,
+          flexDirection: 'column',
+          alignItems:"center",
+          marginTop: 50
         }}
       >
         <Button

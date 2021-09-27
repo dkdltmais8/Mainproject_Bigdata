@@ -2,7 +2,6 @@ import React from 'react'
 import { useHistory } from 'react-router-dom';
 import {
   Typography,
-  makeStyles,
   Grid,
   AppBar,
   Button,
@@ -27,11 +26,11 @@ function MovietiHeader() {
                 </Button>
           </Grid>
                 
-          <Typography variant="h3" align="center" color="text.secondary" paragraph>
+          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:200}}>
             MovieTI      
           </Typography>
           
-          <Grid item style={{marginRight:200}}>
+          <Grid item>
                 <Button
                   // size="small"
                   onClick={()=>{

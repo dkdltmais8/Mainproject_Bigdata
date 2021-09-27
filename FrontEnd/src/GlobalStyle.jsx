@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Helvetica", "Arial", sans-serif;
     line-height: 1.5;
     justify-content:center;
-    background-color: #1C1212;
+    background-color: #000000;
     color: white;
   }
 

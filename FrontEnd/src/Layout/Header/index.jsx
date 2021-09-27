@@ -1,15 +1,20 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import {
-  Paper,
   Grid,
   AppBar,
   Button,
   useScrollTrigger,
   Slide,
+  Box,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  withStyles,
+  InputBase,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import SearchIcon from '@material-ui/icons/Search';
+
 
 
 const HideOnScroll=(props)=>{
@@ -28,52 +33,119 @@ HideOnScroll.propTypes = {
   window: PropTypes.func,
 };
 
+const BootstrapInput = withStyles((theme) => ({
+  root: {
+    'label + &': {
+      // 기본 속성 값 
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    
+    padding: '10px 26px 10px 10px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+    fontFamily: [
+      'fontPrimary',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
+
+const useStyles = makeStyles((theme) => ({
+  heroContent: {    
+    padding: theme.spacing(3, 0, 3),
+    margin: {
+      margin: theme.spacing(5),
+    },
+  },
+  search: {
+    width: '100%',
+    height: '80%',
+  },
+  sort: {
+    width: '100%',
+    height: '80%',
+  },
+  searchLabel: {
+    margin: '0px 0px 0px 0px',
+    fontSize:"24px"
+  },
+  button: {
+    width: '40%',
+  },
+
+}));
+
 const Header = props => {
   let history = useHistory();
+  const classes = useStyles();
 
   return (
     <HideOnScroll {...props}>
-    <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
-      <Grid container justify="space-around" alignItems="center">
-        <Grid item style={{marginRight:200}}>
+    <AppBar position="relative" style={{ background: '#8561c5', boxShadow: 'none'}}>
+      <Grid container  justify="space-between" alignItems="center" spacing={12}
+      > 
+        <Grid item xs={3}>
             <Button
-              size="small"
+              // size="small"
               onClick={()=>{
                 history.push('/main');
               }}
-              variant="contained" color="primary"
-              >
-              우리팀 로고 들어갈 예정
+              variant="contained" color="primary">
+              Lead me
             </Button> 
         </Grid>
-        <Grid item>
-          <Grid container justify="center" spacing={2}>
-            <Grid item>
-              <Button>
-                <SearchIcon 
-                  onClick={()=>{
-                    history.push('/search')
-                  }}
-                  variant="contained" color="primary"
-                  />
-                  Search 부분
-              </Button>
-            </Grid>
-            <Grid item>
-              <Paper>
-                  <div>
-                    <Button onClick={()=>{
-                      history.push('/SignIn')
-                    }}
-                    variant="contained" color="primary"
-                    >
-                      안녕하세요 ㅁㅁ님(사용자 이름으로 수정 예정)
-                    </Button>                                        
-                  </div>
-              </Paper>        
-            </Grid>
+                    
+        <Grid item xs={6}
+          style={{                  
+            display: 'flex' ,    
+            justifyContent: 'center',
+          }} 
+        >
+            <Box bgcolor="" width="80%">
+                <form onSubmit={(e)=>{
+                    e.preventDefault();                      
+                    history.push('/search') 
+                    }}>
+                    <FormControl className={classes.search}>
+                        <InputLabel placeholder="영화 이름" htmlFor="demo-customized-textbox" className={classes.searchLabel}>영화 이름</InputLabel>
+                        {/* <TextField> */}
+                          <BootstrapInput 
+                            id="demo-customized-textbox"
+                            // onChange={(e)=>{
+                            //   setSearchWord(e.target.value);  API로 보낼 단어
+                            // }}
+                          />
+                        {/* </TextField> */}
+                    </FormControl>
+                </form>
+            </Box>
           </Grid>
-        </Grid>
+          
+          <Grid item xs={3} 
+            style={{                  
+              display: 'flex' ,    
+              justifyContent: 'end',
+            }} 
+          >            
+              <Button onClick={()=>{
+                history.push('/SignIn') //로그인할 수 있게? 추후 변경 가능
+              }}
+              variant="contained" color="primary" className={classes.button}
+              > 
+                {/* 사용자 이름으로 넣어지게 수정할 예정 */}
+                안녕하세요 ㅁㅁ님  
+              </Button>                                       
+          </Grid>
       </Grid>
     </AppBar>
   </HideOnScroll>
