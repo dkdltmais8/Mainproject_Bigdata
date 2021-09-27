@@ -6,7 +6,7 @@ import {
   makeStyles,
   Grid,
 } from '@material-ui/core'
-import Layout from '../../Layout';
+import Layout from '../../layout';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
