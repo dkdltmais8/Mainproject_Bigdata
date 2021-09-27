@@ -88,7 +88,7 @@ export default function SignUp() {
               }
               axios.post('/accounts/signup', body) //백쪽 api로 post 요청
                 .then(res => {                  
-                  history.push('/')
+                  history.push('/signin')
                 })
                 .catch(err => {
                   alert(err.response.data)

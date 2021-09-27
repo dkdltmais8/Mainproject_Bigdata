@@ -81,7 +81,7 @@ export default function SignIn() {
               }
               axios.post('/accounts/login', body) //라우터 설정 맞추기
                 .then(res => {
-                  history.push('/')
+                  history.push('/main')
                 })
                 .catch(err => {
                   if (err.response.data === 'login failed') {
