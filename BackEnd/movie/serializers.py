@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from api.models import Movie
+from api.models import Movie, Movieti
+
 
 class MovieSurveyListSerializer(serializers.ModelSerializer):
     class Meta:
