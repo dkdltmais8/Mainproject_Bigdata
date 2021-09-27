@@ -4,12 +4,16 @@ import {
   Button,
   Typography,
   makeStyles,
+  Grid,
 } from '@material-ui/core'
+import MovietiHeader from '../../components/MovietiHeader'
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '40%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
+    fontSize: '2rem',
   },
 }));
 function Movietipage11() {
@@ -18,20 +22,28 @@ function Movietipage11() {
 
   return (
     <div>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
-        MoVieTI   
-      </Typography>
-      <Typography variant="h3" align="center" color="text.secondary" paragraph>
+      <MovietiHeader />
+      <Grid container spacing={12}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: 50
+          }}
+      >     
+      <Typography variant="h2" align="center" color="text.secondary" paragraph>
         Q 11.  
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" paragraph>
+      <Typography variant="h3" align="center" color="text.secondary" paragraph>
         우리 내일 영화보고 뭐할래? 나는...
       </Typography>
       <div 
-      style={{
-        display: 'flex' ,
-        justifyContent: 'center'
-        }}
+        style={{
+          display: 'flex' ,
+          flexDirection: 'column',
+          alignItems:"center",
+          marginTop: 50
+          }}
       >
         <Button
           type="submit"
@@ -44,14 +56,7 @@ function Movietipage11() {
           }}
         >
           음 내일 영화보고 카페가고 밥먹을래?
-        </Button>
-      </div>
-      <div 
-        style={{
-          display: 'flex' ,
-          justifyContent: 'center'
-          }}
-      >
+        </Button>      
         <Button
           type="submit"
           fullWidth
@@ -63,12 +68,13 @@ function Movietipage11() {
           }}
         >
           영화 끝나면 2시쯤이니 카페에서 3시간 수다떨고 1시간 쇼핑하고 6시에 음식점 예약해 놓을게! 
-        </Button>
-      </div>
+        </Button>      
         <Typography variant="h6" align="center" gutterBottom>
           11/13
         </Typography>
-    </div>
+      </div>
+    </Grid>
+  </div>
   )
 }
 
