@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
 
 const main_carousel_settings = {
   dots: true,
@@ -22,7 +23,45 @@ const sub_carousel_settings = {
   centerMode: true,
   slidesToScroll: 5
 };
+
+
+
 function Main( {history} ){
+  const [nowMovies,setNowMovies] = useState([])
+  const [topRatedMovies,setTopRatedMovies] = useState([])
+  const [upComingmovies,setUpComingMovies] = useState([])
+  const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
+  const topRatedMoviesUrl = "http://localhost:8000/movie/toprated"
+  const upComingmoviesUrl = "http://localhost:8000/movie/upcoming"
+  useEffect(()=>{
+    axios.get(nowMoviesUrl)
+    .then((res)=>{
+      console.log(res.data);
+      setNowMovies(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
+    axios.get(topRatedMoviesUrl)
+    .then((res)=>{
+      console.log(res.data);
+      setTopRatedMovies(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
+    axios.get(upComingmoviesUrl)
+    .then((res)=>{
+      console.log(res.data);
+      setUpComingMovies(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  },[]);
+
     return (
       <MainPage>
             <h3> here Main Page? </h3>
@@ -94,41 +133,49 @@ function Main( {history} ){
             <SubContent  id="new_movie">
               <h2>신작</h2>
               <Slider {...sub_carousel_settings}>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img1.png" alt="img1" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img2.png" alt="img2" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img3.png" alt="img3" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img4.png" alt="img4" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img5.png" alt="img5" />
-                </div>
+                {
+                  upComingmovies.map((posterId,idx)=>(
+                  <div>
+                    <MoviePoster 
+                    id={`posterId${idx}`} 
+                    src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
+                    alt="img1"
+                    />
+                  </div>
+                  ))
+                }
               </Slider>
             </SubContent>
             <SubContent id="trending_movie">
               <h2>트렌딩</h2>  
               <Slider {...sub_carousel_settings}>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img1.png" alt="img1" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img2.png" alt="img2" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img3.png" alt="img3" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img4.png" alt="img4" />
-                </div>
-                <div>
-                  <MoviePoster src="/carousel_test_img/img5.png" alt="img5" />
-                </div>
+                {
+                  topRatedMovies.map((posterId,idx)=>(
+                  <div>
+                    <MoviePoster 
+                    id={`posterId${idx}`} 
+                    src={`https://image.tmdb.org/t/p/w200${topRatedMovies[idx].poster_path}`} 
+                    alt="img1"
+                    />
+                  </div>
+                  ))
+                }
+              </Slider>
+            </SubContent>
+            <SubContent  id="new_movie">
+              <h2>현재 상영작</h2>
+              <Slider {...sub_carousel_settings}>
+                {
+                  nowMovies.map((posterId,idx)=>(
+                  <div>
+                    <MoviePoster 
+                    id={`posterId${idx}`} 
+                    src={`https://image.tmdb.org/t/p/w200${nowMovies[idx].poster_path}`} 
+                    alt="img1"
+                    />
+                  </div>
+                  ))
+                }
               </Slider>
             </SubContent>
           </Grid>
