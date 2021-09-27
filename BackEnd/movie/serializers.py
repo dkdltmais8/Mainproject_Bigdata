@@ -4,4 +4,4 @@ from api.models import Movie
 class MovieSurveyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('title', 'poster_path')
+        fields = ('tmdb_id', 'title', 'poster_path')
