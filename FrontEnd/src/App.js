@@ -5,25 +5,25 @@ import './App.css';
 
 import Signup from './pages/Auth/Signup.jsx';
 import Signin from './pages/Auth/Signin.jsx';
-import Movietimain from './pages/MovieTi/Movietimain';
-import Movietipage1 from './pages/MovieTi/Movietipage1';
-import Movietipage2 from './pages/MovieTi/Movietipage2';
-import Movietipage3 from './pages/MovieTi/Movietipage3';
-import Movietipage4 from './pages/MovieTi/Movietipage4';
-import Movietipage5 from './pages/MovieTi/Movietipage5';
-import Movietipage6 from './pages/MovieTi/Movietipage6';
-import Movietipage7 from './pages/MovieTi/Movietipage7';
-import Movietipage8 from './pages/MovieTi/Movietipage8';
-import Movietipage9 from './pages/MovieTi/Movietipage9';
-import Movietipage10 from './pages/MovieTi/Movietipage10';
-import Movietipage11 from './pages/MovieTi/Movietipage11';
-import Movietipage12 from './pages/MovieTi/Movietipage12';
-import Movietipage13 from './pages/MovieTi/Movietipage13';
-import Movietiresult from './pages/MovieTi/Movietiresult';
+import Movietimain from './pages/MovieTi/Movietimain.jsx';
+import Movietipage1 from './pages/MovieTi/Movietipage1.jsx';
+import Movietipage2 from './pages/MovieTi/Movietipage2.jsx';
+import Movietipage3 from './pages/MovieTi/Movietipage3.jsx';
+import Movietipage4 from './pages/MovieTi/Movietipage4.jsx';
+import Movietipage5 from './pages/MovieTi/Movietipage5.jsx';
+import Movietipage6 from './pages/MovieTi/Movietipage6.jsx';
+import Movietipage7 from './pages/MovieTi/Movietipage7.jsx';
+import Movietipage8 from './pages/MovieTi/Movietipage8.jsx';
+import Movietipage9 from './pages/MovieTi/Movietipage9.jsx';
+import Movietipage10 from './pages/MovieTi/Movietipage10.jsx';
+import Movietipage11 from './pages/MovieTi/Movietipage11.jsx';
+import Movietipage12 from './pages/MovieTi/Movietipage12.jsx';
+import Movietipage13 from './pages/MovieTi/Movietipage13.jsx';
+import Movietiresult from './pages/MovieTi/Movietiresult.jsx';
 
 //
 import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니다.
-import Main from './pages/Main/main.js'; // main 불러오기
+import main from './pages/Main/main.js'; // main 불러오기
 import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
 import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
 
@@ -33,7 +33,7 @@ function App () {
         <GlobalStyle/>
             <BrowserRouter>
               <Switch>
-                <Route path="/main" component={Main}/>
+                <Route path="/main" component={main}/>
                 <Route path="/mypage" component={MyPage}/>
                 <Route path="/survey" component={Survey}/>
                 <Route exact path="/signup" component={Signup} />
