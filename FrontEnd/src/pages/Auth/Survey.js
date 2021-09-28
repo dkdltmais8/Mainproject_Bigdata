@@ -128,7 +128,6 @@ function Survey( {history} ){
                   <span 
                     // onClick={(e) => clickEvent(idx,e)}
                     style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
-                    <p>{movie.title}</p>
                     {
                       scores[idx]?
                         <StarRatingComponent
@@ -140,6 +139,7 @@ function Survey( {history} ){
                         :null
                     }
                   </span>
+                  <p>{movie.title}</p>
                   </div>
                 </Grid>
               )) 
