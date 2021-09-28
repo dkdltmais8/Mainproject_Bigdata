@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
-from .models import User
+from .models import User, Rating
 
 # 회원가입
 @api_view(['POST'])
@@ -55,5 +55,21 @@ def checkEmail(request):
 
 @api_view(['POST'])
 def survey_result(request):
-    print(request.data)
-    return Response(status=status.HTTP_200_OK) 
+    if request.data.get('result'):
+        print('설문 결과 받음')
+        print(request.data)
+        result = request.data.get('result')
+        print(result)
+        print(type(result))
+        for tmdb_id, rating in result.items():
+            print(tmdb_id, rating)
+
+        user_email = request.data.get('id')
+
+        # user pk값 찾기
+        user_pk = User.objects.filter(email=user_email).get()
+        print(user_pk, '유저 pk값')
+
+        return Response(status=status.HTTP_200_OK) 
+    else:
+        return Response(status=status.HTTP_204_NO_CONTENT)
