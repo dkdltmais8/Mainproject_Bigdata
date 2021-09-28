@@ -69,16 +69,16 @@ CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'server.urls'
 
-REST_FRAMEWORK = {
-    # 인증된 유저만 헤더에 access token 을 포함하여 유효한 유저만이 접근이 가능해지는 것을 디폴트로. permission_classes 변수 설정할 필요가 없음.
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # 인증된 회원만 엑세스 허용
-        'rest_framework.permissions.AllowAny',         # 모든 회원 액세스 허용
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #api 실행시 인증할 클래스 정의
-    ),
-}
+# REST_FRAMEWORK = {
+#     # 인증된 유저만 헤더에 access token 을 포함하여 유효한 유저만이 접근이 가능해지는 것을 디폴트로. permission_classes 변수 설정할 필요가 없음.
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',  # 인증된 회원만 엑세스 허용
+#         'rest_framework.permissions.AllowAny',         # 모든 회원 액세스 허용
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #api 실행시 인증할 클래스 정의
+#     ),
+# }
 
 # import datetime
 # JWT_AUTH = {

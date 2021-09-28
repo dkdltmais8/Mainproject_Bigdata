@@ -43,5 +43,3 @@ def checkEmail(request):
 
     return
 
-
-# 로그인 jwt토큰 설정해놓기
