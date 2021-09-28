@@ -31,19 +31,21 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-# 생성한 APP을 모두 등록해준다. 생성한 앱은 맨 위에 써주세요!
+# 생성한 APP을 모두 등록해준다.
 INSTALLED_APPS = [
-    'api',
-    'accounts',
-    'movie',
-    'rest_framework',
-    'corsheaders',  # cors관련 추가
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my app
+    'api',
+    'accounts',
+    'movie',
+    'rest_framework',
+    'rest_framework_jwt', # 토큰 관련 추가
+    'corsheaders',  # cors관련 추가
     'drf_yasg',
 ]
 
@@ -66,6 +68,25 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'server.urls'
+
+REST_FRAMEWORK = {
+    # 인증된 유저만 헤더에 access token 을 포함하여 유효한 유저만이 접근이 가능해지는 것을 디폴트로. permission_classes 변수 설정할 필요가 없음.
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # 인증된 회원만 엑세스 허용
+        'rest_framework.permissions.AllowAny',         # 모든 회원 액세스 허용
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #api 실행시 인증할 클래스 정의
+    ),
+}
+
+# import datetime
+# JWT_AUTH = {
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
+#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+#     'JWT_RESPONSE_PAYLOAD_HANDLER':
+#     'accounts.utils.jwt_response_payload_handler',
+# }
 
 TEMPLATES = [
     {

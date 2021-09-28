@@ -5,7 +5,6 @@ from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('signup', views.signup),
-    # 토큰 파트 추가
-    path('login', obtain_jwt_token),
-    path('api/token/verify',  verify_jwt_token),
+    path('login', obtain_jwt_token), # JWT 토큰 획득
+    # path('verify',  verify_jwt_token), # JWT 토큰 확인
 ]
