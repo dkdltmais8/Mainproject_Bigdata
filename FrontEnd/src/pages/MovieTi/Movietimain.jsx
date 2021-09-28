@@ -6,13 +6,14 @@ import {
   makeStyles,
   Grid,
 } from '@material-ui/core'
-import Layout from '../../Layout';
+import Layout from '../../layout';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    width: '30%',
+    width: '20%',  
+    height: '50%',  
     margin: theme.spacing(3, 0, 2),
-
+    fontSize: '2rem',
   },
 }));
 function Movietimain() {
@@ -25,12 +26,26 @@ function Movietimain() {
       </Layout>
 
       <Grid container spacing={12}>
-        <Grid item xs={12} >
+        <Grid item xs={12} 
+          style={{
+            display: 'flex' ,
+            flexDirection: 'column',
+            alignItems:"center",
+            marginTop: 100        
+            }} 
+        >
           <Typography variant="h2" align="center" color="text.secondary" paragraph>
             나는 어떤 영화 캐릭터와 비슷할까?        
           </Typography>
         </Grid>
-        <Grid item xs={12} >
+        <Grid item xs={12} 
+          style={{
+            display: 'flex' ,
+            flexDirection: 'column',
+            alignItems:"center",
+            marginTop: 100        
+            }} 
+        >
           <Typography variant="h3" align="center" color="text.secondary" paragraph>
             MovieTI      
           </Typography>
@@ -39,7 +54,9 @@ function Movietimain() {
         <Grid item xs={12} 
           style={{
             display: 'flex' ,
-            justifyContent: 'center'          
+            flexDirection: 'column',
+            alignItems:"center",
+            marginTop: 50         
             }} 
         >
           <Button

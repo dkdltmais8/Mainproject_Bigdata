@@ -63,8 +63,14 @@ export default function SignIn() {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            우리팀 이미지로 교체될 예정
+          <Typography component="h1" variant="h1"
+            style={{
+              display: 'flex' ,
+              justifyContent: 'center',
+              marginTop: 60,
+              }}
+          >
+            Lead me
           </Typography>
           <form className={classes.form} noValidate
             onSubmit={(e) => {
@@ -75,7 +81,7 @@ export default function SignIn() {
               }
               axios.post('/accounts/login', body) //라우터 설정 맞추기
                 .then(res => {
-                  history.push('/')
+                  history.push('/main')
                 })
                 .catch(err => {
                   if (err.response.data === 'login failed') {
@@ -100,6 +106,11 @@ export default function SignIn() {
               name="Email"
               autoComplete="Email"
               autoFocus
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center',
+                marginTop: 40,
+                }}
             />
             <TextField
               onChange={(e)=>{setPassword(e.currentTarget.value)}}
@@ -113,15 +124,32 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
               color="primary"
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center',
+                marginTop: 40,
+                }}
             />
             <Grid container xs={12}>
               <Grid item xs={9}>        
-                <Typography component="h3" variant="h5">
+                <Typography component="h3" variant="h5"
+                  style={{
+                    display: 'flex' ,
+                    justifyContent: 'left',
+                    marginTop: 40,
+                    }}
+                >
                  처음이시라면?
                </Typography>         
               </Grid>
               <Grid item xs={3}>
-                <Link href="/signup" variant="Signup">   
+                <Link href="/signup" variant="Signup"
+                  style={{
+                    display: 'flex' ,
+                    justifyContent: 'right',
+                    marginTop: 40,
+                    }}
+                >   
                   {"회원가입"}
                 </Link>
               </Grid>
@@ -129,8 +157,9 @@ export default function SignIn() {
             <div 
               style={{
                 display: 'flex' ,
-                justifyContent: 'center'
-                }}
+                justifyContent: 'center',
+                marginTop: 50,
+              }}
             >
               <Button            
                 type="submit"
