@@ -21,15 +21,11 @@ from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDeta
 
 @api_view(['GET'])
 def get_survey_movie(request):
-    # front연결확인을 위한 로직
-    # movie_list = [{"tmdb_id":926,"title":"갤럭시 퀘스트","poster_path":"/fZXSwgZknp81vmciTb86rw0MejV.jpg"},{"tmdb_id":458220,"title":"팔머","poster_path":"/xSDdRAjxKAGi8fUBLOqSrBhJmF0.jpg"},{"tmdb_id":387426,"title":"옥자","poster_path":"/miHNA5DcheO7ax2qon9CmC7qa9j.jpg"},{"tmdb_id":1677,"title":"레이","poster_path":"/fIC2stYa40yD1TpBVyLXQfL2X3T.jpg"},{"tmdb_id":429191,"title":"판타스틱 우먼","poster_path":"/2msHctIBQFNnjeHMmgKLe9UldLK.jpg"}]
-    # return Response(movie_list, status=status.HTTP_200_OK)
 
-    # 쿼리셋 형태를 리스트로 변환
-    movie_list = list(Movie.objects.values('tmdb_id', 'title', 'poster_path'))
-
+    # 쿼리셋 형태를 리스트로 변환, 평균 평점이 7.2보다 큰 영화만 가져옴
+    movie_list = list(Movie.objects.filter(vote_average__gte=7.2).values('tmdb_id', 'title', 'poster_path'))
+    # 그 중에서 랜덤 100개
     random_list = random.sample(movie_list, 100)
-    # print(random_list)
 
     serializer = MovieSurveyListSerializer(random_list, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -37,7 +33,6 @@ def get_survey_movie(request):
 
 url = 'https://api.themoviedb.org/3/movie'
 api_key = 'e65e678451c2b671218a36fb34998488'
-
 
 @api_view(['GET'])
 def get_toprated_movie(request):
@@ -70,7 +65,7 @@ def get_nowplaying_movie(request):
         temp2['poster_path'] = temp[i].get('poster_path')
         temp2['backdrop_path'] = temp[i].get('backdrop_path')
         result.append(temp2)
-    print(result)
+    # print(result)
     return Response(result, status=status.HTTP_200_OK)
 
 
@@ -87,7 +82,7 @@ def get_upcoming_movie(request):
         temp2['poster_path'] = temp[i].get('poster_path')
         temp2['backdrop_path'] = temp[i].get('backdrop_path')
         result.append(temp2)
-    print(result)
+    # print(result)
     return Response(result, status=status.HTTP_200_OK)
 
 
@@ -159,6 +154,7 @@ def get_movieti_result(request, result):
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
+<<<<<<< HEAD
 
 
 @api_view(['GET'])
@@ -212,3 +208,5 @@ def search_movie_cast(request, searchword):
             context["movies"] = movies.data
 
     return Response(context)
+=======
+>>>>>>> 7d0ec9a426a6850216e041204da44b7f9fc3950a

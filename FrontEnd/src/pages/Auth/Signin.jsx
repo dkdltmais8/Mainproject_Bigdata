@@ -82,6 +82,7 @@ export default function SignIn() {
               axios.post('/accounts/login', body) //라우터 설정 맞추기
                 .then(res => {
                   localStorage.setItem('jwt', res.data.token)
+                  localStorage.setItem('id', user_id)
                   history.push('/survey')
                 })
                 .catch(err => {

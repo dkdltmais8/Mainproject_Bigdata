@@ -1,5 +1,7 @@
+from django.db import models
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import Rating
 
 User = get_user_model()
 
@@ -10,3 +12,8 @@ class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password')
+
+class UserRatingMovie(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rating
