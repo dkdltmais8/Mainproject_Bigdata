@@ -8,6 +8,9 @@ import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Layout from '../../Layout';
 import Button from '@material-ui/core/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 const main_carousel_settings = {
   dots: true,
@@ -27,12 +30,31 @@ const sub_carousel_settings = {
   slidesToScroll: 5
 };
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 
 function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
   const [movieTi,setmovieTi]= useState([])
+
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
   const topRatedMoviesUrl = "http://localhost:8000/movie/toprated"
@@ -66,6 +88,10 @@ function Main( {history} ){
     })
   },[]);
 
+  // const movieDetail =(tmdb_id)=>{
+
+  // }
+
     return (
       <MainPage>
         <Layout>
@@ -74,22 +100,18 @@ function Main( {history} ){
             <button onClick = { ()=> {history.push("/survey")} }> Survey </button>
             <button onClick = { ()=> {history.push("/movie/movieti")} }> MovieTi </button>
           <Slider {...main_carousel_settings}>
-            <div>
-              <MainCarousel src="/carousel_test_img/img1.png" alt="img1" />
-            </div>
-            <div>
-              <MainCarousel src="/carousel_test_img/img2.png" alt="img2" />
-            </div>
-            <div>
-              <MainCarousel src="/carousel_test_img/img3.png" alt="img3" />
-            </div>
-            <div>
-              <MainCarousel src="/carousel_test_img/img4.png" alt="img4" />
-            </div>
-            <div>
-              <MainCarousel src="/carousel_test_img/img5.png" alt="img5" />
-            </div>
-          </Slider>
+              {
+                upComingmovies.map((posterId,idx)=>(
+                <div>
+                  <MainCarousel 
+                  id={`posterId${idx}`} 
+                  src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].backdrop_path}`} 
+                  alt="img1"
+                  />
+                </div>
+                ))
+              }
+            </Slider>
           <Grid
             container
             direction="row"
@@ -115,6 +137,7 @@ function Main( {history} ){
                       upComingmovies.map((posterId,idx)=>(
                       <div>
                         <MoviePoster 
+                        // onClick ={()=>{movieDetail(upComingmovies[idx].tmdb_id)}}
                         id={`posterId${idx}`} 
                         src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
                         alt="img1"
@@ -208,6 +231,22 @@ function Main( {history} ){
               </Slider>
             </SubContent>
           </Grid>
+          <Button size="large" variant="contained" color="primary" onClick={handleOpen}>Open modal</Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
       </MainPage>
     );
 }
