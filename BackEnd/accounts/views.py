@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -35,11 +36,24 @@ def signup(request):
         return Response(serializer.errors)
 
 # 이메일 중복 api 만들기
-@api_view(['GET'])
+@api_view(['POST'])
 def checkEmail(request):
-    # 이메일 담아보내면 이메일 받아서 변수로 저장해놓고
-    # get으로 이메일 찾아봄
-    # return되는 값이 없으면 중복된게 아니니까 ok리턴
+    user_email = request.data.get('user_email')
+    try:
+        # 중복된 경우
+        u_email = User.objects.get(email=user_email)
+    except:
+        # 중복되지 않는 경우
+        u_email = None
+    if u_email is None:
+        duplicated = "Allowed"
+    else:
+        duplicated = "Not Allowed"
+    context = {'duplicated': duplicated}
+    return Response(context, status=status.HTTP_200_OK)
 
-    return
 
+@api_view(['POST'])
+def survey_result(request):
+    print(request.data)
+    return Response(status=status.HTTP_200_OK) 
