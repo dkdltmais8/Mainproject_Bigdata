@@ -76,11 +76,12 @@ export default function SignIn() {
             onSubmit={(e) => {
               e.preventDefault();
               let body = {
-                user_id: user_id,
+                email: user_id,
                 password: password,
               }
               axios.post('/accounts/login', body) //라우터 설정 맞추기
                 .then(res => {
+                  localStorage.setItem('jwt', res.data.token)
                   history.push('/main')
                 })
                 .catch(err => {
@@ -139,8 +140,8 @@ export default function SignIn() {
                     marginTop: 40,
                     }}
                 >
-                 처음이시라면?
-               </Typography>         
+                  처음이시라면?
+                </Typography>         
               </Grid>
               <Grid item xs={3}>
                 <Link href="/signup" variant="Signup"
