@@ -1,5 +1,6 @@
 import json
 from django.db import models
+from django.db.models import F, Q
 from django.http import response
 from django.shortcuts import get_object_or_404, render
 from django.urls.conf import path
@@ -89,11 +90,8 @@ def get_upcoming_movie(request):
 def get_movie_detail(request, movieid):
     movie = get_object_or_404(Movie, tmdb_id=movieid)
     serializers = MovieDetailSerializer(movie)
-    return Response(serializers.data, status=status.HTTP_200_OK)
 
-
-@api_view(['GET'])
-def get_movie_trailer(request, movieid):
+    # 트레일러 주소
     response = requests.get(
         f'{url}/{movieid}/videos?api_key={api_key}&language=ko-KR')
     temp = response.json().get('results')
@@ -106,15 +104,11 @@ def get_movie_trailer(request, movieid):
             find = True
             break
 
-    return Response(result, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-def get_movie_similar(request, movieid):
+    # 비슷한 영화 목록
     response = requests.get(
         f'{url}/{movieid}/similar?api_key={api_key}&language=ko-KR&page=1')
     temp = response.json().get('results')
-    result = []
+    result2 = []
     for i in range(len(temp)):
         if temp[i].get('overview'):
             if temp[i].get('release_date'):
@@ -122,28 +116,37 @@ def get_movie_similar(request, movieid):
                 temp2['tmdb_id'] = temp[i].get('id')
                 temp2['title'] = temp[i].get('title')
                 temp2['poster_path'] = temp[i].get('poster_path')
-                result.append(temp2)
+                result2.append(temp2)
                 if(len(temp2) >= 20):
                     break
-    return Response(result, status=status.HTTP_200_OK)
+
+    trailer_path = {"trailer_path": result}
+    movielist = {"movielist": result2}
+
+    trailer_path.update(serializers.data)
+    trailer_path.update(movielist)
+
+    return Response(trailer_path, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def get_comment(request, movie):
-    comments = Comment.objects.filter(movieid=movie)
-    serializer = CommentSerializer(comments, many=True)
-    return Response(serializer.data)
-
-
+@api_view(['GET', 'POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['POST'])
-def create_comment(request, movie):
-    serializer = CommentSerializer(data=request.data)
+def comment(request, movie):
+    if request.method == 'GET':
+        comments = Comment.objects.filter(movieid=movie)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
 
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(author=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    elif request.method == 'POST':
+        print(request.user)
+        print(request.auth)
+        print("=======================================================")
+        serializer = CommentSerializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(author=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
@@ -151,3 +154,59 @@ def get_movieti_result(request, result):
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
+<<<<<<< HEAD
+
+
+@api_view(['GET'])
+def get_cast(request):
+    movie = Movie.objects.get(tmdb_id=566525).cast
+    print(movie)
+    for i in range(len(movie)):
+        print(movie[i])
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def search_movie_title(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(title__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+
+    return Response(context)
+
+
+@api_view(['GET'])
+def search_movie_genre(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(title__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+    return Response(context)
+
+
+@api_view(['GET'])
+def search_movie_cast(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(cast__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+
+    return Response(context)
+=======
+>>>>>>> 7d0ec9a426a6850216e041204da44b7f9fc3950a

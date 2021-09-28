@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'movie',
     'rest_framework',
-    'rest_framework_jwt', # 토큰 관련 추가
+    'rest_framework_jwt',  # 토큰 관련 추가
     'corsheaders',  # cors관련 추가
     'drf_yasg',
 ]
@@ -74,9 +74,11 @@ ROOT_URLCONF = 'server.urls'
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticated',  # 인증된 회원만 엑세스 허용
 #         'rest_framework.permissions.AllowAny',         # 모든 회원 액세스 허용
+#         'rest_framework.permissions.IsAdminUser',
 #     ),
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #api 실행시 인증할 클래스 정의
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # api 실행시 인증할 클래스 정의
+#         'rest_framework.authentication.TokenAuthentication',
 #     ),
 # }
 
