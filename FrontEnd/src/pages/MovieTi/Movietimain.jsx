@@ -6,7 +6,7 @@ import {
   makeStyles,
   Grid,
 } from '@material-ui/core'
-import Layout from '../../layout';
+import Layout from '../../Layout';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -24,7 +24,6 @@ function Movietimain() {
     <React.Fragment>
       <Layout>
       </Layout>
-
       <Grid container spacing={12}>
         <Grid item xs={12} 
           style={{
