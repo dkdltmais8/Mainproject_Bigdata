@@ -96,58 +96,60 @@ function Survey( {history} ){
         justifyContent="center"
         alignItems="center"
       >
-        <p>시청한 영화를 평가해주세요</p>
+        <p>시청한 영화를 평가해주세요(5개 이상!)</p>
       </Grid>
-      <Grid container>
-        <Grid item xs={1}>
-          <Item></Item>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-around"
-          alignItems="center"
-          xs={10}
-        >
-          {
-            movies.map((movie,idx) =>(
-              <Grid
-                item xs={2}
-              >
-                <div style={{position:"relative",width:"80%"}}
-                  key={movie.tmdb_id}
-                  onMouseEnter={(e)=>EnterEvent(idx,e)}
-                  onMouseLeave={(e)=>LeaveEvent(idx,e)}
+      <PosterContainer>
+        <Grid container>
+          <Grid item xs={1}>
+            <Item></Item>
+          </Grid>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-around"
+            alignItems="center"
+            xs={10}
+          >
+            {
+              movies.map((movie,idx) =>(
+                <Grid
+                  item xs={2}
                 >
-                  <MoviePoster 
-                    id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} 
-                    alt="img1"
-                  />
-                <span 
-                  // onClick={(e) => clickEvent(idx,e)}
-                  style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
-                  <p>{movie.title}</p>
-                  {
-                    scores[idx]?
-                      <StarRatingComponent
-                        id="rate"
-                        starCount={5}
-                        value={rating[idx]}
-                        onStarClick= {(e)=>onStarClick(idx,movie.tmdb_id,e)}
-                      />
-                      :null
-                  }
-                </span>
-                </div>
-              </Grid>
-            )) 
-          }
+                  <div style={{position:"relative",width:"80%"}}
+                    key={movie.tmdb_id}
+                    onMouseEnter={(e)=>EnterEvent(idx,e)}
+                    onMouseLeave={(e)=>LeaveEvent(idx,e)}
+                  >
+                    <MoviePoster 
+                      id={`posterId${idx}`} 
+                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} 
+                      alt="img1"
+                    />
+                  <span 
+                    // onClick={(e) => clickEvent(idx,e)}
+                    style={{position:"absolute",top:"50%",left:"50%",transform: "translate(-50%, -50%)"}}>
+                    <p>{movie.title}</p>
+                    {
+                      scores[idx]?
+                        <StarRatingComponent
+                          id="rate"
+                          starCount={5}
+                          value={rating[idx]}
+                          onStarClick= {(e)=>onStarClick(idx,movie.tmdb_id,e)}
+                        />
+                        :null
+                    }
+                  </span>
+                  </div>
+                </Grid>
+              )) 
+            }
+          </Grid>
+          <Grid item xs={1}>
+            <Item></Item>
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <Item></Item>
-        </Grid>
-      </Grid>
+      </PosterContainer>
       <Grid 
         container
         direction="row"
@@ -155,7 +157,11 @@ function Survey( {history} ){
         alignItems="center">
         {/* <Button size="large" variant="contained" color="primary">제출하기</Button> */}
         {/* <Button onClick={submitEvent()} size="large" variant="contained" color="primary">제출하기</Button> */}
-        <Button onClick={()=>{history.push("/main")}} size="large" variant="contained" color="primary">제출하기</Button>
+        { 
+          Object.keys(result).length > 4?
+          <Button onClick={()=>{history.push("/main")}} size="large" variant="contained" color="primary">제출하기</Button>
+          :<Button size="large" variant="contained" color="primary" disabled>제출하기</Button>
+        }
       </Grid>
     </div>
   );
@@ -166,6 +172,11 @@ const MoviePoster = styled.img`
   margin:4px;
 `;
 
+const PosterContainer = styled.div`
+  overflow:scroll;
+  overflow-x:hidden;
+  height: 800px;
+`;
 
 export default Survey;
 
