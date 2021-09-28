@@ -1,5 +1,6 @@
 import json
 from django.db import models
+from django.db.models import F, Q
 from django.http import response
 from django.shortcuts import get_object_or_404, render
 from django.urls.conf import path
@@ -143,6 +144,9 @@ def comment(request, movie):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        print(request.user)
+        print(request.auth)
+        print("=======================================================")
         serializer = CommentSerializer(data=request.data)
 
         if serializer.is_valid(raise_exception=True):
@@ -164,3 +168,47 @@ def get_cast(request):
     for i in range(len(movie)):
         print(movie[i])
     return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def search_movie_title(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(title__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+
+    return Response(context)
+
+
+@api_view(['GET'])
+def search_movie_genre(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(title__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+    return Response(context)
+
+
+@api_view(['GET'])
+def search_movie_cast(request, searchword):
+    context = {}
+    if searchword:
+        if len(searchword) > 1:
+            movie = Movie.objects.filter(cast__contains=searchword)
+            if len(movie) > 50:
+                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            else:
+                movies = MovieSurveyListSerializer(movie, many=True)
+            context["movies"] = movies.data
+
+    return Response(context)
