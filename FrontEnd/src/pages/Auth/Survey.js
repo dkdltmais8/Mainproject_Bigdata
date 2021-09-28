@@ -77,7 +77,8 @@ function Survey( {history} ){
 
   const submitEvent =() =>{
     axios.post("http://localhost:8000/accounts/survey",{
-      result:result
+      result:result,
+      id:localStorage.getItem("id")
     })
     .then((res)=>{
       console.log(res.data);
@@ -159,7 +160,7 @@ function Survey( {history} ){
         {/* <Button onClick={submitEvent()} size="large" variant="contained" color="primary">제출하기</Button> */}
         { 
           Object.keys(result).length > 4?
-          <Button onClick={()=>{history.push("/main")}} size="large" variant="contained" color="primary">제출하기</Button>
+          <Button onClick={()=>submitEvent()} size="large" variant="contained" color="primary">제출하기</Button>
           :<Button size="large" variant="contained" color="primary" disabled>제출하기</Button>
         }
       </Grid>
