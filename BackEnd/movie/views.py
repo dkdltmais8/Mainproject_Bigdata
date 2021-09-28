@@ -111,6 +111,25 @@ def get_movie_trailer(request, movieid):
     return Response(result, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def get_movie_similar(request, movieid):
+    response = requests.get(
+        f'{url}/{movieid}/similar?api_key={api_key}&language=ko-KR&page=1')
+    temp = response.json().get('results')
+    result = []
+    for i in range(len(temp)):
+        if temp[i].get('overview'):
+            if temp[i].get('release_date'):
+                temp2 = {}
+                temp2['tmdb_id'] = temp[i].get('id')
+                temp2['title'] = temp[i].get('title')
+                temp2['poster_path'] = temp[i].get('poster_path')
+                result.append(temp2)
+                if(len(temp2) >= 20):
+                    break
+    return Response(result, status=status.HTTP_200_OK)
+
+
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
