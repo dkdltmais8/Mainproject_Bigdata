@@ -8,7 +8,5 @@ urlpatterns = [
     path('upcoming', views.get_upcoming_movie),
     path('movieti/<result>', views.get_movieti_result),
     path('<int:movieid>', views.get_movie_detail),
-    path('<int:movieid>/trailer', views.get_movie_trailer),
-    path('<int:movieid>/similar', views.get_movie_similar),
-    path('<int:movie>/comment', views.create_comment),
+    path('<int:movie>/comment', views.comment),
 ]
