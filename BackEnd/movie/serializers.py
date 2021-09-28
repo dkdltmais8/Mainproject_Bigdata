@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from api.models import Movie, Movieti
+from accounts.models import Comment
 
 
 class MovieSurveyListSerializer(serializers.ModelSerializer):
@@ -18,4 +19,10 @@ class MovieDetailSerializer(serializers.ModelSerializer):
 class MovietiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movieti
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
         fields = '__all__'
