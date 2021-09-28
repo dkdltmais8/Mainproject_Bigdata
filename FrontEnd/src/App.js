@@ -37,7 +37,7 @@ function App () {
                 <Route path="/mypage" component={MyPage}/>
                 <Route path="/survey" component={Survey}/>
                 <Route exact path="/signup" component={Signup} />
-                <Route exact path="/signin" component={Signin} />
+                <Route exact path="/" component={Signin} />
                 <Route exact path="/movie/movieti" component={Movietimain} />
                 <Route exact path="/movie/movieti/1" component={Movietipage1} />
                 <Route exact path="/movie/movieti/2" component={Movietipage2} />
