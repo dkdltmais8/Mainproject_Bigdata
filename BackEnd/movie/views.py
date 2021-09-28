@@ -11,7 +11,7 @@ import requests
 import random
 from api.models import Movie, Movieti
 from accounts.models import Comment
-from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer
+from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer
 
 # Create your views here.
 
@@ -130,21 +130,22 @@ def get_movie_similar(request, movieid):
     return Response(result, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def get_comment(request, movie):
+    comments = Comment.objects.filter(movieid=movie)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def create_comment(request, movie):
-    if request.method == "GET":
-        comments = Comment.objects.filter(review=review_pk)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+    serializer = CommentSerializer(data=request.data)
 
-    elif request.method == "POST":
-        review = get_object_or_404(Review, pk=review_pk)
-        serializer = CommentSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(author=request.user, review=review)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(author=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
