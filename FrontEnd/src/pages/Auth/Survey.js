@@ -82,7 +82,7 @@ function Survey( {history} ){
     })
     .then((res)=>{
       console.log(res.data);
-      setMovies(res.data);
+      history.push("/main")
     })
     .catch((err)=>{
       console.log(err)

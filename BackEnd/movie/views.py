@@ -24,7 +24,7 @@ def get_survey_movie(request):
 
     # 쿼리셋 형태를 리스트로 변환, 평균 평점이 7.2보다 큰 영화만 가져옴
     movie_list = list(Movie.objects.filter(
-        vote_average__gte=7.2).values('tmdb_id', 'title', 'poster_path'))
+        vote_count__gte=2000).values('tmdb_id', 'title', 'poster_path'))
     # 그 중에서 랜덤 100개
     random_list = random.sample(movie_list, 100)
 
