@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Layout from '../../Layout';
+import Button from '@material-ui/core/Button';
 
 const main_carousel_settings = {
   dots: true,
@@ -27,11 +28,12 @@ const sub_carousel_settings = {
 };
 
 
-
 function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
+  const [movieTi,setmovieTi]= useState([])
+
   const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
   const topRatedMoviesUrl = "http://localhost:8000/movie/toprated"
   const upComingmoviesUrl = "http://localhost:8000/movie/upcoming"
@@ -68,9 +70,9 @@ function Main( {history} ){
       <MainPage>
         <Layout>
         </Layout>
-            <h3> here Main Page? </h3>
             <button onClick = { ()=> {history.push("/mypage")}  } > MyPage </button>
             <button onClick = { ()=> {history.push("/survey")} }> Survey </button>
+            <button onClick = { ()=> {history.push("/movie/movieti")} }> MovieTi </button>
           <Slider {...main_carousel_settings}>
             <div>
               <MainCarousel src="/carousel_test_img/img1.png" alt="img1" />
@@ -94,8 +96,47 @@ function Main( {history} ){
             justifyContent="center"
             alignItems="center"
           >
-            <SubContent id="user_recommend_movie"> 
-            <h2>MovieTI</h2>
+            <SubContent id="user_recommend_movie">
+            {
+              movieTi?(
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                  <Button size="large" variant="contained" color="primary">다시 검사하기</Button>
+                </Grid>
+              )
+              :(
+                <div>
+                  <Slider {...sub_carousel_settings}>
+                    {
+                      upComingmovies.map((posterId,idx)=>(
+                      <div>
+                        <MoviePoster 
+                        id={`posterId${idx}`} 
+                        src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
+                        alt="img1"
+                        />
+                      </div>
+                      ))
+                    }
+                  </Slider>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Button size="large" variant="contained" color="primary">다시 검사하기</Button>
+                    <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
+                  </Grid>
+                </div>
+              )
+
+            }
+              <h2>추천작!!</h2>
               <Slider {...sub_carousel_settings}>
                 {
                   upComingmovies.map((posterId,idx)=>(
@@ -115,29 +156,7 @@ function Main( {history} ){
                 justifyContent="center"
                 alignItems="center"
               >
-                <button>다시 검사하기</button>
-                <button>결과 다시보기</button>
-              </Grid>
-              <Slider {...sub_carousel_settings}>
-                {
-                  upComingmovies.map((posterId,idx)=>(
-                  <div>
-                    <MoviePoster 
-                    id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
-                    alt="img1"
-                    />
-                  </div>
-                  ))
-                }
-              </Slider>
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <button>다시추천받기</button>
+                <Button size="large" variant="contained" color="primary" onClick = { ()=> {history.push("/survey")} } >다시추천받기</Button>
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">
@@ -146,7 +165,7 @@ function Main( {history} ){
                 {
                   upComingmovies.map((posterId,idx)=>(
                   <div>
-                    <MoviePoster 
+                    <MoviePoster
                     id={`posterId${idx}`} 
                     src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
                     alt="img1"
