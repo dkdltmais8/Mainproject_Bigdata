@@ -23,7 +23,8 @@ from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDeta
 def get_survey_movie(request):
 
     # 쿼리셋 형태를 리스트로 변환, 평균 평점이 7.2보다 큰 영화만 가져옴
-    movie_list = list(Movie.objects.filter(vote_average__gte=7.2).values('tmdb_id', 'title', 'poster_path'))
+    movie_list = list(Movie.objects.filter(
+        vote_average__gte=7.2).values('tmdb_id', 'title', 'poster_path'))
     # 그 중에서 랜덤 100개
     random_list = random.sample(movie_list, 100)
 
@@ -33,6 +34,7 @@ def get_survey_movie(request):
 
 url = 'https://api.themoviedb.org/3/movie'
 api_key = 'e65e678451c2b671218a36fb34998488'
+
 
 @api_view(['GET'])
 def get_toprated_movie(request):
@@ -154,7 +156,6 @@ def get_movieti_result(request, result):
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
-<<<<<<< HEAD
 
 
 @api_view(['GET'])
@@ -208,5 +209,3 @@ def search_movie_cast(request, searchword):
             context["movies"] = movies.data
 
     return Response(context)
-=======
->>>>>>> 7d0ec9a426a6850216e041204da44b7f9fc3950a
