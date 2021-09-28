@@ -12,3 +12,9 @@ class MovietiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movieti
         fields = '__all__'
+
+
+class MovieDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'

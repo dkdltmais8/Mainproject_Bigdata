@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from rest_framework import response
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -96,15 +96,11 @@ def get_movie_keywords(request):
         movie.keywords = kewords_list
         movie.save()
 
-    return Response(result, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
 
 
-
-
-# 영화 출연진 정보 
 @api_view(['GET'])
 def get_movie_credits(request):
-    
     movie_id_list = Movie.objects.values('tmdb_id')
     # 새로운 리스트에 담기
     tmdb_id_list = []
