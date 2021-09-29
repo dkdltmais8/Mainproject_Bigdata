@@ -37,5 +37,4 @@ class Movieti(models.Model):
     movielist = models.JSONField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'movieti'

@@ -171,10 +171,10 @@ def get_cast(request):
 def search_movie_title(request, searchword):
     context = {}
     if searchword:
-        if len(searchword) > 1:
+        if len(searchword) > 0:
             movie = Movie.objects.filter(title__contains=searchword)
-            if len(movie) > 50:
-                movies = MovieSurveyListSerializer(movie[:50], many=True)
+            if len(movie) > 100:
+                movies = MovieSurveyListSerializer(movie[:100], many=True)
             else:
                 movies = MovieSurveyListSerializer(movie, many=True)
             context["movies"] = movies.data
@@ -186,26 +186,27 @@ def search_movie_title(request, searchword):
 def search_movie_genre(request, searchword):
     context = {}
     if searchword:
-        if len(searchword) > 1:
-            movie = Movie.objects.filter(title__contains=searchword)
-            if len(movie) > 50:
-                movies = MovieSurveyListSerializer(movie[:50], many=True)
-            else:
-                movies = MovieSurveyListSerializer(movie, many=True)
-            context["movies"] = movies.data
-    return Response(context)
-
-
-@api_view(['GET'])
-def search_movie_cast(request, searchword):
-    context = {}
-    if searchword:
-        if len(searchword) > 1:
-            movie = Movie.objects.filter(cast__contains=searchword)
-            if len(movie) > 50:
-                movies = MovieSurveyListSerializer(movie[:50], many=True)
+        if len(searchword) > 0:
+            movie = Movie.objects.filter(genre__contains=searchword)
+            if len(movie) > 100:
+                movies = MovieSurveyListSerializer(movie[:100], many=True)
             else:
                 movies = MovieSurveyListSerializer(movie, many=True)
             context["movies"] = movies.data
 
     return Response(context)
+
+
+# @api_view(['GET'])
+# def search_movie_cast(request, searchword):
+#     context = {}
+#     if searchword:
+#         if len(searchword) > 0:
+#             movie = Movie.objects.filter(cast__contains=searchword)
+#             if len(movie) > 100:
+#                 movies = MovieSurveyListSerializer(movie[:100], many=True)
+#             else:
+#                 movies = MovieSurveyListSerializer(movie, many=True)
+#             context["movies"] = movies.data
+
+#     return Response(context)
