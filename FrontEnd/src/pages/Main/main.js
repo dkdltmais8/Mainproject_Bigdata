@@ -105,7 +105,7 @@ function Main( {history} ){
                 <div>
                   <MainCarousel 
                   id={`posterId${idx}`} 
-                  src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].backdrop_path}`} 
+                  src={`https://image.tmdb.org/t/p/original${upComingmovies[idx].backdrop_path}`} 
                   alt="img1"
                   />
                 </div>
@@ -222,7 +222,7 @@ function Main( {history} ){
                   <div>
                     <MoviePoster 
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${nowMovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/original${nowMovies[idx].poster_path}`} 
                     alt="img1"
                     />
                   </div>
@@ -271,7 +271,7 @@ const MoviePoster = styled.img`
 `;
 
 const MainCarousel = styled.img`
-  width:20%;
+  width:50%;
   margin:auto;
   color:black;
 `;
