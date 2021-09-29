@@ -136,3 +136,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+BackEnd/accounts/migrations/0003_alter_rating_uid.py
+BackEnd/accounts/migrations/0002_alter_user_email.py
+BackEnd/api/migrations/0001_initial.py
+BackEnd/accounts/migrations/0001_initial.py
