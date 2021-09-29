@@ -24,9 +24,9 @@ const main_carousel_settings = {
 const sub_carousel_settings = {
   dots: true,
   infinite: true,
-  speed: 500,
+  speed: 1150,
   slidesToShow: 5,
-  centerMode: true,
+  centerMode: false,
   slidesToScroll: 5
 };
 
@@ -107,7 +107,8 @@ function Main( {history} ){
                   id={`posterId${idx}`} 
                   src={`https://image.tmdb.org/t/p/original${upComingmovies[idx].backdrop_path}`} 
                   alt="img1"
-                  />
+                    />
+                    {/* box-shadow: 12px 100px 100px 100px #001122; 이미지 테두리 생성*/ }
                 </div>
                 ))
               }
@@ -159,7 +160,7 @@ function Main( {history} ){
               )
 
             }
-              <h2>추천작!!</h2>
+              <h2>추천 영화</h2>
               <Slider {...sub_carousel_settings}>
                 {
                   upComingmovies.map((posterId,idx)=>(
@@ -183,7 +184,7 @@ function Main( {history} ){
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">
-              <h2>신작</h2>
+              <h2>Upcoming Movie</h2>
               <Slider {...sub_carousel_settings}>
                 {
                   upComingmovies.map((posterId,idx)=>(
@@ -199,7 +200,7 @@ function Main( {history} ){
               </Slider>
             </SubContent>
             <SubContent id="trending_movie">
-              <h2>트렌딩</h2>  
+              <h2>Top Rated Movie</h2>  
               <Slider {...sub_carousel_settings}>
                 {
                   topRatedMovies.map((posterId,idx)=>(
@@ -215,7 +216,7 @@ function Main( {history} ){
               </Slider>
             </SubContent>
             <SubContent  id="new_movie">
-              <h2>현재 상영작</h2>
+              <h2>Now Playing Movie</h2>
               <Slider {...sub_carousel_settings}>
                 {
                   nowMovies.map((posterId,idx)=>(
