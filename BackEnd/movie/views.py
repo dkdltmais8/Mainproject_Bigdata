@@ -159,15 +159,6 @@ def get_movieti_result(request, result):
 
 
 @api_view(['GET'])
-def get_cast(request):
-    movie = Movie.objects.get(tmdb_id=566525).cast
-    print(movie)
-    for i in range(len(movie)):
-        print(movie[i])
-    return Response(status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
 def search_movie_title(request, searchword):
     context = {}
     if searchword:
