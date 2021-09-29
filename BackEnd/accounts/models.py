@@ -27,7 +27,6 @@ class Movie(models.Model):
     keywords = models.JSONField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'movie'
 
 
@@ -59,20 +58,8 @@ class Comment(models.Model):
     comment = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'comment'
 
-
-
-class Keyword(models.Model):
-    keywordid = models.AutoField(primary_key=True)
-    movieid = models.ForeignKey(
-        'Movie', models.DO_NOTHING, db_column='movieid', blank=True, null=True)
-    keyword = models.CharField(max_length=128, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'keyword'
 
 class Rating(models.Model):
     ratingid = models.AutoField(primary_key=True)
@@ -83,7 +70,6 @@ class Rating(models.Model):
     rating = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'rating'
 
 
@@ -95,7 +81,6 @@ class Recommendationmovie(models.Model):
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'recommendationmovie'
 
 
@@ -107,7 +92,6 @@ class Scrap(models.Model):
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'scrap'
 
 
@@ -119,5 +103,4 @@ class Usermovielike(models.Model):
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'usermovielike'

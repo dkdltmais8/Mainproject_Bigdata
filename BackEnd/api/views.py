@@ -65,7 +65,7 @@ def get_datail_movie(request):
         movie.genre = genres
         movie.backdrop_path = result.get('backdrop_path')
         movie.runtime = result.get('runtime')
-        # movie.production_countries = result.get('production_countries')
+        movie.production_countries = result.get('production_countries')
         movie.save()
 
     return Response(status=status.HTTP_200_OK)

@@ -123,7 +123,7 @@ function Survey( {history} ){
                   >
                     <MoviePoster 
                       id={`posterId${idx}`} 
-                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} 
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                       alt="img1"
                     />
                   <span 
