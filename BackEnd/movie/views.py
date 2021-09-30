@@ -13,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import requests
 import random
 from api.models import Movie, Movieti
-from accounts.models import Comment
+from accounts.models import Comment, User
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer
 
 # Create your views here.
@@ -141,14 +141,16 @@ def comment(request, movie):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        print(request.user)
-        print(request.auth)
-        print("=======================================================")
-        serializer = CommentSerializer(data=request.data)
+        uid = {"uid": request.user.uid}
+        movieid = {"movieid": movie}
+        uid.update(movieid)
+        uid.update(request.data)
+
+        serializer = CommentSerializer(data=uid)
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save(author=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(uid, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
@@ -156,6 +158,15 @@ def get_movieti_result(request, result):
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_cast(request):
+    movie = Movie.objects.get(tmdb_id=566525).cast
+    print(movie)
+    for i in range(len(movie)):
+        print(movie[i])
+    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
