@@ -16,13 +16,14 @@ from .models import Movie, User, Rating
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-    print(request.data, '들어온 정보 확인')
 
     # 비밀번호 일치하지않으면 저장하지 않음
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
     # 닉네임은 이메일 @ 앞부분 잘라서 넣기
+    temp = request.data.get('email').split('@')
+    nickname_first = temp[0]
 
     serializer = UserSignupSerializer(data=request.data)
 
@@ -30,12 +31,13 @@ def signup(request):
     if serializer.is_valid():
         user = serializer.save()
         user.set_password(request.data.get('password'))
+        user.nickname = nickname_first
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         print(serializer.errors)
         print(serializer.error_messages)
-        return Response(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # 이메일 중복 api 만들기
 @api_view(['POST'])
@@ -55,9 +57,10 @@ def checkEmail(request):
 @api_view(['POST'])
 def survey_result(request):
     if request.data.get('result'):
+        # 유저 이메일이랑 결과 받아서
         user_email = request.data.get('id')
         survey_result = request.data.get('result')       
-
+        # 딕셔너리에서 key, value쌍 꺼내서 rating테이블에 생성하기
         for param_tmdb, rating in survey_result.items():
             if(Movie.objects.get(tmdb_id=param_tmdb) != None and User.objects.get(email=user_email) != None) :
                 Rating.objects.create(
@@ -65,6 +68,7 @@ def survey_result(request):
                     uid = User.objects.get(email=user_email),
                     rating = rating
                 )
+        # user테이블에 설문했는지 안했는지 업데이트
         user = User.objects.get(email=user_email)
         user.surveyed = True
         user.save()
@@ -77,9 +81,7 @@ def survey_result(request):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def survey_reset(request):
-    print(request.user.uid)
     user = Rating.objects.filter(uid=request.user.uid)
-    print(user)
     user.delete()
     return Response(status=status.HTTP_200_OK)
 # 그런데 설문을 통한 평가 말고 개인적으로 평가한것도 같은 테이블에 들어갈텐데..!?

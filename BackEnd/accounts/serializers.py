@@ -11,7 +11,7 @@ class UserSignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ('email', 'password', 'nickname')
 
 class UserRatingMovie(serializers.ModelSerializer):
 
