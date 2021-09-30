@@ -74,6 +74,23 @@ function Main( {history} ){
   },[]);
 
 
+
+  const reSurvey = () =>{
+    const headers = {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+    }
+    axios.delete(`http://localhost:8000/accounts/resetsurvey`, headers)
+    .then((res)=>{
+      console.log(res.data);
+      history.push("/survey");
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log(headers)
+
+    })
+  }
+
     return (
       <MainPage>
         <Layout>
@@ -163,7 +180,7 @@ function Main( {history} ){
                 justifyContent="center"
                 alignItems="center"
               >
-                <Button size="large" variant="contained" color="primary" onClick = { ()=> {history.push("/survey")} } >다시추천받기</Button>
+                <Button size="large" variant="contained" color="primary" onClick = { (e)=>reSurvey(e) }  >다시추천받기</Button>
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">

@@ -50,8 +50,9 @@ function Detail(props){
   const [movie,setmovie] = useState([])
   const [relatedMovies,setrelatedMovies] = useState([])
   const [actors,setActors] = useState([])
+  const [prop,setProp] = useState(props)
   useEffect(()=>{
-    axios.get(`http://localhost:8000/movie/${props.tmdb_id}`)
+    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}`)
     .then((res)=>{
       console.log(res.data);
       setmovie(res.data)
@@ -63,6 +64,10 @@ function Detail(props){
     })
 
   },[]);
+
+  const clickRelatedMovie=(id)=>setProp(id);
+
+
   return (
     <Box sx={style} style={{color:"black"}}>
       <Typography variant="h6" component="h2">
@@ -115,8 +120,9 @@ function Detail(props){
             relatedMovies.map((relatedMovie,idx)=>(
             <div key={relatedMovie.tmdb_id}>
               <MoviePoster
-              src={`https://image.tmdb.org/t/p/w200${relatedMovie.poster_path}`} 
-              alt="img1"
+                onClick={(e)=>clickRelatedMovie(relatedMovie.tmdb_id,e)}
+                src={`https://image.tmdb.org/t/p/w200${relatedMovie.poster_path}`} 
+                alt="img1"
               />
             </div>
             ))
