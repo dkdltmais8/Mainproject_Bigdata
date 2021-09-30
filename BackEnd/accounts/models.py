@@ -36,9 +36,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128)
     nickname = models.CharField(max_length=128)
     profileimg = models.CharField(max_length=128, blank=True, null=True)
-    like_country = models.CharField(max_length=128, blank=True, null=True)
     movieti = models.CharField(max_length=4, blank=True, null=True)
-    like_genre = models.CharField(max_length=128, blank=True, null=True)
+    surveyed = models.BooleanField(default=False)
 
     objects = UserManager()
 
