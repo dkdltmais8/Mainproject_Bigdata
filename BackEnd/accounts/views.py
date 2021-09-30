@@ -4,7 +4,9 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
 from .models import Movie, User, Rating
@@ -66,19 +68,27 @@ def survey_result(request):
                     uid = User.objects.get(email=user_email),
                     rating = rating
                 )
+        user = User.objects.get(email=user_email)
+        user.surveyed = True
+        user.save()
         return Response(status=status.HTTP_200_OK) 
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# 
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def survey_reset(request):
+    print(request.user)
+    return Response(status=status.HTTP_200_OK)
 
 
-
-
-# 근데 다시 추천받는다는게 뭔가 추천ㄷ받은 영화가 별로라서 다시 추천받고싶을수도잇고
-# 다시추천이라면 -> 다시추천받기 버튼을 눌렀을때 -> 그 유저가 평가한 영화들이 다 지워져야겟네
-# 추가추천이라면 -> 유저가 평가햇던 영화들이 유지되어야하는거- > 랜덤가져오논거에서 제외해라
 
 # 설문조사 했는지 안했는지 판별하기 위해서 
 # 로그인 -> 메인화면으로 이동하면 백이 메인요청에 설문조사 했는지 안했는지 판단해서 보내면
 # 프론트가 받아서 안했으면 survey로 넘기고 했으면 그대로 메임
 # 메인페이지 화면 구성이 되기전에 분기처리 해야함! -> 유저테이블에 survey_yn
+
+# 취향분석
+# 위에내용 정리되면 로직짜고
