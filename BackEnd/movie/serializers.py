@@ -1,6 +1,6 @@
-from rest_framework import serializers
+from rest_framework import fields, serializers
 from api.models import Movie, Movieti
-from accounts.models import Comment
+from accounts.models import Comment, Rating
 
 
 class MovieSurveyListSerializer(serializers.ModelSerializer):
@@ -25,4 +25,10 @@ class MovietiSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
+        fields = '__all__'
+
+class UserRatingMovie(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rating
         fields = '__all__'

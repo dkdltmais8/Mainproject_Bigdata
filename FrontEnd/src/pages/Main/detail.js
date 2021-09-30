@@ -51,8 +51,11 @@ function Detail(props){
   const [relatedMovies,setrelatedMovies] = useState([])
   const [actors,setActors] = useState([])
   const [prop,setProp] = useState(props)
-  useEffect(()=>{
-    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}`)
+  useEffect(() => {
+    const headers = {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+    }
+    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}`, headers)
     .then((res)=>{
       console.log(res.data);
       setmovie(res.data)
@@ -76,7 +79,7 @@ function Detail(props){
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <MoviePoster
-            src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} 
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} 
             alt={movie.title}
           />
           <Grid
