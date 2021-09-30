@@ -8,7 +8,7 @@
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from django.contrib.auth.models import UserManager
-
+from django.conf import settings
 
 class Movie(models.Model):
     movieid = models.AutoField(primary_key=True)
@@ -32,23 +32,21 @@ class Movie(models.Model):
 
 class User(AbstractBaseUser, PermissionsMixin):
     uid = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=128, unique=True)
+    email = models.EmailField(max_length=128, unique=True)
     password = models.CharField(max_length=128)
     nickname = models.CharField(max_length=128)
     profileimg = models.CharField(max_length=128, blank=True, null=True)
-    like_country = models.CharField(max_length=128, blank=True, null=True)
     movieti = models.CharField(max_length=4, blank=True, null=True)
-    like_genre = models.CharField(max_length=128, blank=True, null=True)
+    surveyed = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-
+    USERNAME_FIELD = 'email' # 유저가 로그인시에 사용할 필드
     REQUIRED_FIELDS = ['username']
 
     class Meta:
         db_table = 'user'
-
+    
 
 class Comment(models.Model):
     commentid = models.AutoField(primary_key=True)
@@ -63,8 +61,8 @@ class Comment(models.Model):
 
 class Rating(models.Model):
     ratingid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(User, on_delete=models.CASCADE,
-                            db_column='uid', blank=True, null=True)
+    uid = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                            related_name='rating_movies')
     movieid = models.ForeignKey(
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
     rating = models.PositiveIntegerField(blank=True, null=True)

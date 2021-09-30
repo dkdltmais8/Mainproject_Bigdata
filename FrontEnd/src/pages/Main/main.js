@@ -191,7 +191,7 @@ function Main( {history} ){
                   <div>
                     <MoviePoster
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w500${upComingmovies[idx].poster_path}`} 
                     alt="img1"
                     />
                   </div>
@@ -207,7 +207,7 @@ function Main( {history} ){
                   <div>
                     <MoviePoster 
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${topRatedMovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w500${topRatedMovies[idx].poster_path}`} 
                     alt="img1"
                     />
                   </div>
@@ -223,7 +223,7 @@ function Main( {history} ){
                   <div>
                     <MoviePoster 
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/original${nowMovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w500${nowMovies[idx].poster_path}`} 
                     alt="img1"
                     />
                   </div>

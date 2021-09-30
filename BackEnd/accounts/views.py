@@ -4,10 +4,12 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
-from .models import User, Rating
+from .models import Movie, User, Rating
 
 # 회원가입
 @api_view(['POST'])
@@ -46,30 +48,39 @@ def checkEmail(request):
         # 중복되지 않는 경우
         u_email = None
     if u_email is None:
-        duplicated = "Allowed"
+        return Response({'success': '사용가능한 이메일입니다.'}, status=status.HTTP_200_OK)
     else:
-        duplicated = "Not Allowed"
-    context = {'duplicated': duplicated}
-    return Response(context, status=status.HTTP_200_OK)
-
+        return Response({'error': '동일한 이메일이 존재합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def survey_result(request):
     if request.data.get('result'):
-        print('설문 결과 받음')
-        print(request.data)
-        result = request.data.get('result')
-        print(result)
-        print(type(result))
-        for tmdb_id, rating in result.items():
-            print(tmdb_id, rating)
-
         user_email = request.data.get('id')
+        survey_result = request.data.get('result')       
 
-        # user pk값 찾기
-        user_pk = User.objects.filter(email=user_email).get()
-        print(user_pk, '유저 pk값')
-
+        for param_tmdb, rating in survey_result.items():
+            if(Movie.objects.get(tmdb_id=param_tmdb) != None and User.objects.get(email=user_email) != None) :
+                Rating.objects.create(
+                    movieid = Movie.objects.get(tmdb_id=param_tmdb),
+                    uid = User.objects.get(email=user_email),
+                    rating = rating
+                )
+        user = User.objects.get(email=user_email)
+        user.surveyed = True
+        user.save()
         return Response(status=status.HTTP_200_OK) 
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def survey_reset(request):
+    print(request.user.uid)
+    user = Rating.objects.filter(uid=request.user.uid)
+    print(user)
+    user.delete()
+    return Response(status=status.HTTP_200_OK)
+# 그런데 설문을 통한 평가 말고 개인적으로 평가한것도 같은 테이블에 들어갈텐데..!?
+

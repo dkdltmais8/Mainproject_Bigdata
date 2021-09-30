@@ -82,12 +82,31 @@ ROOT_URLCONF = 'server.urls'
 #     ),
 # }
 
-# import datetime
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-#     'JWT_RESPONSE_PAYLOAD_HANDLER':
-#     'accounts.utils.jwt_response_payload_handler',
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#     ),
+# }
+
+import datetime
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.utils.jwt_response_payload_handler',
+}
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ),
 # }
 
 TEMPLATES = [
