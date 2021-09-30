@@ -76,26 +76,7 @@ export default function SignUp() {
               }} 
           >
             Lead me
-          </Typography>
-          <form noValidate
-            className={classes.form}
-            onSubmit={e =>{
-              e.preventDefault();
-              let body = {
-                password: password,
-                passwordConfirmation: passwordConfirmation,
-                email: email,
-              }
-              axios.post('/accounts/signup', body) //백쪽 api로 post 요청
-                .then(res => {                  
-                  history.push('/')
-                })
-                .catch(err => {
-                  alert(err.response.data)
-                  console.log(err.response.data)
-                })
-            }}  
-          >
+          </Typography>                      
             <div
               style={{
                 display: 'flex' ,
@@ -115,15 +96,51 @@ export default function SignUp() {
                 id="email"
                 autoComplete="email"
               />
-              {/* <Button
+              <form noValidate
+                onSubmit={(e) =>{
+                  e.preventDefault();
+                  let body = {
+                    user_email: email,              
+                  }
+                  axios.post('/accounts/checkEmail', body) //백쪽 api로 post 요청
+                    .then(res => {                 
+                      alert('사용 가능한 이메일입니다.')
+                    })
+                    .catch(err => {
+                      alert('사용 불가능한 이메일입니다.')
+                      console.log(err.response.data)
+                    })
+                }}  
+              >
+              <Button
                   type="submit"
                   variant="contained"
                   color="primary"
-                  className={classes.submit2}
+                  className={classes.submit2}                 
                 >
                   중복확인
-              </Button> */}
+              </Button>
+            </form>
             </div>
+            <form noValidate
+            className={classes.form}
+            onSubmit={(e) =>{
+              e.preventDefault();
+              let body = {
+                password: password,
+                passwordConfirmation: passwordConfirmation,
+                email: email,
+              }
+              axios.post('/accounts/signup', body) //백쪽 api로 post 요청
+                .then(res => {                  
+                  history.push('/')
+                })
+                .catch(err => {
+                  alert('동일한 비밀번호를 입력해주세요')
+                  console.log(err.response.data)
+                })
+            }}  
+          >            
             <div
               style={{
                 display: 'flex' ,

@@ -48,12 +48,9 @@ def checkEmail(request):
         # 중복되지 않는 경우
         u_email = None
     if u_email is None:
-        duplicated = "Allowed"
+        return Response({'success': '사용가능한 이메일입니다.'}, status=status.HTTP_200_OK)
     else:
-        duplicated = "Not Allowed"
-    context = {'duplicated': duplicated}
-    return Response(context, status=status.HTTP_200_OK)
-
+        return Response({'error': '동일한 이메일이 존재합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def survey_result(request):
