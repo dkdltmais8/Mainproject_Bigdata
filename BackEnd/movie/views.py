@@ -201,6 +201,26 @@ def search_movie_genre(request, searchword):
     return Response(context)
 
 
+# 영화 상세페이지 안에서 평점주기
+@api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def set_rating(request, tmdbid):
+    if request.data.get('result'):
+        rate = request.data.get('result')    
+        if Rating.objects.get(tmdb_id=tmdbid):
+            return Response(status=status.HTTP_409_CONFLICT)
+        Rating.objects.create(
+            movieid = Movie.objects.get(tmdb_id=tmdbid),
+            uid = request.user,
+            rating = rate
+        )
+        return Response(status=status.HTTP_200_OK) 
+    else:
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+
+# 디테일에서 영화 출연진 눌럿을때 = 검색 햇을 때?
 # @api_view(['GET'])
 # def search_movie_cast(request, searchword):
 #     context = {}
