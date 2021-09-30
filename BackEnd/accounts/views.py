@@ -75,20 +75,15 @@ def survey_result(request):
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# 
-@api_view(['GET'])
+
+@api_view(['DELETE'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def survey_reset(request):
-    print(request.user)
+    print(request.user.uid)
+    user = Rating.objects.filter(uid=request.user.uid)
+    print(user)
+    user.delete()
     return Response(status=status.HTTP_200_OK)
+# 그런데 설문을 통한 평가 말고 개인적으로 평가한것도 같은 테이블에 들어갈텐데..!?
 
-
-
-# 설문조사 했는지 안했는지 판별하기 위해서 
-# 로그인 -> 메인화면으로 이동하면 백이 메인요청에 설문조사 했는지 안했는지 판단해서 보내면
-# 프론트가 받아서 안했으면 survey로 넘기고 했으면 그대로 메임
-# 메인페이지 화면 구성이 되기전에 분기처리 해야함! -> 유저테이블에 survey_yn
-
-# 취향분석
-# 위에내용 정리되면 로직짜고
