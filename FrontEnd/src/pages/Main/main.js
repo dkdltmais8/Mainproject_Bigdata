@@ -5,11 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
 import Layout from '../../Layout';
 import Button from '@material-ui/core/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Detail from './detail'
 
@@ -30,19 +27,6 @@ const sub_carousel_settings = {
   centerMode: false,
   slidesToScroll: 5
 };
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 
 
 function Main( {history} ){
@@ -100,7 +84,7 @@ function Main( {history} ){
           <Slider {...main_carousel_settings}>
               {
                 upComingmovies.map((upComingmovie,idx)=>(
-                <div>
+                <div key={upComingmovie.tmdb_id}>
                   <MainCarousel 
                   id={`posterId${idx}`} 
                   src={`https://image.tmdb.org/t/p/original${upComingmovie.backdrop_path}`} 
@@ -134,7 +118,7 @@ function Main( {history} ){
                   <Slider {...sub_carousel_settings}>
                     {
                       upComingmovies.map((upComingmovie,idx)=>(
-                      <div>
+                      <div key={upComingmovie.tmdb_id}>
                         <MoviePoster 
                         onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                         id={`posterId${idx}`} 
@@ -162,7 +146,7 @@ function Main( {history} ){
               <Slider {...sub_carousel_settings}>
                 {
                   upComingmovies.map((upComingmovie,idx)=>(
-                  <div>
+                  <div key={upComingmovie.tmdb_id}>
                     <MoviePoster 
                     onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                     id={`posterId${idx}`} 
@@ -187,7 +171,7 @@ function Main( {history} ){
               <Slider {...sub_carousel_settings}>
                 {
                   upComingmovies.map((upComingmovie,idx)=>(
-                  <div>
+                  <div key={upComingmovie.tmdb_id}>
                     <MoviePoster
                     onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                     id={`posterId${idx}`} 
@@ -204,7 +188,7 @@ function Main( {history} ){
               <Slider {...sub_carousel_settings}>
                 {
                   topRatedMovies.map((topRatedMovie,idx)=>(
-                  <div>
+                  <div key={topRatedMovie.tmdb_id}>
                     <MoviePoster 
                       onClick = {(e)=>handleOpen(topRatedMovie.tmdb_id,e)}
                       id={`posterId${idx}`} 
@@ -221,7 +205,7 @@ function Main( {history} ){
               <Slider {...sub_carousel_settings}>
                 {
                   nowMovies.map((nowMovie,idx)=>(
-                  <div>
+                  <div key={nowMovie.tmdb_id}>
                     <MoviePoster 
                       onClick = {(e)=>handleOpen(nowMovie.tmdb_id,e)}
                       id={`posterId${idx}`} 

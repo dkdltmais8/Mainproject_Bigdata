@@ -77,3 +77,7 @@ export default App;
 // npm install react-router-dom
 // npm install axios
 
+
+//
+// npm install --save react-youtube
+// npm install react-player # or yarn add react-player
