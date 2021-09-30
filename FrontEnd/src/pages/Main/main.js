@@ -5,12 +5,10 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
 import Layout from '../../Layout';
 import Button from '@material-ui/core/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Detail from './detail'
 
 const main_carousel_settings = {
   dots: true,
@@ -30,19 +28,6 @@ const sub_carousel_settings = {
   slidesToScroll: 5
 };
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-
 
 function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
@@ -51,9 +36,9 @@ function Main( {history} ){
   const [movieTi,setmovieTi]= useState([])
 
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState('');
+  const handleOpen = (tmdb_id) => setOpen(tmdb_id);
+  const handleClose = () => setOpen('');
 
 
   const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
@@ -88,9 +73,23 @@ function Main( {history} ){
     })
   },[]);
 
-  // const movieDetail =(tmdb_id)=>{
 
-  // }
+
+  const reSurvey = () =>{
+    const headers = {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+    }
+    axios.delete(`http://localhost:8000/accounts/resetsurvey`, headers)
+    .then((res)=>{
+      console.log(res.data);
+      history.push("/survey");
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log(headers)
+
+    })
+  }
 
     return (
       <MainPage>
@@ -101,11 +100,11 @@ function Main( {history} ){
             <button onClick = { ()=> {history.push("/movie/movieti")} }> MovieTi </button>
           <Slider {...main_carousel_settings}>
               {
-                upComingmovies.map((posterId,idx)=>(
-                <div>
+                upComingmovies.map((upComingmovie,idx)=>(
+                <div key={upComingmovie.tmdb_id}>
                   <MainCarousel 
                   id={`posterId${idx}`} 
-                  src={`https://image.tmdb.org/t/p/original${upComingmovies[idx].backdrop_path}`} 
+                  src={`https://image.tmdb.org/t/p/original${upComingmovie.backdrop_path}`} 
                   alt="img1"
                     />
                     {/* box-shadow: 12px 100px 100px 100px #001122; 이미지 테두리 생성*/ }
@@ -128,19 +127,19 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary">다시 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary">MovieTi 검사하기</Button>
                 </Grid>
               )
               :(
                 <div>
                   <Slider {...sub_carousel_settings}>
                     {
-                      upComingmovies.map((posterId,idx)=>(
-                      <div>
+                      upComingmovies.map((upComingmovie,idx)=>(
+                      <div key={upComingmovie.tmdb_id}>
                         <MoviePoster 
-                        // onClick ={()=>{movieDetail(upComingmovies[idx].tmdb_id)}}
+                        onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                         id={`posterId${idx}`} 
-                        src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
+                        src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
                         alt="img1"
                         />
                       </div>
@@ -163,11 +162,12 @@ function Main( {history} ){
               <h2>추천 영화</h2>
               <Slider {...sub_carousel_settings}>
                 {
-                  upComingmovies.map((posterId,idx)=>(
-                  <div>
+                  upComingmovies.map((upComingmovie,idx)=>(
+                  <div key={upComingmovie.tmdb_id}>
                     <MoviePoster 
+                    onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${upComingmovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
                     alt="img1"
                     />
                   </div>
@@ -180,18 +180,19 @@ function Main( {history} ){
                 justifyContent="center"
                 alignItems="center"
               >
-                <Button size="large" variant="contained" color="primary" onClick = { ()=> {history.push("/survey")} } >다시추천받기</Button>
+                <Button size="large" variant="contained" color="primary" onClick = { (e)=>reSurvey(e) }  >다시추천받기</Button>
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">
               <h2>Upcoming Movie</h2>
               <Slider {...sub_carousel_settings}>
                 {
-                  upComingmovies.map((posterId,idx)=>(
-                  <div>
+                  upComingmovies.map((upComingmovie,idx)=>(
+                  <div key={upComingmovie.tmdb_id}>
                     <MoviePoster
+                    onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w500${upComingmovies[idx].poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
                     alt="img1"
                     />
                   </div>
@@ -203,12 +204,13 @@ function Main( {history} ){
               <h2>Top Rated Movie</h2>  
               <Slider {...sub_carousel_settings}>
                 {
-                  topRatedMovies.map((posterId,idx)=>(
-                  <div>
+                  topRatedMovies.map((topRatedMovie,idx)=>(
+                  <div key={topRatedMovie.tmdb_id}>
                     <MoviePoster 
-                    id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w500${topRatedMovies[idx].poster_path}`} 
-                    alt="img1"
+                      onClick = {(e)=>handleOpen(topRatedMovie.tmdb_id,e)}
+                      id={`posterId${idx}`} 
+                      src={`https://image.tmdb.org/t/p/w200${topRatedMovie.poster_path}`} 
+                      alt="img1"
                     />
                   </div>
                   ))
@@ -219,12 +221,13 @@ function Main( {history} ){
               <h2>Now Playing Movie</h2>
               <Slider {...sub_carousel_settings}>
                 {
-                  nowMovies.map((posterId,idx)=>(
-                  <div>
+                  nowMovies.map((nowMovie,idx)=>(
+                  <div key={nowMovie.tmdb_id}>
                     <MoviePoster 
-                    id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w500${nowMovies[idx].poster_path}`} 
-                    alt="img1"
+                      onClick = {(e)=>handleOpen(nowMovie.tmdb_id,e)}
+                      id={`posterId${idx}`} 
+                      src={`https://image.tmdb.org/t/p/original${nowMovie.poster_path}`} 
+                      alt="img1"
                     />
                   </div>
                   ))
@@ -232,22 +235,15 @@ function Main( {history} ){
               </Slider>
             </SubContent>
           </Grid>
-          <Button size="large" variant="contained" color="primary" onClick={handleOpen}>Open modal</Button>
           <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
+            <Detail tmdb_id={open}/>
           </Modal>
+
       </MainPage>
     );
 }
