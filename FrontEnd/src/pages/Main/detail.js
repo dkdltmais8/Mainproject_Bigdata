@@ -9,6 +9,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import ReactPlayer from 'react-player';
+import { Button } from "@material-ui/core";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import TextField from '@mui/material/TextField';
 
 const style = {
   position: 'absolute',
@@ -50,7 +54,11 @@ function Detail(props){
   const [movie,setmovie] = useState([])
   const [relatedMovies,setrelatedMovies] = useState([])
   const [actors,setActors] = useState([])
+  const [comments,setComments] = useState([])
+  const [commen,setCommen] = useState('')
+  const [isOpenedComments,setisOpenedComments] = useState(false)
   const [prop,setProp] = useState(props)
+  const clickRelatedMovie=(relatedMovie)=>setProp(relatedMovie);
   useEffect(() => {
     const headers = {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
@@ -65,11 +73,39 @@ function Detail(props){
     .catch((err)=>{
       console.log(err)
     })
+  },[prop]);
 
-  },[]);
+  const headers = {
+    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+  }
+  const OpenComments = () =>{
+    if(isOpenedComments){
+      setisOpenedComments(false);
+    }else{
+      axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`, headers)
+      .then((res)=>{
+        setisOpenedComments(true);
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    }
+  }
 
-  const clickRelatedMovie=(id)=>setProp(id);
-
+  const SubmitComment = () =>{
+    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/comment`, {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`},
+      comment: commen
+    })
+    .then((res)=>{
+      console.log(res.data);
+      let newComments = [...comments,commen]
+      setComments(newComments);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 
   return (
     <Box sx={style} style={{color:"black"}}>
@@ -114,6 +150,40 @@ function Detail(props){
       <Grid>
         {movie.vote_average}
       </Grid>
+      <Grid>
+        <Typography sx={{ mt: 2 }}>
+          댓글
+        </Typography>
+          <TextField 
+            onChange={(e)=>setCommen(e)}
+            id="standard-search"
+            label="댓글 작성하기"
+            type="search"
+            variant="standard" />
+          <Button onClick={(e)=>SubmitComment(e)}>댓글 작성</Button>
+            {
+              isOpenedComments?
+                <Button onClick={(e)=>OpenComments(e)}>댓글 접기</Button>
+                :<Button onClick={(e)=>OpenComments(e)}>댓글 열기</Button>
+            }     
+          <Grid>
+            {
+              isOpenedComments?
+              (
+                <List>
+                  {
+                    comments.map((comment,idx)=>(
+                      <ListItem key={comment.commentid}>
+                        <p>comment</p>
+                      </ListItem>
+                      ))
+                  }
+                </List>
+              )
+              :null
+            }
+          </Grid>
+      </Grid>
       <Typography sx={{ mt: 2 }}>
         관련 영화
       </Typography>
@@ -123,7 +193,7 @@ function Detail(props){
             relatedMovies.map((relatedMovie,idx)=>(
             <div key={relatedMovie.tmdb_id}>
               <MoviePoster
-                onClick={(e)=>clickRelatedMovie(relatedMovie.tmdb_id,e)}
+                onClick={(e)=>clickRelatedMovie(relatedMovie,e)}
                 src={`https://image.tmdb.org/t/p/w200${relatedMovie.poster_path}`} 
                 alt="img1"
               />
