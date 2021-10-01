@@ -14,7 +14,7 @@ import requests
 import copy
 import random
 from api.models import Movie, Movieti
-from accounts.models import Comment, User
+from accounts.models import Comment, User, Rating
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer
 
 # Create your views here.
@@ -90,7 +90,15 @@ def get_upcoming_movie(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_movie_detail(request, movieid):
+    movie_pk = Movie.objects.get(tmdb_id=movieid).movieid
+    user_rate = Rating.objects.filter(uid=request.user.uid, movieid=movie_pk)
+    rating_num = 0
+    if user_rate:
+        rating_num = user_rate.get().rating
+
     movie = get_object_or_404(Movie, tmdb_id=movieid)
     serializers = MovieDetailSerializer(movie)
 
@@ -125,9 +133,12 @@ def get_movie_detail(request, movieid):
 
     trailer_path = {"trailer_path": result}
     movielist = {"movielist": result2}
+    rating = {"rating": rating_num}
 
     trailer_path.update(serializers.data)
     trailer_path.update(movielist)
+    trailer_path.update(rating)
+
 
     return Response(trailer_path, status=status.HTTP_200_OK)
 
@@ -174,15 +185,6 @@ def get_movieti_result(request, result):
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-def get_cast(request):
-    movie = Movie.objects.get(tmdb_id=566525).cast
-    print(movie)
-    for i in range(len(movie)):
-        print(movie[i])
-    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
