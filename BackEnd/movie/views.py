@@ -15,7 +15,7 @@ import copy
 import random
 from api.models import Movie, Movieti
 from accounts.models import Comment, User, Rating
-from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer
+from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
 
 # Create your views here.
 
@@ -92,6 +92,25 @@ def get_upcoming_movie(request):
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
+def get_movieti_movielist(request):
+    movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
+    result = []
+    for i in range(len(movielist)):
+        temp2 = {}
+        temp2['tmdb_id'] = movielist[i].get('id')
+        temp2['title'] = Movie.objects.get(
+            tmdb_id=movielist[i].get('id')).title
+        temp2['poster_path'] = movielist[i].get('poster_path')
+        temp2['backdrop_path'] = Movie.objects.get(
+            tmdb_id=movielist[i].get('id')).backdrop_path
+        result.append(temp2)
+    print(len(result))
+    return Response(result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_movie_detail(request, movieid):
     movie_pk = Movie.objects.get(tmdb_id=movieid).movieid
     user_rate = Rating.objects.filter(uid=request.user.uid, movieid=movie_pk)
@@ -139,22 +158,23 @@ def get_movie_detail(request, movieid):
     trailer_path.update(movielist)
     trailer_path.update(rating)
 
-
     return Response(trailer_path, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def comment(request, movie):
+def comment(request, movieid):
+
+    real_movieid = Movie.objects.get(tmdb_id=movieid).movieid
     if request.method == 'GET':
-        comments = Comment.objects.filter(movieid=movie)
+        comments = Comment.objects.filter(movieid=real_movieid)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
         uid = {"uid": request.user.uid}
-        movieid = {"movieid": movie}
+        movieid = {"movieid": real_movieid}
         uid.update(movieid)
         uid.update(request.data)
 
