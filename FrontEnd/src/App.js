@@ -35,7 +35,7 @@ function App () {
               <Switch>
                 <Route path="/main" component={main}/>
                 <Route path="/mypage" component={MyPage}/>
-                <Route path="/survey" component={Survey}/>
+                <Route exact path="/survey" component={Survey} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/" component={Signin} />
                 <Route exact path="/movie/movieti" component={Movietimain} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Grid,
@@ -14,6 +14,7 @@ import {
   InputBase,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
+import { getBottomNavigationActionUtilityClass } from '@mui/material';
 
 
 
@@ -88,6 +89,12 @@ const useStyles = makeStyles((theme) => ({
 const Header = props => {
   let history = useHistory();
   const classes = useStyles();
+  // const [name, setName] = useState('');
+
+  // useEffect(() => {
+  //   name = localStorage.nickname    
+  // ,[]
+  // );
 
   return (
     <HideOnScroll {...props}>
@@ -136,15 +143,24 @@ const Header = props => {
               display: 'flex' ,    
               justifyContent: 'end',
             }} 
-          >            
-              <Button onClick={()=>{
-                history.push('/SignIn') //로그인할 수 있게? 추후 변경 가능
-              }}
-              variant="contained" color="primary" className={classes.button}
-              > 
-                {/* 사용자 이름으로 넣어지게 수정할 예정 */}
-                안녕하세요 ㅁㅁ님  
-              </Button>                                       
+          >      
+            {/* {setName ?
+            <Button onClick={()=>{
+              history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
+            }}
+            variant="contained" color="primary" className={classes.button}
+            >                 
+              안녕하세요 {setName}님!
+            </Button>    
+            :
+            <Button onClick={()=>{
+              history.push('/SignIn') //로그인할 수 있게? 추후 변경 가능
+            }}
+            variant="contained" color="primary" className={classes.button}
+            >                 
+              SignIn
+            </Button>  
+            }                       */}
           </Grid>
       </Grid>
     </AppBar>

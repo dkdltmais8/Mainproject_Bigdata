@@ -56,6 +56,7 @@ export default function SignIn() {
   const classes = useStyles();
   const [user_id, setUser_id] = useState('')
   const [password, setPassword] = useState('')
+
   
   return (
     <Grid container component="main" className={classes.root}>
@@ -83,7 +84,13 @@ export default function SignIn() {
                 .then(res => {
                   localStorage.setItem('jwt', res.data.token)
                   localStorage.setItem('id', user_id)
-                  history.push('/survey')
+                  localStorage.setItem('survey', res.data.surveyed)
+                  localStorage.setItem('nickname', res.data.nickname)
+                  if (res.data.surveyed === true){
+                    history.push('/main')
+                }else{
+                    history.push('/survey')
+                }
                 })
                 .catch(err => {
                   if (err.response.data === 'login failed') {
