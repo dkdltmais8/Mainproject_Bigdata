@@ -200,11 +200,17 @@ def delete_comment(request, comment):
 
 
 @api_view(['GET'])
-def get_movieti_result(request, result):
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def calc_movieti_result(request):
+    comment = get_object_or_404(Comment, pk=comment)
+    # if not request.user.my_reviews.filter(pk=review_pk).exists():
+    #     return Response({'detail': '권한이 없습니다'}, status=status.HTTP_403_FORBIDDEN)
 
-    movieti = get_object_or_404(Movieti, pk=result)
-    serializers = MovietiSerializer(movieti)
-    return Response(serializers.data, status=status.HTTP_200_OK)
+    tmp = copy.copy(comment)
+    comment.delete()
+    tmp = CommentSerializer(tmp)
+    return Response({"삭제한 리뷰": tmp.data}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -243,18 +249,18 @@ def search_movie_genre(request, searchword):
 @permission_classes([IsAuthenticated])
 def set_rating(request, tmdbid):
     if request.data.get('result'):
-        rate = request.data.get('result')    
+        rate = request.data.get('result')
         if Rating.objects.get(tmdb_id=tmdbid):
             return Response(status=status.HTTP_409_CONFLICT)
         Rating.objects.create(
-            movieid = Movie.objects.get(tmdb_id=tmdbid),
-            uid = request.user,
-            rating = rate
+            movieid=Movie.objects.get(tmdb_id=tmdbid),
+            uid=request.user,
+            rating=rate
         )
-        return Response(status=status.HTTP_200_OK) 
+        return Response(status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
+
 
 # 디테일에서 영화 출연진 눌럿을때 = 검색 햇을 때?
 # @api_view(['GET'])
