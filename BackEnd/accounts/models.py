@@ -34,7 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     uid = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=128, unique=True)
     password = models.CharField(max_length=128)
-    nickname = models.CharField(max_length=128)
+    nickname = models.CharField(max_length=128, blank=True, null=True)
     profileimg = models.CharField(max_length=128, blank=True, null=True)
     movieti = models.CharField(max_length=4, blank=True, null=True)
     surveyed = models.BooleanField(default=False)

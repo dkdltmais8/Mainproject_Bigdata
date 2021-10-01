@@ -11,9 +11,10 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import requests
+import copy
 import random
 from api.models import Movie, Movieti
-from accounts.models import Comment
+from accounts.models import Comment, User, Rating
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer
 
 # Create your views here.
@@ -89,7 +90,15 @@ def get_upcoming_movie(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_movie_detail(request, movieid):
+    movie_pk = Movie.objects.get(tmdb_id=movieid).movieid
+    user_rate = Rating.objects.filter(uid=request.user.uid, movieid=movie_pk)
+    rating_num = 0
+    if user_rate:
+        rating_num = user_rate.get().rating
+
     movie = get_object_or_404(Movie, tmdb_id=movieid)
     serializers = MovieDetailSerializer(movie)
 
@@ -124,9 +133,12 @@ def get_movie_detail(request, movieid):
 
     trailer_path = {"trailer_path": result}
     movielist = {"movielist": result2}
+    rating = {"rating": rating_num}
 
     trailer_path.update(serializers.data)
     trailer_path.update(movielist)
+    trailer_path.update(rating)
+
 
     return Response(trailer_path, status=status.HTTP_200_OK)
 
@@ -141,18 +153,35 @@ def comment(request, movie):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        print(request.user)
-        print(request.auth)
-        print("=======================================================")
-        serializer = CommentSerializer(data=request.data)
+        uid = {"uid": request.user.uid}
+        movieid = {"movieid": movie}
+        uid.update(movieid)
+        uid.update(request.data)
+
+        serializer = CommentSerializer(data=uid)
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save(author=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_comment(request, comment):
+    comment = get_object_or_404(Comment, pk=comment)
+    # if not request.user.my_reviews.filter(pk=review_pk).exists():
+    #     return Response({'detail': '권한이 없습니다'}, status=status.HTTP_403_FORBIDDEN)
+
+    tmp = copy.copy(comment)
+    comment.delete()
+    tmp = CommentSerializer(tmp)
+    return Response({"삭제한 리뷰": tmp.data}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
 def get_movieti_result(request, result):
+
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)

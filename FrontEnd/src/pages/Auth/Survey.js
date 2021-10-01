@@ -65,15 +65,7 @@ function Survey( {history} ){
     }
   }
 
-
-  // const clickEvent = (params,e) => {
-  //   console.log("2클릭합니다");
-  //   let newIsRate = [...isRate]
-  //   newIsRate[params] = true
-  //   setisRate(newIsRate);
-  // }
-
-  console.log(result);
+  // console.log(result);
 
   const submitEvent =() =>{
     axios.post("http://localhost:8000/accounts/survey",{
@@ -157,8 +149,7 @@ function Survey( {history} ){
         direction="row"
         justifyContent="center"
         alignItems="center">
-        {/* <Button size="large" variant="contained" color="primary">제출하기</Button> */}
-        {/* <Button onClick={submitEvent()} size="large" variant="contained" color="primary">제출하기</Button> */}
+
         { 
           Object.keys(result).length > 4?
           <Button onClick={()=>submitEvent()} size="large" variant="contained" color="primary">제출하기</Button>
