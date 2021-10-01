@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import requests
+import copy
 import random
 from api.models import Movie, Movieti
 from accounts.models import Comment, User
@@ -153,8 +154,23 @@ def comment(request, movie):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_comment(request, comment):
+    comment = get_object_or_404(Comment, pk=comment)
+    # if not request.user.my_reviews.filter(pk=review_pk).exists():
+    #     return Response({'detail': '권한이 없습니다'}, status=status.HTTP_403_FORBIDDEN)
+
+    tmp = copy.copy(comment)
+    comment.delete()
+    tmp = CommentSerializer(tmp)
+    return Response({"삭제한 리뷰": tmp.data}, status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['GET'])
 def get_movieti_result(request, result):
+
     movieti = get_object_or_404(Movieti, pk=result)
     serializers = MovietiSerializer(movieti)
     return Response(serializers.data, status=status.HTTP_200_OK)
