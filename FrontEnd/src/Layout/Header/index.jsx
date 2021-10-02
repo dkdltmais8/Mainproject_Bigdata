@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Grid,
@@ -12,10 +12,10 @@ import {
   makeStyles,
   withStyles,
   InputBase,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import { getBottomNavigationActionUtilityClass } from '@mui/material';
-
 
 
 const HideOnScroll=(props)=>{
@@ -89,12 +89,15 @@ const useStyles = makeStyles((theme) => ({
 const Header = props => {
   let history = useHistory();
   const classes = useStyles();
-  // const [name, setName] = useState('');
+  const [sort, setSort] = useState('');
+  const handleChange = (event) => {
+    setSort(event.target.value);
+  };
+  const ref = useRef();
 
-  // useEffect(() => {
-  //   name = localStorage.nickname    
-  // ,[]
-  // );
+  const [name, setName] = useState(localStorage.getItem("nickname"));
+  const [flag, setFlag] = useState(false);
+
 
   return (
     <HideOnScroll {...props}>
@@ -118,13 +121,13 @@ const Header = props => {
             justifyContent: 'center',
           }} 
         >
+          {/* 회색 큰 박스 안에 그리드 or flex로 배치 */}
             <Box bgcolor="" width="80%">
                 <form onSubmit={(e)=>{
                     e.preventDefault();                      
                     history.push('/search') 
                     }}>
-                    <FormControl className={classes.search}>
-                        <InputLabel placeholder="영화 이름" htmlFor="demo-customized-textbox" className={classes.searchLabel}>영화 이름</InputLabel>
+                    <FormControl className={classes.search}>                        
                         {/* <TextField> */}
                           <BootstrapInput 
                             id="demo-customized-textbox"
@@ -137,31 +140,60 @@ const Header = props => {
                 </form>
             </Box>
           </Grid>
-          
           <Grid item xs={3} 
             style={{                  
               display: 'flex' ,    
               justifyContent: 'end',
             }} 
-          >      
-            {/* {setName ?
-            <Button onClick={()=>{
-              history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
-            }}
-            variant="contained" color="primary" className={classes.button}
-            >                 
-              안녕하세요 {setName}님!
-            </Button>    
-            :
-            <Button onClick={()=>{
-              history.push('/SignIn') //로그인할 수 있게? 추후 변경 가능
-            }}
-            variant="contained" color="primary" className={classes.button}
-            >                 
-              SignIn
-            </Button>  
-            }                       */}
-          </Grid>
+          >                 
+              {/* <Button  onClick={() => console.log('click!')} m={1} bgcolor="" width="100%">                    */}
+                  {/* <FormControl className={classes.sort} focused fullWidth>     
+                  <InputLabel id="demo-simple-select-label">안녕하세요 {name}님!!</InputLabel>      
+                       <Select 
+                         labelId="demo-customized-select-label"
+                         id="demo-customized-select"
+                         value={sort}
+                         onChange={handleChange}
+                         input={<BootstrapInput />}                                             
+                       > 
+                      <MenuItem value={10}
+                      onClick={()=>{
+                        history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
+                      }}                      
+                      >마이페이지</MenuItem>
+                      <MenuItem value={20}
+                      onClick={()=>{
+                        history.push('/') //로그인할 수 있게? 추후 변경 가능
+                      }}  
+                      >로그아웃</MenuItem>
+                    </Select>
+                  </FormControl>                                                            */}
+              {/* </Button> */}
+            {/* if ({name} === null)? */}
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">안녕하세요 {name}님!!</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={sort}
+                  label=""
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}
+                      onClick={()=>{
+                        history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
+                      }}                      
+                      >마이페이지</MenuItem>
+                  <MenuItem value={20}
+                      onClick={()=>{
+                        history.push('/') //로그인할 수 있게? 추후 변경 가능
+                      }}  
+                      >로그아웃</MenuItem>
+                </Select>
+              </FormControl>
+
+
+            </Grid>
       </Grid>
     </AppBar>
   </HideOnScroll>
