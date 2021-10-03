@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Grid,
@@ -32,6 +32,7 @@ HideOnScroll.propTypes = {
   children: PropTypes.element.isRequired,
   window: PropTypes.func,
 };
+
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -88,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = props => {
   let history = useHistory();
   const classes = useStyles();
+  const [searchWord, setSearchWord] = useState([]);
 
   return (
     <HideOnScroll {...props}>
@@ -103,6 +105,9 @@ const Header = props => {
               variant="contained" color="primary">
               Lead me
             </Button> 
+            <Button onClick = { ()=> {history.push("/mypage")}  } variant="contained" color="primary">
+            마이페이지
+          </Button>  
         </Grid>
                     
         <Grid item xs={6}
@@ -121,16 +126,21 @@ const Header = props => {
                         {/* <TextField> */}
                           <BootstrapInput 
                             id="demo-customized-textbox"
-                            // onChange={(e)=>{
-                            //   setSearchWord(e.target.value);  API로 보낼 단어
-                            // }}
+                            onChange={(e)=>{
+                              setSearchWord(e.target.value);
+                            }}
                           />
                         {/* </TextField> */}
+                        <Button onClick = { ()=> {history.push({
+                          pathname:`movie/search/title/${searchWord}`,
+                          state:{searchWord:searchWord},
+                        })}} variant="contained" color="primary">
+                          검색
+                        </Button>  
                     </FormControl>
                 </form>
             </Box>
           </Grid>
-          
           <Grid item xs={3} 
             style={{                  
               display: 'flex' ,    
