@@ -83,6 +83,7 @@ export default function SignIn() {
                 .then(res => {
                   localStorage.setItem('jwt', res.data.token)
                   localStorage.setItem('id', user_id)
+                  localStorage.setItem('uid', res.data.user_pk)
                   history.push('/survey')
                 })
                 .catch(err => {
