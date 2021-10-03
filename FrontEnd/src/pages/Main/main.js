@@ -33,7 +33,7 @@ function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
-  const [movieTi,setmovieTi]= useState([])
+  const [movieTi]= useState([])
 
 
   const [open, setOpen] = useState('');
@@ -265,6 +265,7 @@ const MoviePoster = styled.img`
   width:60%;
   margin:auto;
   color:black;
+  border-radius:10px;
 `;
 
 const MainCarousel = styled.img`
