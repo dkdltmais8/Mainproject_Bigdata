@@ -162,6 +162,7 @@ function Survey( {history} ){
 const MoviePoster = styled.img`
   width:100%;
   margin:4px;
+  border-radius:10px;
 `;
 
 const PosterContainer = styled.div`
