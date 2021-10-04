@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage8() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/9`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "E"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/9`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           저도 그 영화 재밌게봤어요, 대화에 적극적으로 참여한다.
         </Button>    
@@ -63,9 +78,23 @@ function Movietipage8() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/9`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "I"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/9`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           다른사람들이 하는말을 들으며 고개를 끄덕이며 공감의 표시를 한다. 
         </Button>     

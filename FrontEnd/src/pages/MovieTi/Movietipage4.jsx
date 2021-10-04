@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage4() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/5`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "N"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/5`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           이미 공포영화 한 편 뚝딱임
         </Button>      
@@ -63,9 +78,23 @@ function Movietipage4() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/5`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "S"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/5`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           어디서 누가 왜 나는 소리인지 궁금해! 
         </Button>

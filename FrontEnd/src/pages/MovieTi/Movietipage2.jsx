@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useHistory} from 'react-router-dom';
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -16,10 +17,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '2rem',
   },
 }));
+
+
 function Movietipage2() {
   const classes = useStyles();
   const history = useHistory();
-
+  
   return (
     <div>
       <MovietiHeader />
@@ -51,9 +54,23 @@ function Movietipage2() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/3`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "T"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/3`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }}          
         >
           왜 늦었는지 이유가 궁금해
         </Button>      
@@ -63,9 +80,23 @@ function Movietipage2() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/3`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "F"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/3`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }}                 
         >
           변명은 나중에, 사과부터 해야지
         </Button>      
