@@ -28,7 +28,7 @@ def get_survey_movie(request):
     # 쿼리셋 형태를 리스트로 변환, 평균 평점이 7.2보다 큰 영화만 가져옴
     movie_list = list(Movie.objects.filter(
         vote_count__gte=2000).values('tmdb_id', 'title', 'poster_path'))
-    # 그 중에서 랜덤 100개
+    # 그 중에서 랜덤 120개
     random_list = random.sample(movie_list, 120)
 
     serializer = MovieSurveyListSerializer(random_list, many=True)
@@ -318,6 +318,8 @@ def set_rating(request, movieid):
         rating = rate,
     )
     return Response(status=status.HTTP_200_OK) 
+
+
 # 디테일에서 영화 출연진 눌럿을때 = 검색 햇을 때?
 # @api_view(['GET'])
 # def search_movie_cast(request, searchword):
