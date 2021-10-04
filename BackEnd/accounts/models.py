@@ -10,6 +10,7 @@ from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser
 from django.contrib.auth.models import UserManager
 from django.conf import settings
 
+
 class Movie(models.Model):
     movieid = models.AutoField(primary_key=True)
     tmdb_id = models.PositiveIntegerField()
@@ -41,12 +42,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email' # 유저가 로그인시에 사용할 필드
+    USERNAME_FIELD = 'email'  # 유저가 로그인시에 사용할 필드
     REQUIRED_FIELDS = ['username']
 
     class Meta:
         db_table = 'user'
-    
+
 
 class Comment(models.Model):
     commentid = models.AutoField(primary_key=True)
@@ -66,6 +67,7 @@ class Rating(models.Model):
     movieid = models.ForeignKey(
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
     rating = models.PositiveIntegerField(blank=True, null=True)
+    movieti = models.CharField(max_length=4, blank=True, null=True)
 
     class Meta:
         db_table = 'rating'
@@ -102,3 +104,18 @@ class Usermovielike(models.Model):
 
     class Meta:
         db_table = 'usermovielike'
+
+
+class Tempmovieti(models.Model):
+    uid = models.AutoField(primary_key=True)
+    E = models.PositiveIntegerField(blank=True, null=True, default=0)
+    I = models.PositiveIntegerField(blank=True, null=True, default=0)
+    N = models.PositiveIntegerField(blank=True, null=True, default=0)
+    S = models.PositiveIntegerField(blank=True, null=True, default=0)
+    T = models.PositiveIntegerField(blank=True, null=True, default=0)
+    F = models.PositiveIntegerField(blank=True, null=True, default=0)
+    J = models.PositiveIntegerField(blank=True, null=True, default=0)
+    P = models.PositiveIntegerField(blank=True, null=True, default=0)
+
+    class Meta:
+        db_table = 'tempmovieti'
