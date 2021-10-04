@@ -29,7 +29,7 @@ def get_survey_movie(request):
     movie_list = list(Movie.objects.filter(
         vote_count__gte=2000).values('tmdb_id', 'title', 'poster_path'))
     # 그 중에서 랜덤 100개
-    random_list = random.sample(movie_list, 100)
+    random_list = random.sample(movie_list, 120)
 
     serializer = MovieSurveyListSerializer(random_list, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
