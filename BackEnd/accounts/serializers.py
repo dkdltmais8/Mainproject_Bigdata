@@ -13,7 +13,15 @@ class UserSignupSerializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'password', 'nickname')
 
+
 class UserRatingMovie(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
+
+
+class UserMovieti(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'
