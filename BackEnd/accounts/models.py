@@ -66,6 +66,8 @@ class Rating(models.Model):
     movieid = models.ForeignKey(
         Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
     rating = models.PositiveIntegerField(blank=True, null=True)
+    survey = models.BooleanField(default=False)
+    movieit = models.CharField(max_length=4, blank=True, null=True)
 
     class Meta:
         db_table = 'rating'

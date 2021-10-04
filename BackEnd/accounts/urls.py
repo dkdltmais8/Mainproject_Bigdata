@@ -9,5 +9,6 @@ urlpatterns = [
     path('survey', views.survey_result),
     path('checkEmail', views.checkEmail),
     path('resetsurvey', views.survey_reset),
+    path('favorite', views.analysis_favorite),
     # path('verify',  verify_jwt_token), # JWT 토큰 확인
 ]

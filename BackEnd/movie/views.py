@@ -247,13 +247,13 @@ def search_movie_genre(request, searchword):
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def set_rating(request, tmdbid):
+def set_rating(request, movieid):
     if request.data.get('result'):
         rate = request.data.get('result')
-        if Rating.objects.get(tmdb_id=tmdbid):
+        if Rating.objects.get(tmdb_id=movieid):
             return Response(status=status.HTTP_409_CONFLICT)
         Rating.objects.create(
-            movieid=Movie.objects.get(tmdb_id=tmdbid),
+            movieid=Movie.objects.get(tmdb_id=movieid),
             uid=request.user,
             rating=rate
         )
