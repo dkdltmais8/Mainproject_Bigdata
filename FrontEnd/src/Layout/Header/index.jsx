@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Grid,
@@ -95,7 +95,7 @@ const Header = props => {
     setSort(event.target.value);
   };
 
-  const [name, setName] = useState(localStorage.getItem("nickname"));
+  const [name] = useState(localStorage.getItem("nickname"));
 
   const [searchWord, setSearchWord] = useState([]);
 
