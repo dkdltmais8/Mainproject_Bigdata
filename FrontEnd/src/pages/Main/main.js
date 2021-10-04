@@ -129,10 +129,31 @@ function Main( {history} ){
               upComingmovies.map((upComingmovie,idx)=>(
               <div key={upComingmovie.tmdb_id}>
                 <MainCarousel 
+                  style={{position:"relative",top:"50%", zIndex:1}}
                   id={`posterId${idx}`} 
                   src={`https://image.tmdb.org/t/p/original${upComingmovie.backdrop_path}`} 
                   alt="img1"
                 />
+                <span>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Grid item xs={2}>
+                      <MoviePoster
+                      style={{width:300,position:"absolute",top:"50%",transform: "translate( -50%,-50% )",zIndex:2}}
+                      src={`https://image.tmdb.org/t/p/original${upComingmovie.poster_path}`} 
+                      alt="img1"
+                    />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <p style={{width:400, position:"absolute",top:"40%",color:"white",fontSize:30,zIndex:2}}
+                      >{upComingmovie.title}</p>
+                    </Grid>
+                  </Grid>
+                </span>
                   {/* box-shadow: 12px 100px 100px 100px #001122; 이미지 테두리 생성*/ }
               </div>
               ))
@@ -163,10 +184,10 @@ function Main( {history} ){
                       movietiMovies.map((movietiMovie,idx)=>(
                       <div key={movietiMovie.tmdb_id}>
                         <MoviePoster 
-                        onClick = {(e)=>handleOpen(movietiMovie.tmdb_id,e)}
-                        id={`posterId${idx}`} 
-                        src={`https://image.tmdb.org/t/p/w200${movietiMovie.poster_path}`} 
-                        alt="img1"
+                          onClick = {(e)=>handleOpen(movietiMovie.tmdb_id,e)}
+                          id={`posterId${idx}`} 
+                          src={`https://image.tmdb.org/t/p/w200${movietiMovie.poster_path}`} 
+                          alt="img1"
                         />
                         <Grid
                           container
@@ -335,8 +356,10 @@ const MoviePoster = styled.img`
 `;
 
 const MainCarousel = styled.img`
-  width:50%;
+  width:83%;
+  height:50vh;
   margin:auto;
   color:black;
+  filter: blur(20px);
 `;
 export default Main;
