@@ -1,4 +1,5 @@
 import json
+from re import M
 from django.db import models
 from django.db.models import F, Q
 from django.http import response
@@ -14,8 +15,8 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import requests
 import copy
 import random
-from api.models import Movie, Movieti
-from accounts.models import Comment, User, Rating, Tempmovieti
+from api.models import Movieti
+from accounts.models import Comment, User, Rating, Tempmovieti, Movie
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
 from accounts.serializers import UserMovieti, UserSignupSerializer
 # Create your views here.
@@ -259,7 +260,7 @@ def calc_movieti_result(request):
     Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
 
     changedata = {"email": user.email, "password": user.password,
-                  "movieti": final_mvti}
+                    "movieti": final_mvti}
 
     serializer = UserMovieti(user, data=changedata)
     if serializer.is_valid(raise_exception=True):
@@ -304,20 +305,19 @@ def search_movie_genre(request, searchword):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def set_rating(request, movieid):
-    if request.data.get('result'):
-        rate = request.data.get('result')
-        if Rating.objects.get(tmdb_id=movieid):
-            return Response(status=status.HTTP_409_CONFLICT)
-        Rating.objects.create(
-            movieid=Movie.objects.get(tmdb_id=movieid),
-            uid=request.user,
-            rating=rate
-        )
-        return Response(status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
+    print(request.data.get('result'), movieid, request.user)
+    movie = Movie.objects.get(tmdb_id=movieid)
+    user = request.user
+    rate = request.data.get('result')
+    print(movie, user)
+    if Rating.objects.filter(movieid=movie.movieid, uid_id=user.uid):
+        return Response({'error': '동일한 영화를 이미 평가했습니다.'}, status=status.HTTP_409_CONFLICT)
+    Rating.objects.create(
+        movieid = Movie.objects.get(tmdb_id=movieid),
+        uid = user,
+        rating = rate,
+    )
+    return Response(status=status.HTTP_200_OK) 
 # 디테일에서 영화 출연진 눌럿을때 = 검색 햇을 때?
 # @api_view(['GET'])
 # def search_movie_cast(request, searchword):
