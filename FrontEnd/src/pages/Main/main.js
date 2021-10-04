@@ -11,7 +11,6 @@ import Modal from '@mui/material/Modal';
 import Detail from './detail'
 
 const main_carousel_settings = {
-  dots: true,
   infinite: true,
   speed: 500,
   slidesToShow: 1,
@@ -20,7 +19,6 @@ const main_carousel_settings = {
 };
 
 const sub_carousel_settings = {
-  dots: true,
   infinite: true,
   speed: 1150,
   slidesToShow: 5,
@@ -33,7 +31,7 @@ function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
-  const [movieTi,setmovieTi]= useState([])
+  const [movieTi]= useState([])
 
 
   const [open, setOpen] = useState('');
@@ -95,23 +93,20 @@ function Main( {history} ){
       <MainPage>
         <Layout>
         </Layout>
-            <button onClick = { ()=> {history.push("/mypage")}  } > MyPage </button>
-            <button onClick = { ()=> {history.push("/survey")} }> Survey </button>
-            <button onClick = { ()=> {history.push("/movie/movieti")} }> MovieTi </button>
-          <Slider {...main_carousel_settings}>
-              {
-                upComingmovies.map((upComingmovie,idx)=>(
-                <div key={upComingmovie.tmdb_id}>
-                  <MainCarousel 
+        <Slider {...main_carousel_settings}>
+            {
+              upComingmovies.map((upComingmovie,idx)=>(
+              <div key={upComingmovie.tmdb_id}>
+                <MainCarousel 
                   id={`posterId${idx}`} 
                   src={`https://image.tmdb.org/t/p/original${upComingmovie.backdrop_path}`} 
                   alt="img1"
-                    />
-                    {/* box-shadow: 12px 100px 100px 100px #001122; 이미지 테두리 생성*/ }
-                </div>
-                ))
-              }
-            </Slider>
+                />
+                  {/* box-shadow: 12px 100px 100px 100px #001122; 이미지 테두리 생성*/ }
+              </div>
+              ))
+            }
+          </Slider>
           <Grid
             container
             direction="row"
@@ -127,7 +122,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary">MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
                 </Grid>
               )
               :(
@@ -152,7 +147,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Button size="large" variant="contained" color="primary">다시 검사하기</Button>
+                    <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movieti")}}>다시 검사하기</Button>
                     <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
                   </Grid>
                 </div>
@@ -170,6 +165,14 @@ function Main( {history} ){
                     src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
                     alt="img1"
                     />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <p>{upComingmovie.title}</p>
+                    </Grid>
                   </div>
                   ))
                 }
@@ -180,7 +183,7 @@ function Main( {history} ){
                 justifyContent="center"
                 alignItems="center"
               >
-                <Button size="large" variant="contained" color="primary" onClick = { (e)=>reSurvey(e) }  >다시추천받기</Button>
+                <Button size="large" variant="contained" color="primary" onClick = { (e)=>reSurvey(e) } style={{marginBottom:10}}>다시추천받기</Button>
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">
@@ -195,6 +198,14 @@ function Main( {history} ){
                     src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
                     alt="img1"
                     />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <p>{upComingmovie.title}</p>
+                    </Grid>
                   </div>
                   ))
                 }
@@ -212,6 +223,14 @@ function Main( {history} ){
                       src={`https://image.tmdb.org/t/p/w200${topRatedMovie.poster_path}`} 
                       alt="img1"
                     />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <p>{topRatedMovie.title}</p>
+                    </Grid>
                   </div>
                   ))
                 }
@@ -229,6 +248,14 @@ function Main( {history} ){
                       src={`https://image.tmdb.org/t/p/original${nowMovie.poster_path}`} 
                       alt="img1"
                     />
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <p>{nowMovie.title}</p>
+                    </Grid>
                   </div>
                   ))
                 }
@@ -265,6 +292,7 @@ const MoviePoster = styled.img`
   width:60%;
   margin:auto;
   color:black;
+  border-radius:10px;
 `;
 
 const MainCarousel = styled.img`
