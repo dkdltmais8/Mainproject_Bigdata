@@ -4,7 +4,6 @@ import StarRatingComponent from 'react-star-rating-component';
 import Grid from '@material-ui/core/Grid';
 import Item from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import "./Survey.css";
 import axios from 'axios';
 
 
@@ -163,6 +162,7 @@ function Survey( {history} ){
 const MoviePoster = styled.img`
   width:100%;
   margin:4px;
+  border-radius:10px;
 `;
 
 const PosterContainer = styled.div`

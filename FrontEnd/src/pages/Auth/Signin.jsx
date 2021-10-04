@@ -86,6 +86,7 @@ export default function SignIn() {
                   localStorage.setItem('id', user_id)
                   localStorage.setItem('survey', res.data.surveyed)
                   localStorage.setItem('nickname', res.data.nickname)
+                  localStorage.setItem('uid', res.data.user_pk)
                   if (res.data.surveyed === true){
                     history.push('/main')
                 }else{

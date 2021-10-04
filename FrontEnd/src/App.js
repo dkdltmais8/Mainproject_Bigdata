@@ -26,6 +26,7 @@ import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니�
 import main from './pages/Main/main.js'; // main 불러오기
 import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
 import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
+import Search from './pages/Search/Search.js'; // 설문 불러오기
 
 function App () {
     return(
@@ -35,7 +36,8 @@ function App () {
               <Switch>
                 <Route path="/main" component={main}/>
                 <Route path="/mypage" component={MyPage}/>
-                <Route exact path="/survey" component={Survey} />
+                <Route path="/survey" component={Survey}/>
+                <Route path="/movie/search/title/" component={Search}/>
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/" component={Signin} />
                 <Route exact path="/movie/movieti" component={Movietimain} />
