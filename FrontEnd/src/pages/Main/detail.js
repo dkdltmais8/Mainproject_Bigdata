@@ -9,6 +9,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import ReactPlayer from 'react-player';
+import { Button } from "@material-ui/core";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import TextField from '@mui/material/TextField';
+import { borderColor } from "@mui/system";
 
 const style = {
   position: 'absolute',
@@ -50,7 +55,16 @@ function Detail(props){
   const [movie,setmovie] = useState([])
   const [relatedMovies,setrelatedMovies] = useState([])
   const [actors,setActors] = useState([])
+  const [comments,setComments] = useState([])
+  const [userComment,setUserComment] = useState('')
+  const [isOpenedComments,setisOpenedComments] = useState(false)
   const [prop,setProp] = useState(props)
+  const clickRelatedMovie=(relatedMovie)=>setProp(relatedMovie);
+  const uid = localStorage.getItem('uid');
+  const headers = {
+    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+  }
+
   useEffect(() => {
     const headers = {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
@@ -61,21 +75,94 @@ function Detail(props){
       setmovie(res.data)
       setrelatedMovies(res.data.movielist)
       setActors(res.data.cast)
+      setValue(res.data.rating)
     })
     .catch((err)=>{
       console.log(err)
     })
 
-  },[]);
+    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,headers)
+    .then((res)=>{
+      console.log(res);
+      setComments(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log("SubmitComment")
+    })
+    
+  },[prop]);
 
-  const clickRelatedMovie=(id)=>setProp(id);
+  const OpenComments = () =>{
+    if(isOpenedComments){
+      setisOpenedComments(false);
+    }else{
+      axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`, headers)
+      .then((res)=>{
+        setisOpenedComments(true);
+      })
+      .catch((err)=>{
+        console.log(err)
+        console.log("OpenComments")
+      })
+    }
+  }
 
+  const SubmitComment = () =>{
+    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,
+    {
+      comment: userComment,
+    },
+    {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`},
+    })
+    .then((res)=>{
+      // console.log(typeof(res));
+      // console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log("SubmitComment")
+    })
+
+    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,headers)
+    .then((res)=>{
+      console.log(res);
+      setComments(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log("SubmitComment")
+    })
+  }
+
+  const DeleteComment = (commentid) =>{
+    axios.delete(`http://localhost:8000/movie/comment/${commentid}`,headers)
+    .then((res)=>{
+      console.log(res);
+      let filtered = comments.filter((element) => element.commentid !== commentid);
+      setComments(filtered);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  const clickRating = (newValue) =>{
+    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/rating`,{
+      result:newValue,
+    },headers)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 
   return (
     <Box sx={style} style={{color:"black"}}>
-      <Typography variant="h6" component="h2">
-        {movie.title}
-      </Typography>
+      <h1>{movie.title} </h1>
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <MoviePoster
@@ -96,23 +183,102 @@ function Detail(props){
               <Rating
                 name="simple-controlled"
                 value={value}
-                onChange={(event, newValue) => {
+                onChange={(e, newValue) => {
                   setValue(newValue);
+                  clickRating(newValue);
                 }}
               />
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={8}>
-          <ReactPlayer url={movie.trailer_path} playing controls width="100%" height="65%"/>
+        <Grid
+          container 
+          item xs={8}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactPlayer url={movie.trailer_path} playing controls width="100%" height="94%" />
           <br/>
+        </Grid>
+      </Grid>
+      <Grid>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
           <Typography sx={{ mt: 2 }}>
             {movie.overview}
           </Typography>
         </Grid>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
+          <h1>SCORE : {movie.vote_average} </h1>
+        </Grid>
       </Grid>
       <Grid>
-        {movie.vote_average}
+        <Grid 
+          container
+          justifyContent="center"
+          alignItems="center" 
+        >
+          
+          <Grid item xs={8}>
+            <TextField 
+              onChange={(e)=>setUserComment(e.target.value)}
+              id="standard-search"
+              label="댓글 작성하기"
+              type="search"
+              variant="standard"
+              style={{width:"100%"}}
+              />
+          </Grid>
+          <Grid item xs={2}>
+            <Button variant="contained" onClick={(e)=>SubmitComment(e)}>댓글 작성</Button>
+          </Grid>
+          <Grid >
+              {
+                isOpenedComments?
+                  <Button variant="contained" onClick={(e)=>OpenComments(e)}>댓글 접기</Button>
+                  :<Button variant="contained" onClick={(e)=>OpenComments(e)}>댓글 열기</Button>
+              }  
+          </Grid>
+        </Grid>   
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"  
+          >
+            {
+              isOpenedComments?
+              (
+                <List style={{width:"100%"}}>
+                  {
+                    comments.map((commentOne,idx)=>(
+                      <ListItem key={idx} style={{width:"100%"}}>
+                        <Grid item xs={2}>
+                        </Grid>
+                        <Grid item xs={8} container justifyContent="center">
+                        <p>"{commentOne.comment}"</p>
+                        </Grid>
+                        <Grid item xs={2} container justifyContent="center">
+                          {
+                            uid == commentOne.uid?
+                            <Button variant="outlined" style={{color:"red", borderColor:"red"}} onClick={(e)=>DeleteComment(commentOne.commentid,e)}>댓글 삭제</Button>
+                            :null
+                          }
+                        </Grid>
+                      </ListItem>
+                      ))
+                  }
+                </List>
+              )
+              :null
+            }
+          </Grid>
       </Grid>
       <Typography sx={{ mt: 2 }}>
         관련 영화
@@ -123,10 +289,18 @@ function Detail(props){
             relatedMovies.map((relatedMovie,idx)=>(
             <div key={relatedMovie.tmdb_id}>
               <MoviePoster
-                onClick={(e)=>clickRelatedMovie(relatedMovie.tmdb_id,e)}
+                onClick={()=>clickRelatedMovie(relatedMovie)}
                 src={`https://image.tmdb.org/t/p/w200${relatedMovie.poster_path}`} 
                 alt="img1"
+                style={{width:"6vw"}}
               />
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"  
+              >
+              <p>{relatedMovie.title}</p>
+              </Grid>
             </div>
             ))
           }
@@ -152,7 +326,7 @@ function Detail(props){
                 spacing={1}
               >
                 <Typography variant="button" display="block" gutterBottom sx={{ mt: 2 }}>
-                  {actor.name}
+                  {actor.name}&nbsp;
                 </Typography>
                 <Typography variant="caption" display="block" gutterBottom sx={{ mt: 2 }}>
                   {actor.character}
@@ -171,12 +345,14 @@ const MoviePoster = styled.img`
   width:100%;
   margin:auto;
   color:black;
+  border-radius:10px;
 `;
 
 const ActorPoster = styled.img`
   width:50%;
   margin:auto;
   color:black;
+  border-radius:10px;
 `;
 
 export default Detail;

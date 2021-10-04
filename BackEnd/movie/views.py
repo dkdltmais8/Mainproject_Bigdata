@@ -2,6 +2,7 @@ import json
 from django.db import models
 from django.db.models import F, Q
 from django.http import response
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls.conf import path
 from rest_framework.decorators import api_view
@@ -14,9 +15,9 @@ import requests
 import copy
 import random
 from api.models import Movie, Movieti
-from accounts.models import Comment, User, Rating
+from accounts.models import Comment, User, Rating, Tempmovieti
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
-
+from accounts.serializers import UserMovieti, UserSignupSerializer
 # Create your views here.
 
 
@@ -190,8 +191,10 @@ def comment(request, movieid):
 @permission_classes([IsAuthenticated])
 def delete_comment(request, comment):
     comment = get_object_or_404(Comment, pk=comment)
-    # if not request.user.my_reviews.filter(pk=review_pk).exists():
-    #     return Response({'detail': '권한이 없습니다'}, status=status.HTTP_403_FORBIDDEN)
+    # 본인이 아니라면 수정할 수 없다.
+
+    if not (request.user.uid == comment.uid.uid):
+        return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     tmp = copy.copy(comment)
     comment.delete()
@@ -203,14 +206,67 @@ def delete_comment(request, comment):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def calc_movieti_result(request):
-    comment = get_object_or_404(Comment, pk=comment)
-    # if not request.user.my_reviews.filter(pk=review_pk).exists():
-    #     return Response({'detail': '권한이 없습니다'}, status=status.HTTP_403_FORBIDDEN)
+    user = request.user
 
-    tmp = copy.copy(comment)
-    comment.delete()
-    tmp = CommentSerializer(tmp)
-    return Response({"삭제한 리뷰": tmp.data}, status=status.HTTP_204_NO_CONTENT)
+    mvti = Tempmovieti.objects.get(uid=user.uid)
+
+    # 만약 movieti 검사를 새로 하는 것이라면
+    sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
+    if(sum >= 13):
+        mvti.E = mvti.I = mvti.N = mvti.S = mvti.T = mvti.F = mvti.J = mvti.P = 0
+
+    if(request.data.get('result') == 'E'):
+        mvti.E = mvti.E + 1
+    elif(request.data.get('result') == 'I'):
+        mvti.I = mvti.I + 1
+    elif(request.data.get('result') == 'N'):
+        mvti.N = mvti.N + 1
+    elif(request.data.get('result') == 'S'):
+        mvti.S = mvti.S + 1
+    elif(request.data.get('result') == 'T'):
+        mvti.T = mvti.T + 1
+    elif(request.data.get('result') == 'F'):
+        mvti.F = mvti.F + 1
+    elif(request.data.get('result') == 'J'):
+        mvti.J = mvti.J + 1
+    elif(request.data.get('result') == 'P'):
+        mvti.P = mvti.P + 1
+    mvti.save()
+
+    # movieti 결과 계산
+    final_mvti = ''
+    if(mvti.E <= mvti.I):
+        final_mvti += 'I'
+    else:
+        final_mvti += 'E'
+
+    if(mvti.N <= mvti.S):
+        final_mvti += 'S'
+    else:
+        final_mvti += 'N'
+
+    if(mvti.T <= mvti.F):
+        final_mvti += 'F'
+    else:
+        final_mvti += 'T'
+
+    if(mvti.J <= mvti.P):
+        final_mvti += 'P'
+    else:
+        final_mvti += 'J'
+
+    # movieti 결과를 테이블에 저장
+    Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
+
+    changedata = {"email": user.email, "password": user.password,
+                  "movieti": final_mvti}
+
+    serializer = UserMovieti(user, data=changedata)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        result = MovietiListSerializer(
+            Movieti.objects.get(movieti=final_mvti)).data
+        return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
-from .models import Movie, User, Rating
+from .models import Movie, User, Rating, Tempmovieti
 import pandas as pd 
 import pymysql
 from sklearn.feature_extraction.text import CountVectorizer
@@ -111,6 +111,8 @@ def analysis_favorite(request):
 
 
 # 회원가입
+
+
 @api_view(['POST'])
 def signup(request):
     password = request.data.get('password')
@@ -132,6 +134,10 @@ def signup(request):
         user.set_password(request.data.get('password'))
         user.nickname = nickname_first
         user.save()
+        # 유저 생성할 때, movieti 결과 도출 테이블에도 함께 생성
+        Tempmovieti.objects.create(
+            uid=User.objects.get(email=request.data.get('email')).uid
+        )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         print(serializer.errors)
@@ -139,6 +145,8 @@ def signup(request):
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # 이메일 중복 api 만들기
+
+
 @api_view(['POST'])
 def checkEmail(request):
     user_email = request.data.get('user_email')
@@ -153,12 +161,13 @@ def checkEmail(request):
     else:
         return Response({'error': '동일한 이메일이 존재합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def survey_result(request):
     if request.data.get('result'):
         # 유저 이메일이랑 결과 받아서
         user_email = request.data.get('id')
-        survey_result = request.data.get('result')       
+        survey_result = request.data.get('result')
         # 딕셔너리에서 key, value쌍 꺼내서 rating테이블에 생성하기
         for param_tmdb, rating in survey_result.items():
             if(Movie.objects.get(tmdb_id=param_tmdb) != None and User.objects.get(email=user_email) != None):
@@ -176,7 +185,7 @@ def survey_result(request):
         user = User.objects.get(email=user_email)
         user.surveyed = True
         user.save()
-        return Response(status=status.HTTP_200_OK) 
+        return Response(status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -189,4 +198,3 @@ def survey_reset(request):
     user = Rating.objects.filter(uid=request.user.uid, survey=True)
     user.delete()
     return Response(status=status.HTTP_200_OK)
-
