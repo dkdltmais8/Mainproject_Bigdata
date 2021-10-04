@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage7() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/8`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "T"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/8`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           짜증나는거랑 공포영화랑 무슨상관이지? 
         </Button> 
@@ -63,9 +78,23 @@ function Movietipage7() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/8`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "F"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/8`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           무슨 일인데? 왜 짜증난건데?
         </Button>

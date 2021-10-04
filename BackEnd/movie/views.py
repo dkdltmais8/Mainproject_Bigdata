@@ -213,7 +213,7 @@ def calc_movieti_result(request):
 
     # 만약 movieti 검사를 새로 하는 것이라면
     sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
-    if(sum >= 13):
+    if(sum >= 12):
         mvti.E = mvti.I = mvti.N = mvti.S = mvti.T = mvti.F = mvti.J = mvti.P = 0
 
     getType = request.GET.get('result', None)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useHistory} from 'react-router-dom';
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -50,9 +51,23 @@ function Movietipage1() {
             variant="contained"
             color="primary"          
             className={classes.submit}          
-            onClick = {() => {
-              history.push(`/movie/movieti/2`)
-            }}                              
+            onClick = {() => {                 
+              axios.get(`http://localhost:8000/movie/movieti`, {
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'application/json'
+                },   
+                params: {
+                  "result": ""
+                }
+              },)
+                .then(res => {
+                  history.push(`/movie/movieti/2`)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }}                                        
           >
             볼거리 많은 액션
           </Button>                
@@ -61,9 +76,23 @@ function Movietipage1() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick = {() => {
-              history.push(`/movie/movieti/2`)
-            }}            
+            onClick = {() => {                 
+              axios.get(`http://localhost:8000/movie/movieti`, {
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'application/json'
+                },   
+                params: {
+                  "result": ""
+                }
+              },)
+                .then(res => {
+                  history.push(`/movie/movieti/2`)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }}             
           >
             감동적인 드라마
           </Button>        
@@ -73,9 +102,23 @@ function Movietipage1() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick = {() => {
-              history.push(`/movie/movieti/2`)
-            }}            
+            onClick = {() => {                 
+              axios.get(`http://localhost:8000/movie/movieti`, {
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'application/json'
+                },   
+                params: {
+                  "result": ""
+                }
+              },)
+                .then(res => {
+                  history.push(`/movie/movieti/2`)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }}              
           >
             심장 쪼이는 스릴러
           </Button>
@@ -86,9 +129,23 @@ function Movietipage1() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick = {() => {
-              history.push(`/movie/movieti/2`)
-            }}            
+            onClick = {() => {                 
+              axios.get(`http://localhost:8000/movie/movieti`, {
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'application/json'
+                },   
+                params: {
+                  "result": ""
+                }
+              },)
+                .then(res => {
+                  history.push(`/movie/movieti/2`)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }}               
           >
             알콩달콩 로맨스
           </Button>        

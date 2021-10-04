@@ -24,7 +24,7 @@ import Movietiresult from './pages/MovieTi/Movietiresult.jsx';
 //
 import GlobalStyle from "./GlobalStyle"; // 전역으로 CSS를 적용시킵니다.
 import main from './pages/Main/main.js'; // main 불러오기
-import MyPage from './pages/MyPage/MyPage.js'; // mypage 불러오기
+import MyPage from './pages/MyPage/MyPage.jsx'; // mypage 불러오기
 import Survey from './pages/Auth/Survey.js'; // 설문 불러오기
 import Search from './pages/Search/Search.js'; // 설문 불러오기
 
@@ -83,3 +83,8 @@ export default App;
 //
 // npm install --save react-youtube
 // npm install react-player # or yarn add react-player
+
+//
+// npm install recharts
+// 
+

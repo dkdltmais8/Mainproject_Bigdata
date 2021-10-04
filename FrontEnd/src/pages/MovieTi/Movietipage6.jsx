@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage6() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/7`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "I"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/7`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           집에서 편하게 즐기는 넷플릭스
         </Button>   
@@ -63,9 +78,23 @@ function Movietipage6() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/7`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "E"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/7`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           영화는 큰 스크린으로 봐야지! 용아맥 가자!
         </Button>      

@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -50,8 +51,22 @@ function Movietipage13() {
           variant="contained"
           color="primary"          
           className={classes.submit}          
-          onClick = {() => {
-            history.push(`/movie/movieti/result`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "S"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/result`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           구체적으로 영화의 줄거리를 알려준다.
@@ -62,8 +77,22 @@ function Movietipage13() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/result`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "N"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/result`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           영화를 보며 느꼈던 큰 감정에 대해 얘기한다.

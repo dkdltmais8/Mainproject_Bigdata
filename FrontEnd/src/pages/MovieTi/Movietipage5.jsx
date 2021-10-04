@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage5() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/6`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "P"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/6`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           일단 보자! 돈 들어오고나서 보나 지금보나 어차피 같은돈!
         </Button>     
@@ -63,9 +78,23 @@ function Movietipage5() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/6`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "J"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/6`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           현재 생활비가 모자랄 수 있으니 다음에 보자
         </Button>      
