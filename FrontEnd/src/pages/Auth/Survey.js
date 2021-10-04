@@ -73,6 +73,7 @@ function Survey( {history} ){
     })
     .then((res)=>{
       console.log(res.data);
+      localStorage.setItem('servey', true)
       history.push("/main")
     })
     .catch((err)=>{

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Grid,
@@ -12,9 +12,10 @@ import {
   makeStyles,
   withStyles,
   InputBase,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
-
 
 
 const HideOnScroll=(props)=>{
@@ -45,9 +46,9 @@ const BootstrapInput = withStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ced4da',
-    fontSize: 16,
+    fontSize: 16,    
     
-    padding: '10px 26px 10px 10px',
+    padding: '5px 26px 10px 10px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
 
     fontFamily: [
@@ -89,6 +90,13 @@ const useStyles = makeStyles((theme) => ({
 const Header = props => {
   let history = useHistory();
   const classes = useStyles();
+  const [sort, setSort] = useState('');
+  const handleChange = (event) => {
+    setSort(event.target.value);
+  };
+
+  const [name, setName] = useState(localStorage.getItem("nickname"));
+
   const [searchWord, setSearchWord] = useState([]);
 
   return (
@@ -105,57 +113,92 @@ const Header = props => {
               variant="contained" color="primary">
               Lead me
             </Button> 
-            <Button onClick = { ()=> {history.push("/mypage")}  } variant="contained" color="primary">
-            마이페이지
-          </Button>  
         </Grid>
                     
-        <Grid item xs={6}
+        <Grid item xs={7}
           style={{                  
             display: 'flex' ,    
             justifyContent: 'center',
           }} 
         >
-            <Box bgcolor="" width="80%">
+          {/* 회색 큰 박스 안에 그리드 or flex로 배치 */}
+            <Box bgcolor="" width="100%">
                 <form onSubmit={(e)=>{
                     e.preventDefault();                      
                     history.push('/search') 
                     }}>
-                    <FormControl className={classes.search}>
-                        <InputLabel placeholder="영화 이름" htmlFor="demo-customized-textbox" className={classes.searchLabel}>영화 이름</InputLabel>
+                    <Grid item xs={10}
+                      style={{                  
+                        display: 'flex' ,    
+                        justifyContent: 'right',
+                      }} 
+                    >
+                    <FormControl className={classes.search}                  
+                    >                    
                         {/* <TextField> */}
                           <BootstrapInput 
                             id="demo-customized-textbox"
                             onChange={(e)=>{
                               setSearchWord(e.target.value);
                             }}
-                          />
+                          />                        
                         {/* </TextField> */}
-                        <Button onClick = { ()=> {history.push({
+                    </FormControl>                  
+                  <Grid item xs={2}
+                      style={{                  
+                        display: 'flex' ,    
+                        justifyContent: 'center',
+                      }} 
+                    >
+                        <Button 
+                          onClick = { ()=> {history.push({
                           pathname:`movie/search/title/${searchWord}`,
                           state:{searchWord:searchWord},
                         })}} variant="contained" color="primary">
                           검색
                         </Button>  
-                    </FormControl>
+                  </Grid>        
+                  </Grid>            
                 </form>
             </Box>
           </Grid>
-          <Grid item xs={3} 
+          <Grid item xs={2} 
             style={{                  
               display: 'flex' ,    
               justifyContent: 'end',
             }} 
-          >            
-              <Button onClick={()=>{
-                history.push('/SignIn') //로그인할 수 있게? 추후 변경 가능
-              }}
-              variant="contained" color="primary" className={classes.button}
-              > 
-                {/* 사용자 이름으로 넣어지게 수정할 예정 */}
-                안녕하세요 ㅁㅁ님  
-              </Button>                                       
-          </Grid>
+          >     
+            <Grid item xs={8} 
+            style={{                  
+              display: 'flex' ,    
+              justifyContent: 'end',
+            }} 
+          >     
+              <FormControl fullWidth>
+                <InputLabel
+                  style={{                  
+                    display: 'flex' ,    
+                    justifyContent: 'center',
+                  }} 
+                >안녕하세요 {name}님!!</InputLabel>
+                <Select                
+                  value={sort}                  
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}
+                      onClick={()=>{
+                        history.push('/mypage') 
+                      }}                      
+                      >마이페이지</MenuItem>
+                  <MenuItem value={20}
+                      onClick={()=>{
+                        history.push('/') 
+                      }}  
+                      >로그아웃</MenuItem>
+                </Select>
+              </FormControl>
+              </Grid>
+            </Grid>
       </Grid>
     </AppBar>
   </HideOnScroll>
