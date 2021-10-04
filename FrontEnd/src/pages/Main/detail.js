@@ -61,6 +61,9 @@ function Detail(props){
   const [prop,setProp] = useState(props)
   const clickRelatedMovie=(relatedMovie)=>setProp(relatedMovie);
   const uid = localStorage.getItem('uid');
+  const headers = {
+    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+  }
 
   useEffect(() => {
     const headers = {
@@ -72,6 +75,7 @@ function Detail(props){
       setmovie(res.data)
       setrelatedMovies(res.data.movielist)
       setActors(res.data.cast)
+      setValue(res.data.rating)
     })
     .catch((err)=>{
       console.log(err)
@@ -89,9 +93,6 @@ function Detail(props){
     
   },[prop]);
 
-  const headers = {
-    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
-  }
   const OpenComments = () =>{
     if(isOpenedComments){
       setisOpenedComments(false);
@@ -147,6 +148,18 @@ function Detail(props){
     })
   }
 
+  const clickRating = (newValue) =>{
+    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/rating`,{
+      result:newValue,
+    },headers)
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
   return (
     <Box sx={style} style={{color:"black"}}>
       <h1>{movie.title} </h1>
@@ -170,14 +183,16 @@ function Detail(props){
               <Rating
                 name="simple-controlled"
                 value={value}
-                onChange={(event, newValue) => {
+                onChange={(e, newValue) => {
                   setValue(newValue);
+                  clickRating(newValue);
                 }}
               />
             </Box>
           </Grid>
         </Grid>
-        <Grid 
+        <Grid
+          container 
           item xs={8}
           justifyContent="center"
           alignItems="center"
@@ -222,7 +237,7 @@ function Detail(props){
               />
           </Grid>
           <Grid item xs={2}>
-            <Button variant="contained" onClick={(a)=>SubmitComment(a)}>댓글 작성</Button>
+            <Button variant="contained" onClick={(e)=>SubmitComment(e)}>댓글 작성</Button>
           </Grid>
           <Grid >
               {
@@ -274,7 +289,7 @@ function Detail(props){
             relatedMovies.map((relatedMovie,idx)=>(
             <div key={relatedMovie.tmdb_id}>
               <MoviePoster
-                onClick={(e)=>clickRelatedMovie(relatedMovie,e)}
+                onClick={()=>clickRelatedMovie(relatedMovie)}
                 src={`https://image.tmdb.org/t/p/w200${relatedMovie.poster_path}`} 
                 alt="img1"
                 style={{width:"6vw"}}

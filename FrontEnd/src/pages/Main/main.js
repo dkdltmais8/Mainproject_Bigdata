@@ -31,18 +31,32 @@ function Main( {history} ){
   const [nowMovies,setNowMovies] = useState([])
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
+  const [recommendMovies,setRecommendMovies] = useState([])
+  const [movietiMovies,setMovietiMovies] = useState([])
   const [movieTi]= useState([])
 
 
-  const [open, setOpen] = useState('');
-  const handleOpen = (tmdb_id) => setOpen(tmdb_id);
-  const handleClose = () => setOpen('');
+  const [open, setOpen] = useState(false);
+  const [tmdbid, setTmdbid] = useState('');
+  const handleOpen = (tmdb_id) => {
+      setOpen(true);
+      setTmdbid(tmdb_id);
+    }
+  const handleClose = () => setOpen(false);
 
 
   const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
   const topRatedMoviesUrl = "http://localhost:8000/movie/toprated"
   const upComingmoviesUrl = "http://localhost:8000/movie/upcoming"
+  const recommendMoviesUrl = "http://localhost:8000/movie/recommend/list"
+  const movietiMoviesUrl = "http://localhost:8000/movie/movieti/list"
+
+  
   useEffect(()=>{
+    const headers = {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+    }
+    
     axios.get(nowMoviesUrl)
     .then((res)=>{
       console.log(res.data);
@@ -69,9 +83,26 @@ function Main( {history} ){
     .catch((err)=>{
       console.log(err)
     })
-  },[]);
 
+    axios.get(recommendMoviesUrl,headers)
+    .then((res)=>{
+      console.log(res.data);
+      setRecommendMovies(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
 
+    axios.get(movietiMoviesUrl,headers)
+    .then((res)=>{
+      console.log(res.data);
+      setMovietiMovies(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
+  },[recommendMovies]);
 
   const reSurvey = () =>{
     const headers = {
@@ -129,14 +160,22 @@ function Main( {history} ){
                 <div>
                   <Slider {...sub_carousel_settings}>
                     {
-                      upComingmovies.map((upComingmovie,idx)=>(
-                      <div key={upComingmovie.tmdb_id}>
+                      movietiMovies.map((movietiMovie,idx)=>(
+                      <div key={movietiMovie.tmdb_id}>
                         <MoviePoster 
-                        onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
+                        onClick = {(e)=>handleOpen(movietiMovie.tmdb_id,e)}
                         id={`posterId${idx}`} 
-                        src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
+                        src={`https://image.tmdb.org/t/p/w200${movietiMovie.poster_path}`} 
                         alt="img1"
                         />
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <p>{movietiMovie.title}</p>
+                        </Grid>
                       </div>
                       ))
                     }
@@ -157,12 +196,12 @@ function Main( {history} ){
               <h2>추천 영화</h2>
               <Slider {...sub_carousel_settings}>
                 {
-                  upComingmovies.map((upComingmovie,idx)=>(
-                  <div key={upComingmovie.tmdb_id}>
+                  recommendMovies.map((recommendMovie,idx)=>(
+                  <div key={recommendMovie.tmdb_id}>
                     <MoviePoster 
-                    onClick = {(e)=>handleOpen(upComingmovie.tmdb_id,e)}
+                    onClick = {(e)=>handleOpen(recommendMovie.tmdb_id,e)}
                     id={`posterId${idx}`} 
-                    src={`https://image.tmdb.org/t/p/w200${upComingmovie.poster_path}`} 
+                    src={`https://image.tmdb.org/t/p/w200${recommendMovie.poster_path}`} 
                     alt="img1"
                     />
                     <Grid
@@ -171,7 +210,7 @@ function Main( {history} ){
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <p>{upComingmovie.title}</p>
+                      <p>{recommendMovie.title}</p>
                     </Grid>
                   </div>
                   ))
@@ -268,7 +307,7 @@ function Main( {history} ){
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Detail tmdb_id={open}/>
+            <Detail tmdb_id={tmdbid}/>
           </Modal>
 
       </MainPage>
