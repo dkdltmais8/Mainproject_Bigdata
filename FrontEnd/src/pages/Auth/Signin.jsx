@@ -89,9 +89,9 @@ export default function SignIn() {
                   localStorage.setItem('uid', res.data.user_pk)
                   if (res.data.surveyed === true){
                     history.push('/main')
-                }else{
-                    history.push('/survey')
-                }
+                  }else{
+                      history.push('/survey')
+                  }
                 })
                 .catch(err => {
                   if (err.response.data === 'login failed') {

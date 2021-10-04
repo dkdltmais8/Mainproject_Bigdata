@@ -46,9 +46,9 @@ const BootstrapInput = withStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #ced4da',
-    fontSize: 16,
+    fontSize: 16,    
     
-    padding: '10px 26px 10px 10px',
+    padding: '5px 26px 10px 10px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
 
     fontFamily: [
@@ -94,10 +94,8 @@ const Header = props => {
   const handleChange = (event) => {
     setSort(event.target.value);
   };
-  const ref = useRef();
 
   const [name, setName] = useState(localStorage.getItem("nickname"));
-  const [flag, setFlag] = useState(false);
 
   const [searchWord, setSearchWord] = useState([]);
 
@@ -115,95 +113,91 @@ const Header = props => {
               variant="contained" color="primary">
               Lead me
             </Button> 
-            <Button onClick = { ()=> {history.push("/mypage")}  } variant="contained" color="primary">
-            마이페이지
-          </Button>  
         </Grid>
                     
-        <Grid item xs={6}
+        <Grid item xs={7}
           style={{                  
             display: 'flex' ,    
             justifyContent: 'center',
           }} 
         >
           {/* 회색 큰 박스 안에 그리드 or flex로 배치 */}
-            <Box bgcolor="" width="80%">
+            <Box bgcolor="" width="100%">
                 <form onSubmit={(e)=>{
                     e.preventDefault();                      
                     history.push('/search') 
                     }}>
-                    <FormControl className={classes.search}>                        
+                    <Grid item xs={10}
+                      style={{                  
+                        display: 'flex' ,    
+                        justifyContent: 'right',
+                      }} 
+                    >
+                    <FormControl className={classes.search}                  
+                    >                    
                         {/* <TextField> */}
                           <BootstrapInput 
                             id="demo-customized-textbox"
                             onChange={(e)=>{
                               setSearchWord(e.target.value);
                             }}
-                          />
+                          />                        
                         {/* </TextField> */}
-                        <Button onClick = { ()=> {history.push({
+                    </FormControl>                  
+                  <Grid item xs={2}
+                      style={{                  
+                        display: 'flex' ,    
+                        justifyContent: 'center',
+                      }} 
+                    >
+                        <Button 
+                          onClick = { ()=> {history.push({
                           pathname:`movie/search/title/${searchWord}`,
                           state:{searchWord:searchWord},
                         })}} variant="contained" color="primary">
                           검색
                         </Button>  
-                    </FormControl>
+                  </Grid>        
+                  </Grid>            
                 </form>
             </Box>
           </Grid>
-          <Grid item xs={3} 
+          <Grid item xs={2} 
             style={{                  
               display: 'flex' ,    
               justifyContent: 'end',
             }} 
-          >                 
-              {/* <Button  onClick={() => console.log('click!')} m={1} bgcolor="" width="100%">                    */}
-                  {/* <FormControl className={classes.sort} focused fullWidth>     
-                  <InputLabel id="demo-simple-select-label">안녕하세요 {name}님!!</InputLabel>      
-                       <Select 
-                         labelId="demo-customized-select-label"
-                         id="demo-customized-select"
-                         value={sort}
-                         onChange={handleChange}
-                         input={<BootstrapInput />}                                             
-                       > 
-                      <MenuItem value={10}
-                      onClick={()=>{
-                        history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
-                      }}                      
-                      >마이페이지</MenuItem>
-                      <MenuItem value={20}
-                      onClick={()=>{
-                        history.push('/') //로그인할 수 있게? 추후 변경 가능
-                      }}  
-                      >로그아웃</MenuItem>
-                    </Select>
-                  </FormControl>                                                            */}
-              {/* </Button> */}
-            {/* if ({name} === null)? */}
+          >     
+            <Grid item xs={8} 
+            style={{                  
+              display: 'flex' ,    
+              justifyContent: 'end',
+            }} 
+          >     
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">안녕하세요 {name}님!!</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={sort}
-                  label=""
+                <InputLabel
+                  style={{                  
+                    display: 'flex' ,    
+                    justifyContent: 'center',
+                  }} 
+                >안녕하세요 {name}님!!</InputLabel>
+                <Select                
+                  value={sort}                  
                   onChange={handleChange}
                 >
                   <MenuItem value={10}
                       onClick={()=>{
-                        history.push('/mypage') //로그인할 수 있게? 추후 변경 가능
+                        history.push('/mypage') 
                       }}                      
                       >마이페이지</MenuItem>
                   <MenuItem value={20}
                       onClick={()=>{
-                        history.push('/') //로그인할 수 있게? 추후 변경 가능
+                        history.push('/') 
                       }}  
                       >로그아웃</MenuItem>
                 </Select>
               </FormControl>
-
-
+              </Grid>
             </Grid>
       </Grid>
     </AppBar>
