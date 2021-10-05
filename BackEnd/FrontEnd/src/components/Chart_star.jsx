@@ -1,61 +1,82 @@
-import React, { PureComponent } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import 
+{ Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } 
+from 'recharts';
+import axios from 'axios';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+const Chart_star = () => {
+  
 
-export default class Example extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/tiny-bar-chart-35meb';
+  useEffect(()=>{
+    axios.get(`http://localhost:8000/accounts/favorite/user`, {
+                headers: {
+                  Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                  'Content-Type': 'application/json'
+                }                
+              },)
+                .then(res => {
+                  // console.log(res.data.cnt_rate[4])
+                  localStorage.setItem('movie_count', res.data.rated_movie_cnt) // 평가한 영화 개수
+                  localStorage.setItem('average_rate', res.data.average_rate) // 평균 평점
+                  localStorage.setItem('most_rate', res.data.most_rate) // 가장 많은 평점 및 개수
+                  setcount1(res.data.cnt_rate[1])  // 각 평점 별 개수 
+                  setcount2(res.data.cnt_rate[2])
+                  setcount3(res.data.cnt_rate[3])
+                  setcount4(res.data.cnt_rate[4])
+                  setcount5(res.data.cnt_rate[5])
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+  },[]);
 
-  render() {
-    return (
+  const [name] = useState(localStorage.getItem("nickname"));
+  const [count1, setcount1] = useState(0);
+  const [count2, setcount2] = useState(0);
+  const [count3, setcount3] = useState(0);
+  const [count4, setcount4] = useState(0);
+  const [count5, setcount5] = useState(0);
+
+
+  const data = [
+    {
+      subject: '1점',
+      A: count1,
+      fullMark: 20,
+    },
+    {
+      subject: '2점',
+      A: count2,
+      fullMark: 20,
+    },
+    {
+      subject: '3점',
+      A: count3,
+      fullMark: 20,
+    },
+    {
+      subject: '4점',
+      A: count4,
+      fullMark: 20,
+    },
+    {
+      subject: '5점',
+      A: count5,
+      fullMark: 20,
+    },
+  ];
+
+    return(
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={150} height={40} data={data}>
-          <Bar dataKey="uv" fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
-    );
-  }
-}
+          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey="subject" />
+            <PolarRadiusAxis />
+            <Radar name={name} dataKey= "A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.7} />
+          </RadarChart>
+        </ResponsiveContainer>
+    );  
+};
+
+
+export default Chart_star;
