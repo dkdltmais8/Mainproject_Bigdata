@@ -29,5 +29,6 @@ services:
         container_name: mysql_leadme
         environment:
             MYSQL_DATABASE: bigdatapjt
-            MYSQL_ROOT_PASSWORD: ssafy  # MYSQL 패스워드 설정 옵션
+            MYSQL_USER: jiahn
+            MYSQL_PASSWORD: jiahn1234  # MYSQL 패스워드 설정 옵션
             TZ: Asia/Seoul
