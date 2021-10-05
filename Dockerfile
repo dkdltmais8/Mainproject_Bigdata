@@ -1,11 +1,26 @@
-FROM python:3.8
+FROM ubuntu:18.04
 
-WORKDIR /usr/src/app
+RUN sed -i 's@archive.ubuntu.com@mirror.kakao.com@g' /etc/apt/sources.list
 
-COPY requirements.txt ./
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN apt-get -y update && apt-get -y dist-upgrade
 
-COPY . .
+RUN apt-get install -y apt-utils dialog
 
-WORKDIR ./BackEnd
+RUN apt-get install -y python3-pip python3-dev
+
+ENV PYTHONUNBUFFERED=0
+
+ENV PYTHONIOENCODING=utf-8
+
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade setuptools
+
+RUN mkdir /config
+
+ADD /config/requirements.txt /config/
+
+RUN pip3 install -r /config/requirements.txt
+
+RUN mkdir /src;
+
+WORKDIR /src
