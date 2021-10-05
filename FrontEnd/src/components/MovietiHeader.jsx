@@ -15,31 +15,28 @@ function MovietiHeader() {
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
           <Grid item style={{marginRight:200}}>
-                <Button
-                  // size="small"
-                  onClick={()=>{
-                    history.push('/main');
-                  }}
-                  variant="contained" color="primary"
-                  >
-                  메인페이지로 가기
-                </Button>
+            <Button
+              size="large"
+              onClick={()=>{
+                history.push('/main');
+              }}
+              variant="contained" color="primary"
+              >
+              메인페이지로 가기
+            </Button>
           </Grid>
                 
-          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:200}}>
+          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:250}}>
             MovieTI      
           </Typography>
           
           <Grid item>
-                <Button
-                  // size="small"
-                  onClick={()=>{
-                    history.push('/movie/movieti');
-                  }}
-                  variant="contained" color="primary"
-                  >
-                  다시 검사하기
-                </Button>
+            <Button                  
+              size="large"
+              variant="contained" color="primary"
+              >                  
+              LEAD ME
+            </Button>
           </Grid>
         </Grid>
       </AppBar>
