@@ -15,7 +15,8 @@ import pymysql
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from ast import literal_eval
 from collections import Counter
-
+import json
+from sklearn.metrics.pairwise import cosine_similarity
 
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -24,7 +25,13 @@ def analysis_user_favorite(request):
     movie_cnt = 0
     average_rate = 0
     most_rate = {}
-    cnt_rate = {}
+    cnt_rate = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0
+    }
     data = {
         "rated_movie_cnt": movie_cnt,
         "average_rate": average_rate,
@@ -52,12 +59,18 @@ def analysis_user_favorite(request):
 
         # 별점 빈도수
         cnt = Counter(rate_list)
-        cnt_rate = dict(cnt)
+        print(cnt, 'cnt')
+        temp = dict(cnt)
+        # cnt_rate = dict(cnt)
         most_rate = dict(cnt.most_common(1))
         data["most_rate"] = most_rate
         data["cnt_rate"] = cnt_rate
         # print(cnt_rate)
         # print(most_rate) # (점수, 개수) 형식
+        for key, value in temp.items():
+            data["cnt_rate"][key] = value
+        
+        print(data)
 
         # print(data)
         return Response(data, status=status.HTTP_200_OK)

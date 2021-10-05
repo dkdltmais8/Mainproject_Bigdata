@@ -91,45 +91,51 @@ def get_upcoming_movie(request):
     return Response(result, status=status.HTTP_200_OK)
 
 
+# movieti결과에 나오는 영화 리턴
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_movieti_movielist(request):
     result = []
-    movielist = []
-    try:
+    if Movieti.objects.get(movieti=request.user.movieti):
         movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
-    except:
-        return Response(movielist)
-
-    for i in range(len(movielist)):
-        temp2 = {}
-        temp2['tmdb_id'] = movielist[i].get('id')
-        temp2['title'] = Movie.objects.get(
-            tmdb_id=movielist[i].get('id')).title
-        temp2['poster_path'] = movielist[i].get('poster_path')
-        temp2['backdrop_path'] = Movie.objects.get(
-            tmdb_id=movielist[i].get('id')).backdrop_path
-        result.append(temp2)
-    return Response(result, status=status.HTTP_200_OK)
+    # try:
+    #     movielist = Movieti.objects.filter(movieti=request.user.movieti).movielist
+    # except:
+    #     return Response(movielist)
+        for i in range(len(movielist)):
+            temp2 = {}
+            temp2['tmdb_id'] = movielist[i].get('id')
+            temp2['title'] = Movie.objects.get(
+                tmdb_id=movielist[i].get('id')).title
+            temp2['poster_path'] = movielist[i].get('poster_path')
+            temp2['backdrop_path'] = Movie.objects.get(
+                tmdb_id=movielist[i].get('id')).backdrop_path
+            result.append(temp2)
+        return Response(result, status=status.HTTP_200_OK)
+    else:
+        return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_recommend_movielist(request):
-    movielist = Recommendationmovie.objects.filter(uid=request.user.uid)
     result = []
-    for i in range(len(movielist)):
-        movie = Movie.objects.get(
-            movieid=movielist[i].movieid.movieid)
-        temp2 = {}
-        temp2['tmdb_id'] = movie.tmdb_id
-        temp2['title'] = movie.title
-        temp2['poster_path'] = movie.poster_path
-        temp2['backdrop_path'] = movie.backdrop_path
-        result.append(temp2)
-    return Response(result, status=status.HTTP_200_OK)
+    if Recommendationmovie.objects.filter(uid=request.user.uid):
+        movielist = Recommendationmovie.objects.filter(uid=request.user.uid)
+        for i in range(len(movielist)):
+            movie = Movie.objects.get(
+                movieid=movielist[i].movieid.movieid)
+            temp2 = {}
+            temp2['tmdb_id'] = movie.tmdb_id
+            temp2['title'] = movie.title
+            temp2['poster_path'] = movie.poster_path
+            temp2['backdrop_path'] = movie.backdrop_path
+            result.append(temp2)
+        return Response(result, status=status.HTTP_200_OK)
+    else:
+        return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

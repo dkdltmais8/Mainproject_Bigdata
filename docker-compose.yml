@@ -12,7 +12,7 @@ services:
             - web
 
     web:
-        build: .
+        build: ./BackEnd
         container_name: leadme_01
         command: bash -c "
             python3 manage_dev.py collectstatic --no-input &&
@@ -22,7 +22,7 @@ services:
         depends_on:
             - db
         volumes:
-            - ./src:/src
+            - ./BackEnd:/src
 
     db:
         image: mysql:5.7
