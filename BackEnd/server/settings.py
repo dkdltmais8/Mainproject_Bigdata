@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import datetime
 from pathlib import Path
 import my_settings
 import os
@@ -91,7 +92,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-import datetime
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
