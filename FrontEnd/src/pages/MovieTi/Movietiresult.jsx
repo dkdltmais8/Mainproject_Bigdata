@@ -6,8 +6,10 @@ import {
   Grid,
   Card,
   CardMedia,
+  AppBar,
+  Button
 } from '@material-ui/core'
-import MovietiHeader from '../../components/MovietiHeader'
+
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -46,7 +48,40 @@ function Movietimain() {
 
   return (
     <div>
-      <MovietiHeader />
+      <div>
+      <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
+        <Grid container justify="space-around" alignItems="center">
+          <Grid item style={{marginRight:200}}>
+                <Button
+                  // size="small"
+                  onClick={()=>{
+                    history.push('/main');
+                  }}
+                  variant="contained" color="primary"
+                  >
+                  메인페이지로 가기
+                </Button>
+          </Grid>
+                
+          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:200}}>
+            MovieTI      
+          </Typography>
+          
+          <Grid item>
+                <Button
+                  // size="small"
+                  onClick={()=>{
+                    history.push('/movie/movieti');
+                  }}
+                  variant="contained" color="primary"
+                  >
+                  다시 검사하기
+                </Button>
+          </Grid>
+        </Grid>
+      </AppBar>
+    </div>
+
       <div>
         <Grid container spacing={12} className={classes.content}>
               <Grid item xs={8}>

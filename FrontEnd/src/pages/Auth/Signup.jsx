@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   submit2: {
     width: '25%', 
     marginLeft: theme.spacing(1),
-    margin: theme.spacing(2, 0, 2),
+    margin: theme.spacing(1, 0, 2),
     alignItems: "center"
   },
 }));
