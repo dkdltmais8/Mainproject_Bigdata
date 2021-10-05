@@ -87,21 +87,39 @@ function Movietimain() {
         </Grid>
 
         <Grid container spacing={12} >
-          <Grid item xs={8}
-            style={{
-              display: 'flex' ,
-              justifyContent: 'center'          
-              }} 
-          >
-            <Card className={classes.card}
+          <Grid container spacing={1}>
+            <Grid item xs={6}
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center'          
+                }} 
             >
-              {/*별점 분포*/}
-              <Chart_star/>            
-            </Card>
-            <Typography variant="h5" align="center" className={classes.text}>
-            별점 분포</Typography>
+              <Grid item xs={6}
+                style={{
+                  display: 'relative' ,
+                  justifyContent: 'center'          
+                  }} 
+                 >
+                  <Card className={classes.card}
+                  >
+                    {/*별점 분포*/}
+                    <Chart_star/>            
+                  </Card>
+              </Grid>
+                
+              <Grid item xs={6}
+                style={{
+                  display: 'relative' ,
+                  justifyContent: 'center'          
+                  }} 
+                 >
+                <Typography variant="h5" align="center" className={classes.text}>
+                     영화</Typography>
+              </Grid>            
+            </Grid>
           </Grid>    
-          <Grid item xs={4}
+
+          <Grid item xs={6}
             style={{
               display: 'flex' ,
               justifyContent: 'center'          
@@ -113,36 +131,26 @@ function Movietimain() {
               <Typography variant="h4" align="left" className={classes.text}>
             평가수</Typography>
 
-            <Grid container spacing={3}>
-                  <Grid item xs={4}
-                  style={{
-                    display: 'relative' ,
-                    justifyContent: 'center'          
-                    }} 
-                   >
-                    <Typography variant="h5" align="center" className={classes.text}>
-                       영화</Typography>
-                  </Grid>
-                  <Grid item xs={4}
-                  style={{
-                    display: 'relative' ,
-                    justifyContent: 'center'          
-                    }} 
-                   >
-                    <Typography variant="h5" align="center" className={classes.text}>
-                      TV 프로그램</Typography>
-                  </Grid>
-                  <Grid item xs={4}
-                  style={{
-                    display: 'flex' ,
-                    justifyContent: 'center'          
-                    }} 
-                   >
-                    <Typography variant="h5" align="center" className={classes.text}>
-                      평가수</Typography>
-                  </Grid>
-            </Grid>
-
+              <Grid container spacing={3}>
+                    <Grid item xs={6}
+                    style={{
+                      display: 'relative' ,
+                      justifyContent: 'center'          
+                      }} 
+                     >
+                      <Typography variant="h5" align="center" className={classes.text}>
+                         영화</Typography>
+                    </Grid>
+                    <Grid item xs={6}
+                    style={{
+                      display: 'flex' ,
+                      justifyContent: 'center'          
+                      }} 
+                     >
+                      <Typography variant="h5" align="center" className={classes.text}>
+                        평가수</Typography>
+                    </Grid>
+              </Grid>
             </Card>
           </Grid>    
         </Grid>
