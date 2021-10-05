@@ -102,7 +102,7 @@ function Main( {history} ){
       console.log(err)
     })
 
-  },[recommendMovies]);
+  },[]);
 
   const reSurvey = () =>{
     const headers = {
