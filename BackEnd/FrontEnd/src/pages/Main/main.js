@@ -166,17 +166,8 @@ function Main( {history} ){
           >
             <SubContent id="user_recommend_movie">
             {
-              movieTi?(
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
-                </Grid>
-              )
-              :(
+              movieTi?
+              (
                 <div>
                   <Slider {...sub_carousel_settings}>
                     {
@@ -210,6 +201,16 @@ function Main( {history} ){
                     <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
                   </Grid>
                 </div>
+              ):
+              (
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
+                </Grid>
               )
 
             }
