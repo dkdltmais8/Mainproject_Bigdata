@@ -1,11 +1,8 @@
 import json
-from re import M
 from django.db import models
 from django.db.models import F, Q
-from django.http import response
-from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render
-from django.urls.conf import path
+from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -16,15 +13,14 @@ import requests
 import copy
 import random
 from accounts.models import Comment, User, Rating, Tempmovieti, Movie, Recommendationmovie, Movieti
-from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
-from accounts.serializers import UserMovieti, UserSignupSerializer
+from .serializers import MovieSurveyListSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
+from accounts.serializers import UserMovieti
 
 # Create your views here.
 
 
 @api_view(['GET'])
 def get_survey_movie(request):
-
     # 쿼리셋 형태를 리스트로 변환, 평균 평점이 7.2보다 큰 영화만 가져옴
     movie_list = list(Movie.objects.filter(
         vote_count__gte=2000).values('tmdb_id', 'title', 'poster_path'))
@@ -288,8 +284,7 @@ def calc_movieti_result(request):
     # movieti 결과를 테이블에 저장
     Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
 
-    changedata = {"email": user.email, "password": user.password,
-                  "movieti": final_mvti}
+    changedata = {"email": user.email, "password": user.password, "movieti": final_mvti}
 
     serializer = UserMovieti(user, data=changedata)
     if serializer.is_valid(raise_exception=True):

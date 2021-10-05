@@ -1,5 +1,4 @@
 import operator
-from django.http.response import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
@@ -59,9 +58,7 @@ def analysis_user_favorite(request):
 
         # 별점 빈도수
         cnt = Counter(rate_list)
-        print(cnt, 'cnt')
         temp = dict(cnt)
-        # cnt_rate = dict(cnt)
         most_rate = dict(cnt.most_common(1))
         data["most_rate"] = most_rate
         data["cnt_rate"] = cnt_rate
@@ -69,9 +66,6 @@ def analysis_user_favorite(request):
         # print(most_rate) # (점수, 개수) 형식
         for key, value in temp.items():
             data["cnt_rate"][key] = value
-        
-        print(data)
-
         # print(data)
         return Response(data, status=status.HTTP_200_OK)
     else:
@@ -182,8 +176,6 @@ def analysis_movie_favorite(request):
 
 
 # 회원가입
-
-
 @api_view(['POST'])
 def signup(request):
     password = request.data.get('password')
@@ -211,13 +203,11 @@ def signup(request):
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        print(serializer.errors)
-        print(serializer.error_messages)
+        # print(serializer.errors)
+        # print(serializer.error_messages)
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # 이메일 중복 api 만들기
-
-
 @api_view(['POST'])
 def checkEmail(request):
     user_email = request.data.get('user_email')
@@ -233,6 +223,7 @@ def checkEmail(request):
         return Response({'error': '동일한 이메일이 존재합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+# 영화 설문조사하기
 @api_view(['POST'])
 def survey_result(request):
     if request.data.get('result'):
@@ -257,13 +248,14 @@ def survey_result(request):
         user.surveyed = True
         user.save()
 
+        # 설문조사하고 콘텐츠기반 필터링 적용하기
         result = survey_result_func(user.uid)
         result_insert(user, result)
         return Response(status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+# 다시 설문조사하기 
 @api_view(['DELETE'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -275,13 +267,11 @@ def survey_reset(request):
 
 
 def survey_result_func(userid):
-
     with open("./example.json", "r", encoding="utf8") as f:
         contents = f.read()  # string 타입
         json_data_realreal = json.loads(contents)
 
     df4 = pd.DataFrame(json_data_realreal)
-
     ################################################### DB에서 rating 테이블 불러오기############################################################
     conn = pymysql.connect(
         user='root',
@@ -380,8 +370,8 @@ def survey_result_func(userid):
         movie_index = df4[df4['movieid'] == input_movie].index.values
         similar_movies = similar_index[movie_index, :20]
         similar_movies_index = similar_movies.reshape(-1)
-        print(df4.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
-            'weighted_vote', ascending=False).head(3))
+        # print(df4.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
+        #     'weighted_vote', ascending=False).head(3))
         dataframe_table = pd.concat([dataframe_table, df4.loc[similar_movies_index, [
                                     'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(3)])
         # # # Create your views here.
@@ -394,7 +384,7 @@ def survey_result_func(userid):
     for c, i in dataframe_table.iterrows():
         if i.movieid not in result:
             result.append(i.movieid)
-    print(result)
+    # print(result)
     return result
     #########################################################설문 기반 추천 끝!#########################################################################
 
