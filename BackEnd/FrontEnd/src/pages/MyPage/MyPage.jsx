@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{ useEffect,useState } from 'react'
+import axios from 'axios';
 import {
   Typography,
   makeStyles,
@@ -46,7 +47,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Movietimain() {
   const classes = useStyles();
+  const [genredict,setGenredict] = useState([])
+  const [keywordsdict,setKeyworddict] = useState([])
+  useEffect(()=>{
+    const headers = {
+      headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+    }
+    
+    axios.get("http://localhost:8000/accounts/favorite/movie",headers)
+    .then((res)=>{
+      console.log(res.data);
+      setGenredict(res.data.genre_dict)
+      setKeyworddict(res.data.keywords_dict)
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log("이게안됨?")
+    })
 
+    axios.get("http://localhost:8000/accounts/favorite/user",headers)
+    .then((res)=>{
+      console.log(res.data);
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  
+  },[]);
+  
+  
 
   return (
     <div>
@@ -171,7 +200,7 @@ function Movietimain() {
             <Card className={classes.card4}
             >
               {/*영화 선호태그*/}
-              <Chart_tag/>
+              <Chart_tag data={keywordsdict}/>
             </Card>
             <Typography variant="h5" align="center" className={classes.text}>
             영화 선호태그</Typography>
@@ -188,7 +217,7 @@ function Movietimain() {
             <Card className={classes.card}
             >
               {/*영화 선호 장르*/}
-              <Chart_genre/>
+              <Chart_genre data={genredict}/>
             </Card>
             <Typography variant="h5" align="center" className={classes.text}>
             영화 선호 장르</Typography>
