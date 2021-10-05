@@ -40,7 +40,7 @@ function App () {
                 <Route path="/movie/search/title/" component={Search}/>
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/" component={Signin} />
-                <Route exact path="/movie/movieti" component={Movietimain} />
+                <Route exact path="/movie/movietimain" component={Movietimain} />
                 <Route exact path="/movie/movieti/1" component={Movietipage1} />
                 <Route exact path="/movie/movieti/2" component={Movietipage2} />
                 <Route exact path="/movie/movieti/3" component={Movietipage3} />

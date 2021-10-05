@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import requests
-from .models import Movie
+from accounts.models import Movie
 import json
 # Create your views here.
 

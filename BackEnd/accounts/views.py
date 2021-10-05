@@ -10,21 +10,66 @@ from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
 from .models import Movie, User, Rating, Tempmovieti
 import pandas as pd 
+import numpy as np
 import pymysql
 from sklearn.feature_extraction.text import CountVectorizer
 from ast import literal_eval
+from collections import Counter
 
-
-# 평가한 영화 수 -> 개수
-# 별점 분포? - 별점 평균, 별점 개수, 많이 준 별점
-# 영화 선호 태그
-# 선호 배우, 선호 감독
-# 선호 국가
-# 선호 장르 -> 몇편인지
-# 영화 감상 시간
 
 @api_view(['GET'])
-def analysis_favorite(request):
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def analysis_user_favorite(request):
+    movie_cnt = 0
+    average_rate = 0
+    most_rate = {}
+    cnt_rate = {}
+    data = {
+        "rated_movie_cnt": movie_cnt,
+        "average_rate": average_rate,
+        "most_rate": most_rate,
+        "cnt_rate": cnt_rate,
+    }
+    user = request.user
+    if Rating.objects.filter(uid_id=user.uid):
+        # 유저가 평가한 영화 가져오기
+        movie_list = Rating.objects.filter(uid_id=user.uid)
+
+        rate_list = [] # 평가 점수 리스트
+        for i in range(len(movie_list)):
+            rate_list.append(movie_list[i].rating)
+
+        # 평가한 영화의 수
+        movie_cnt = len(movie_list)
+        data["rated_movie_cnt"] = movie_cnt
+
+        # 별점 평균
+        n = np.array(rate_list)
+        average_rate = np.mean(n)
+        average_rate = np.around(average_rate, 2)
+        data["average_rate"] = average_rate
+
+        # 별점 빈도수
+        cnt = Counter(rate_list)
+        cnt_rate = dict(cnt)
+        most_rate = dict(cnt.most_common(1))
+        data["most_rate"] = most_rate
+        data["cnt_rate"] = cnt_rate
+        # print(cnt_rate)
+        # print(most_rate) # (점수, 개수) 형식
+
+        # print(data)
+        return Response(data, status=status.HTTP_200_OK)
+    else:
+        return Response(data, status=status.HTTP_200_OK)
+
+
+# 영화 선호 태그
+# 선호 국가
+# 선호 장르 -> 몇편인지
+@api_view(['GET'])
+def analysis_movie_favorite(request):
     # DB에 접속, 필요한 정보 명시
     conn  = pymysql.connect(
         user='root', 
@@ -48,11 +93,6 @@ def analysis_favorite(request):
 
     # 데이터 프레임으로 만들기
     df = pd.DataFrame(queryset)
-    print(type(df))
-
-    df['cast'] = df['cast'].apply(literal_eval)
-    # df['cast'] = df['cast'].apply(lambda x : [y['name'] for y in x])
-    print(df['cast'])
 
     # 2개 이상 나온 장르만 가져옴
     count_vect= CountVectorizer(min_df=2)
@@ -72,42 +112,56 @@ def analysis_favorite(request):
     # 딕셔너리 value값을 빈도로 변경해줌
     for i in range(len(cnt_list)) :
         genre_dict[arr[i]] = cnt_list[i]
-    print(genre_dict)
-    
-    # genre_dict은 내가본 영화의 장르 빈도체크한 딕셔너리
 
-
+    df['keywords'] = df['keywords'].str.replace(" ", "_")
+    print(df['keywords'])
     # 2번 이상 나온 키워드만 가져오기
     cnt_vect = CountVectorizer(min_df=2)
     n = cnt_vect.fit_transform(df['keywords'])
-    print(n.toarray())
-    print(cnt_vect.vocabulary_)
-    cnt_keyword = n.toarray().sum(axis=0).tolist()
-    print(cnt_keyword)
+    # print(n.toarray())
+    # print(cnt_vect.vocabulary_)
 
-    # 배우 전처리
-    # df['cast'] = df['cast'].apply(literal_eval)
-    # df['cast'] = df['cast'].apply(literal_eval)
-    # df['cast'] = df['cast'].apply(lambda x : [y['name'] for y in x])
-    print(df)
-    print(df['cast'])
+    keywords_dict = dict(sorted(cnt_vect.vocabulary_.items(), key=operator.itemgetter(1)))
+    # 단어의 빈도수 행렬나온것을 열기준으로 합해서 리스트로 변환함
+    cnt_keyword = n.toarray().sum(axis=0).tolist()
+    # key만 뽑아내서 리스트로 만들어줌
+    arr_county = list(keywords_dict.keys())
+    # 딕셔너리 value값을 빈도로 변경해줌
+    for i in range(len(cnt_keyword)) :
+        keywords_dict[arr_county[i]] = cnt_keyword[i]
+
 
     # 나라 전처리
     df['production_countries'] = df['production_countries'].apply(literal_eval)
     df['production_countries'] = df['production_countries'].apply(lambda x : [y['name'] for y in x])
-    print(df['production_countries'])
     # 데이터 타입 변경
     df = df.astype({'production_countries': 'str'})
     df['production_countries'] = df['production_countries'].str.replace(" ", "_")
-    print(df['production_countries'])
 
-    country_vect = CountVectorizer()
+    country_vect = CountVectorizer(min_df=2)
     c = country_vect.fit_transform(df['production_countries'])
-    print(country_vect.vocabulary_)
-    print(c.toarray())
+    # print(country_vect.vocabulary_)
+    # print(c.toarray())
 
+    country_dict = dict(sorted(country_vect.vocabulary_.items(), key=operator.itemgetter(1)))
+    # 단어의 빈도수 행렬나온것을 열기준으로 합해서 리스트로 변환함
+    cnt_country = c.toarray().sum(axis=0).tolist()
 
-    return Response(status=status.HTTP_200_OK)
+    # key만 뽑아내서 리스트로 만들어줌
+    arr_county = list(country_dict.keys())
+    # 딕셔너리 value값을 빈도로 변경해줌
+    for i in range(len(cnt_country)) :
+        country_dict[arr_county[i]] = cnt_country[i]
+    
+    # print(genre_dict)
+    # print(keywords_dict)
+    # print(country_dict)
+    data = {
+        "genre_dict": genre_dict,
+        "keywords_dict": keywords_dict,
+        "country_dict": country_dict
+    }
+    return Response(data, status=status.HTTP_200_OK)
 
 
 # 회원가입

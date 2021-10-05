@@ -1,6 +1,5 @@
 from rest_framework import fields, serializers
-from api.models import Movie, Movieti
-from accounts.models import Comment, Rating
+from accounts.models import Comment, Rating, Movie, Movieti
 
 
 class MovieSurveyListSerializer(serializers.ModelSerializer):
@@ -13,7 +12,7 @@ class MovieDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ('tmdb_id', 'title', 'genre', 'cast', 'keywords', 'overview',
-                  'release_date', 'poster_path', 'vote_average')
+                    'release_date', 'poster_path', 'vote_average')
 
 
 class MovietiSerializer(serializers.ModelSerializer):
