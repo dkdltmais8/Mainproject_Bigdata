@@ -16,9 +16,10 @@ import requests
 import copy
 import random
 from api.models import Movieti
-from accounts.models import Comment, User, Rating, Tempmovieti, Movie
+from accounts.models import Comment, User, Rating, Tempmovieti, Movie, Recommendationmovie
 from .serializers import MovieSurveyListSerializer, MovietiSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
 from accounts.serializers import UserMovieti, UserSignupSerializer
+
 # Create your views here.
 
 
@@ -95,8 +96,14 @@ def get_upcoming_movie(request):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_movieti_movielist(request):
-    movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
+    # movielist = get_object_or_404(Movieti, movieti=request.user.movieti)
     result = []
+    movielist = []
+    try:
+        movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
+    except:
+        return Response(movielist)
+
     for i in range(len(movielist)):
         temp2 = {}
         temp2['tmdb_id'] = movielist[i].get('id')
@@ -106,7 +113,24 @@ def get_movieti_movielist(request):
         temp2['backdrop_path'] = Movie.objects.get(
             tmdb_id=movielist[i].get('id')).backdrop_path
         result.append(temp2)
-    print(len(result))
+    return Response(result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_recommend_movielist(request):
+    movielist = Recommendationmovie.objects.filter(uid=request.user.uid)
+    result = []
+    for i in range(len(movielist)):
+        movie = Movie.objects.get(
+            movieid=movielist[i].movieid.movieid)
+        temp2 = {}
+        temp2['tmdb_id'] = movie.tmdb_id
+        temp2['title'] = movie.title
+        temp2['poster_path'] = movie.poster_path
+        temp2['backdrop_path'] = movie.backdrop_path
+        result.append(temp2)
     return Response(result, status=status.HTTP_200_OK)
 
 
