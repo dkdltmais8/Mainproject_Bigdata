@@ -12,7 +12,7 @@ services:
             - web
 
     web:
-        build: ./BackEnd
+        build: .
         container_name: leadme_01
         command: bash -c "
             python3 manage_dev.py collectstatic --no-input &&
