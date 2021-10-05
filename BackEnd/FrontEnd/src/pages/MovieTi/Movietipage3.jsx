@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage3() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/4`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "E"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/4`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }}   
         >
           사람들 사이에 스며들어 정보를 캐오는 일
         </Button>      
@@ -63,9 +78,23 @@ function Movietipage3() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/4`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "I"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/4`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }}   
         >
           홀로 비밀스레 잠입해 정보를 빼돌리는 일
         </Button>

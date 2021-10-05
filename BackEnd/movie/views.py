@@ -214,24 +214,25 @@ def calc_movieti_result(request):
 
     # 만약 movieti 검사를 새로 하는 것이라면
     sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
-    if(sum >= 13):
+    if(sum >= 12):
         mvti.E = mvti.I = mvti.N = mvti.S = mvti.T = mvti.F = mvti.J = mvti.P = 0
 
-    if(request.data.get('result') == 'E'):
+    getType = request.GET.get('result', None)
+    if(getType == 'E'):
         mvti.E = mvti.E + 1
-    elif(request.data.get('result') == 'I'):
+    elif(getType == 'I'):
         mvti.I = mvti.I + 1
-    elif(request.data.get('result') == 'N'):
+    elif(getType == 'N'):
         mvti.N = mvti.N + 1
-    elif(request.data.get('result') == 'S'):
+    elif(getType == 'S'):
         mvti.S = mvti.S + 1
-    elif(request.data.get('result') == 'T'):
+    elif(getType == 'T'):
         mvti.T = mvti.T + 1
-    elif(request.data.get('result') == 'F'):
+    elif(getType == 'F'):
         mvti.F = mvti.F + 1
-    elif(request.data.get('result') == 'J'):
+    elif(getType == 'J'):
         mvti.J = mvti.J + 1
-    elif(request.data.get('result') == 'P'):
+    elif(getType == 'P'):
         mvti.P = mvti.P + 1
     mvti.save()
 
@@ -261,7 +262,7 @@ def calc_movieti_result(request):
     Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
 
     changedata = {"email": user.email, "password": user.password,
-                    "movieti": final_mvti}
+                  "movieti": final_mvti}
 
     serializer = UserMovieti(user, data=changedata)
     if serializer.is_valid(raise_exception=True):
@@ -314,11 +315,11 @@ def set_rating(request, movieid):
     if Rating.objects.filter(movieid=movie.movieid, uid_id=user.uid):
         return Response({'error': '동일한 영화를 이미 평가했습니다.'}, status=status.HTTP_409_CONFLICT)
     Rating.objects.create(
-        movieid = Movie.objects.get(tmdb_id=movieid),
-        uid = user,
-        rating = rate,
+        movieid=Movie.objects.get(tmdb_id=movieid),
+        uid=user,
+        rating=rate,
     )
-    return Response(status=status.HTTP_200_OK) 
+    return Response(status=status.HTTP_200_OK)
 
 
 # 디테일에서 영화 출연진 눌럿을때 = 검색 햇을 때?

@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,8 +52,22 @@ function Movietipage12() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/13`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "J"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/13`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           근처에 영화관이 있는지 다시 검색해본다
@@ -63,8 +78,22 @@ function Movietipage12() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/13`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "P"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/13`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           그럼 되는 시간에 보지뭐, 다른거 하고 있자

@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,8 +52,22 @@ function Movietipage10() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/11`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "S"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/11`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           감독의 의도를 생각하고 찾아보다가 만다
@@ -63,8 +78,22 @@ function Movietipage10() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/11`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "N"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/11`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           열린결말이니 내 마음대로 상상하고 만족해한다

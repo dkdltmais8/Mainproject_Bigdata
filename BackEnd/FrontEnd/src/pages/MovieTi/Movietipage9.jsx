@@ -7,6 +7,7 @@ import {
   Grid,
 } from '@material-ui/core'
 import MovietiHeader from '../../components/MovietiHeader'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -51,9 +52,23 @@ function Movietipage9() {
           variant="contained"
           color="primary"          
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/10`)
-          }}
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "F"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/10`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }} 
         >
           우리 영화보고 맛있는거 먹으러가자!
         </Button>
@@ -63,8 +78,22 @@ function Movietipage9() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {
-            history.push(`/movie/movieti/10`)
+          onClick = {() => {                 
+            axios.get(`http://localhost:8000/movie/movieti`, {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+              },   
+              params: {
+                "result": "T"
+              }
+            },)
+              .then(res => {
+                history.push(`/movie/movieti/10`)
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }}
         >
           다음에 잘하면 돼! 이번 시험 다들 어려웠대!
