@@ -69,6 +69,8 @@ def analysis_user_favorite(request):
 # 선호 국가
 # 선호 장르 -> 몇편인지
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def analysis_movie_favorite(request):
     # DB에 접속, 필요한 정보 명시
     conn  = pymysql.connect(
@@ -83,6 +85,7 @@ def analysis_movie_favorite(request):
     )
     # sql문 실행하기
     cursor = conn.cursor()
+    user = request.user
     sql = 'SELECT t1.movieid, t1.tmdb_id, t1.title, t1.genre, t1.release_date, t1.production_countries, t1.runtime, t1.vote_average, t1.vote_count, t1.cast, t1.keywords FROM bigdatapjt.movie as t1 where t1.movieid in (select t2.movieid from bigdatapjt.rating t2 where t2.uid_id=1);'
     cursor.execute(sql)
     # 데이터 받아오기
