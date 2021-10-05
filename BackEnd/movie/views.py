@@ -95,20 +95,19 @@ def get_upcoming_movie(request):
 @permission_classes([IsAuthenticated])
 def get_movieti_movielist(request):
     print(request.user)
-    # movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
-    # result = []
-    # for i in range(len(movielist)):
-    #     temp2 = {}
-    #     temp2['tmdb_id'] = movielist[i].get('id')
-    #     temp2['title'] = Movie.objects.get(
-    #         tmdb_id=movielist[i].get('id')).title
-    #     temp2['poster_path'] = movielist[i].get('poster_path')
-    #     temp2['backdrop_path'] = Movie.objects.get(
-    #         tmdb_id=movielist[i].get('id')).backdrop_path
-    #     result.append(temp2)
-    # print(len(result))
-    # return Response(result, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_200_OK)
+    movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
+    result = []
+    for i in range(len(movielist)):
+        temp2 = {}
+        temp2['tmdb_id'] = movielist[i].get('id')
+        temp2['title'] = Movie.objects.get(
+            tmdb_id=movielist[i].get('id')).title
+        temp2['poster_path'] = movielist[i].get('poster_path')
+        temp2['backdrop_path'] = Movie.objects.get(
+            tmdb_id=movielist[i].get('id')).backdrop_path
+        result.append(temp2)
+    print(len(result))
+    return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

@@ -102,7 +102,7 @@ function Main( {history} ){
       console.log(err)
     })
 
-  },[recommendMovies]);
+  },[]);
 
   const reSurvey = () =>{
     const headers = {
@@ -116,7 +116,6 @@ function Main( {history} ){
     .catch((err)=>{
       console.log(err)
       console.log(headers)
-
     })
   }
 
@@ -174,7 +173,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
                 </Grid>
               )
               :(
@@ -207,7 +206,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movieti")}}>다시 검사하기</Button>
+                    <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movietimain")}}>다시 검사하기</Button>
                     <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
                   </Grid>
                 </div>
