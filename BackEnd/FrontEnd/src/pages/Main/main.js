@@ -35,6 +35,7 @@ function Main( {history} ){
   const [recommendMovies,setRecommendMovies] = useState([])
   const [movietiMovies,setMovietiMovies] = useState([])
   const [movieTi]= useState([])
+  const [movietiCollaboMovies,setMovietiCollaboMoviesUrl]= useState([])
 
   const [loading, setLoading] = useState(true); 
 
@@ -52,6 +53,7 @@ function Main( {history} ){
   const upComingmoviesUrl = "http://localhost:8000/movie/upcoming"
   const recommendMoviesUrl = "http://localhost:8000/movie/recommend/list"
   const movietiMoviesUrl = "http://localhost:8000/movie/movieti/list"
+  const movietiCollaboMoviesUrl = "http://localhost:8000/movie/recommendmovieti/list"
 
   
   useEffect(()=>{
@@ -104,6 +106,16 @@ function Main( {history} ){
     .catch((err)=>{
       console.log(err)
     })
+
+    axios.get(movietiCollaboMoviesUrl,headers)
+    .then((res)=>{
+      console.log(res.data,"애 나오긴햇어?");
+      setMovietiCollaboMoviesUrl(res.data);
+    })
+    .catch((err)=>{
+      console.log(err,"이거나옴?")
+    })
+
 
   },[]);
 
@@ -169,12 +181,34 @@ function Main( {history} ){
           >
             <SubContent id="user_recommend_movie">
             {
-              movieTi?
+              movietiMovies?
               (
                 loading?
                 <Spinner/>
                 :(
                 <div>
+                  <Slider {...sub_carousel_settings}>
+                    {
+                      movietiCollaboMovies.map((movietiCollaboMovie,idx)=>(
+                      <div key={movietiCollaboMovie.tmdb_id}>
+                        <MoviePoster 
+                          onClick = {(e)=>handleOpen(movietiCollaboMovie.tmdb_id,e)}
+                          id={`posterId${idx}`} 
+                          src={`https://image.tmdb.org/t/p/w200${movietiCollaboMovie.poster_path}`} 
+                          alt="img1"
+                        />
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <p>{movietiCollaboMovie.title}</p>
+                        </Grid>
+                      </div>
+                      ))
+                    }
+                  </Slider>
                   <Slider {...sub_carousel_settings}>
                     {
                       movietiMovies.map((movietiMovie,idx)=>(
