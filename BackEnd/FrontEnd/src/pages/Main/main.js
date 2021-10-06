@@ -54,7 +54,6 @@ function Main( {history} ){
   const recommendMoviesUrl = "http://localhost:8000/movie/recommend/list"
   const movietiMoviesUrl = "http://localhost:8000/movie/movieti/list"
   const movietiCollaboMoviesUrl = "http://localhost:8000/movie/recommendmovieti/list"
-
   
   useEffect(()=>{
     const headers = {
@@ -104,6 +103,7 @@ function Main( {history} ){
       setMovietiMovies(res.data);
     })
     .catch((err)=>{
+      setLoading(false);
       console.log(err)
     })
 
@@ -117,7 +117,19 @@ function Main( {history} ){
     })
 
 
-  },[]);
+  }, []);
+  
+  const headers = {
+    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+  }
+  axios.get(movietiCollaboMoviesUrl,headers)
+  .then((res)=>{
+    console.log(res.data,"애 나오긴햇어?");
+    setMovietiCollaboMoviesUrl(res.data);
+  })
+  .catch((err)=>{
+    console.log(err,"이거나옴?")
+  })
 
   const reSurvey = () =>{
     const headers = {
@@ -181,7 +193,7 @@ function Main( {history} ){
           >
             <SubContent id="user_recommend_movie">
             {
-              movietiMovies?
+              movietiMovies.length?
               (
                 loading?
                 <Spinner/>
@@ -249,7 +261,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{marginTop:10}}>MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{margin:70}}>MovieTi 검사하기</Button>
                 </Grid>
               )
 
