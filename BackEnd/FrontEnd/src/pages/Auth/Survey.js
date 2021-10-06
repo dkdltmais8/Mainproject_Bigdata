@@ -89,7 +89,9 @@ function Survey( {history} ){
         justifyContent="center"
         alignItems="center"
       >
-        <p>시청한 영화를 평가해주세요(5개 이상!)</p>
+        {/* <p>시청한 영화를 평가해주세요(5개 이상!)</p> */}
+        <h1>시청한 영화를 평가해주세요(5개 이상!)</h1>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
       </Grid>
       <PosterContainer>
         <Grid container>
@@ -132,7 +134,8 @@ function Survey( {history} ){
                         :null
                     }
                   </span>
-                  <p>{movie.title}</p>
+                  {/* <p>{movie.title}</p> */}
+                  <p></p>
                   </div>
                 </Grid>
               )) 

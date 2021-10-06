@@ -94,7 +94,8 @@ def get_upcoming_movie(request):
 @permission_classes([IsAuthenticated])
 def get_movieti_movielist(request):
     result = []
-    if Movieti.objects.get(movieti=request.user.movieti):
+    # if Movieti.objects.get(movieti=request.user.movieti):
+    if request.user.movieti:
         movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
     # try:
     #     movielist = Movieti.objects.filter(movieti=request.user.movieti).movielist
