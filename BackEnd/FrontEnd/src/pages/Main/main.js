@@ -107,19 +107,15 @@ function Main( {history} ){
       console.log(err)
     })
 
+    axios.get(movietiCollaboMoviesUrl,headers)  
+    .then((res)=>{
+      console.log(res.data,"애 나오긴햇어?");
+      setMovietiCollaboMoviesUrl(res.data);
+    })
+    .catch((err)=>{
+      console.log(err,"이거나옴?")
+    })
   },[]);
-
-  const headers = {
-    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
-  }
-  axios.get(movietiCollaboMoviesUrl,headers)  
-  .then((res)=>{
-    console.log(res.data,"애 나오긴햇어?");
-    setMovietiCollaboMoviesUrl(res.data);
-  })
-  .catch((err)=>{
-    console.log(err,"이거나옴?")
-  })
 
   const reSurvey = () =>{
     const headers = {
