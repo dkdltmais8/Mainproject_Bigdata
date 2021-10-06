@@ -33,7 +33,7 @@ pytz==2021.1
 requests==2.26.0
 ruamel.yaml==0.17.16
 ruamel.yaml.clib==0.2.6
-scikit-learn==1.0
+scikit-learn==0.24.2
 scipy==1.7.1
 serializers==0.2.4
 six==1.16.0
