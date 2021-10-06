@@ -9,6 +9,7 @@ import Layout from '../../Layout';
 import Button from '@material-ui/core/Button';
 import Modal from '@mui/material/Modal';
 import Detail from './detail'
+import Spinner from '../../components/Spinner.js';
 
 const main_carousel_settings = {
   infinite: true,
@@ -35,6 +36,7 @@ function Main( {history} ){
   const [movietiMovies,setMovietiMovies] = useState([])
   const [movieTi]= useState([])
 
+  const [loading, setLoading] = useState(true); 
 
   const [open, setOpen] = useState(false);
   const [tmdbid, setTmdbid] = useState('');
@@ -95,6 +97,7 @@ function Main( {history} ){
 
     axios.get(movietiMoviesUrl,headers)
     .then((res)=>{
+      setLoading(false);
       console.log(res.data);
       setMovietiMovies(res.data);
     })
@@ -168,6 +171,9 @@ function Main( {history} ){
             {
               movieTi?
               (
+                loading?
+                <Spinner/>
+                :(
                 <div>
                   <Slider {...sub_carousel_settings}>
                     {
@@ -200,7 +206,7 @@ function Main( {history} ){
                     <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movietimain")}}>다시 검사하기</Button>
                     <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
                   </Grid>
-                </div>
+                </div>)
               ):
               (
                 <Grid

@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{ useEffect, useState } from 'react'
+import Spinner from '../../components/Spinner.js';
 import {useHistory} from 'react-router-dom';
 import {
   Button,
@@ -18,8 +19,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function Movietipage13() {
+  const [loading, setLoading] = useState(true);
+
   const classes = useStyles();
   const history = useHistory();
+
+  useEffect(() => {
+    setLoading(false)
+  },[]);
+
+  if (loading) return (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+      <Spinner/>
+    </Grid>
+  )
 
   return (
     <div>
@@ -51,7 +69,8 @@ function Movietipage13() {
           variant="contained"
           color="primary"          
           className={classes.submit}          
-          onClick = {() => {                 
+          onClick = {() => {      
+            setLoading(true);            
             axios.get(`http://localhost:8000/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
@@ -62,6 +81,7 @@ function Movietipage13() {
               }
             },)
               .then(res => {
+                setLoading(false);
                 history.push(`/movie/movieti/result`)
               })
               .catch(err => {
@@ -77,7 +97,8 @@ function Movietipage13() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick = {() => {                 
+          onClick = {() => {  
+            setLoading(true);            
             axios.get(`http://localhost:8000/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
@@ -88,6 +109,7 @@ function Movietipage13() {
               }
             },)
               .then(res => {
+                setLoading(false);
                 history.push(`/movie/movieti/result`)
               })
               .catch(err => {
