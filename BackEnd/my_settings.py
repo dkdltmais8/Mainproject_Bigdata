@@ -2,9 +2,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # 사용할 엔진 설정
         'NAME': 'bigdatapjt',  # 연동할 MYSQL의 데이터베이스 이름
-        'USER': 'jiahn',
-        'PASSWORD': 'jiahn1234',
-        'HOST': 'J5B305.p.ssafy.io',
+        'USER': 'root',
+        'PASSWORD': 'ssafy',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

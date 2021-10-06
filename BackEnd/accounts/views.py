@@ -298,8 +298,7 @@ def survey_result_func(userid):
     conn.close()
     df3 = pd.DataFrame(res)
     me = userid  # 실제로는 접속해 있는 유저의 uid_id
-    df3 = df3.loc[df3['uid_id'] == userid, ['movieid', 'rating']
-                  ].sort_values('rating', ascending=False)
+    df3 = df3.loc[df3['uid_id'] == userid, ['movieid', 'rating']].sort_values('rating', ascending=False)
     # print(df3)
     movieid_lst = [df3['movieid']]
     # print(movieid_lst)
@@ -416,8 +415,8 @@ def recomm_movieti(myuser):
 
     df1 = pd.DataFrame(json_data_realreal)
     my_movieTi = myuser.movieti
-    print("====================="*5)
-    print(my_movieTi)
+    # print("====================="*5)
+    # print(my_movieTi)
     conn = pymysql.connect(
         user='root',
         password='ssafy',
@@ -435,22 +434,22 @@ def recomm_movieti(myuser):
     # conn.close()
     df2 = pd.DataFrame(res)
     # print(df1)
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
     # print(df2)
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
     user_movie_rating = pd.merge(df2, df1, on='movieid')
     # print(user_movie_rating.loc[:,['ratingid','rating','movieid','uid_id','movieti']])
     # movie_user_rating = user_movie_rating.pivot_table('rating',index='title',columns='uid_id')
     user_movie_rating = user_movie_rating.pivot_table(
         'rating', columns='title', index='uid_id')
     # print(movie_user_rating)
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
 
     # print(user_movie_rating)
     # movie_user_rating.fillna(0,inplace=True)
     user_movie_rating.fillna(0, inplace=True)
     # print(movie_user_rating)
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
 
     # print(user_movie_rating)
     # similar_movie = cosine_similarity(movie_user_rating,movie_user_rating)
@@ -461,35 +460,35 @@ def recomm_movieti(myuser):
     user_df = pd.DataFrame(
         data=similar_user, index=user_movie_rating.index, columns=user_movie_rating.index)
     # print(movie_df)
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
     # print(user_df)
 
     ans = user_df[[myuser.uid]].sort_values(by=myuser.uid, ascending=False)[
         :6]   # 1대신에 request.user.uid
-    print(ans)
+    # print(ans)
     similar_userlist = []
     for c, i in ans.iterrows():
         similar_userlist.append(c)
     similar_userlist = similar_userlist[1:4]
-    print(similar_userlist)
-    print('------------------------------------------------------'*5)
+    # print(similar_userlist)
+    # print('------------------------------------------------------'*5)
     #####################################################비슷한 유저3명이 좋아한 영화들 찾기(_별점 4점이상_)#######################################################
-    print('비슷한 유저3명이 좋아한 영화들 찾기(_별점 4점이상_)')
-    print('------------------------------------------------------'*5)
+    # print('비슷한 유저3명이 좋아한 영화들 찾기(_별점 4점이상_)')
+    # print('------------------------------------------------------'*5)
 
     similar_userlist = tuple(similar_userlist)
-    print(f'{similar_userlist}')
+    # print(f'{similar_userlist}')
     # cursor = conn.cursor()
     sql = f'select * from bigdatapjt.rating where uid_id in {similar_userlist} and rating >=4'
     cursor.execute(sql)
     res = cursor.fetchall()
     df5 = pd.DataFrame(res)
-    print(df5)
+    # print(df5)
     user_movie_goodlist = []
     for c, i in df5.iterrows():
         user_movie_goodlist.append(i.movieid)
-    print(user_movie_goodlist)
-    print('------------------------------------------------------'*5)
+    # print(user_movie_goodlist)
+    # print('------------------------------------------------------'*5)
     user_movie_goodlist = tuple(user_movie_goodlist)
     sql = f'select * from bigdatapjt.movie where movieid in {user_movie_goodlist}'
     cursor.execute(sql)
@@ -500,12 +499,12 @@ def recomm_movieti(myuser):
     user_good_movielist = []
     for c, i in df6.iterrows():
         user_good_movielist.append(i.movieid)
-    print(user_good_movielist)
-    print('------------------------------------------------------'*5)
-    print('------------------------------------------------------'*5)
+    # print(user_good_movielist)
+    # print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
     ################################################## 추천알고리즘##########################################################################
-    print('추천알고리즘')
-    print('------------------------------------------------------'*5)
+    # print('추천알고리즘')
+    # print('------------------------------------------------------'*5)
 
     C = df1['vote_average'].mean()
 
@@ -534,36 +533,36 @@ def recomm_movieti(myuser):
         input_movie = i
         input_title = df1[df1['movieid'] == input_movie]['title']
         tfidf_vec = TfidfVectorizer(ngram_range=(1, 5))
-        print('------------------------------------------------------'*5)
-        print(f'키워드+장르 - TfidfVectorizer    {input_title}')
-        print('------------------------------------------------------'*5)
+        # print('------------------------------------------------------'*5)
+        # print(f'키워드+장르 - TfidfVectorizer    {input_title}')
+        # print('------------------------------------------------------'*5)
         tfidf_matrix = tfidf_vec.fit_transform(df1['recommend_item'])
         genres_similarity = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
         # #######################################################별점이 3점 이상이면 #################################################
-        print('너무 좋아!')
-        print('------------------------------------------------------'*5)
+        # print('너무 좋아!')
+        # print('------------------------------------------------------'*5)
 
         similar_index = np.argsort(-genres_similarity)
         movie_index = df1[df1['movieid'] == input_movie].index.values
         similar_movies = similar_index[movie_index, :20]
         similar_movies_index = similar_movies.reshape(-1)
-        print(df1.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
-            'weighted_vote', ascending=False).head(5))
+        # print(df1.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
+            # 'weighted_vote', ascending=False).head(5))
         user_good_movielist_table = pd.concat([user_good_movielist_table, df1.loc[similar_movies_index, [
-                                              'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(5)])
-        print('------------------------------------------------------'*5)
-    print(user_good_movielist_table.sort_values(
-        by='weighted_vote', ascending=False))
+                                                'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(5)])
+        # print('------------------------------------------------------'*5)
+    # print(user_good_movielist_table.sort_values(
+        # by='weighted_vote', ascending=False))
     user_good_movielist_table = user_good_movielist_table.sort_values(
         by='weighted_vote', ascending=False)
     res = []
     for c, i in user_good_movielist_table.iterrows():
         if i.movieid not in res:
             res.append(i.movieid)
-    print(res)
+    # print(res)
 
-    print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
     return res[:10]
 
 
