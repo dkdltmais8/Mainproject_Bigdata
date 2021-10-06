@@ -28,7 +28,7 @@ SECRET_KEY = my_settings.SECRET_KEY
 # 개발할때 로그를 남기는 부분, 운영할때 꼭 False로 변경해주기
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] #모든 호스트 허용
 
 
 # Application definition
