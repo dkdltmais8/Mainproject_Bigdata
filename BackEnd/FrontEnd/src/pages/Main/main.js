@@ -107,16 +107,15 @@ function Main( {history} ){
       console.log(err)
     })
 
+    axios.get(movietiCollaboMoviesUrl,headers)  
+    .then((res)=>{
+      console.log(res.data,"애 나오긴햇어?");
+      setMovietiCollaboMoviesUrl(res.data);
+    })
+    .catch((err)=>{
+      console.log(err,"이거나옴?")
+    })
   },[]);
-
-  axios.get(movietiCollaboMoviesUrl,headers)
-  .then((res)=>{
-    console.log(res.data,"애 나오긴햇어?");
-    setMovietiCollaboMoviesUrl(res.data);
-  })
-  .catch((err)=>{
-    console.log(err,"이거나옴?")
-  })
 
   const reSurvey = () =>{
     const headers = {
@@ -248,7 +247,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{margin:70}}>MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
                 </Grid>
               )
 
