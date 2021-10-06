@@ -108,6 +108,27 @@ function Movietimain() {
             내 취향 분석</Typography>
         </Grid>
 
+        <Grid container spacing={5}>
+          <Grid item xs={12}
+            style={{
+              display: 'flex' ,
+              justifyContent: 'center'          
+              }} 
+          >
+            <Card className={classes.card}
+            >
+              {/*영화 선호 장르*/}
+              <Chart_genre data={genredict}/>
+            </Card>      
+          </Grid>    
+
+          <Grid item xs={12}>
+            <Typography variant="h3" align="center" className={classes.text}>
+            내 선호 영화 장르 </Typography>
+        </Grid>
+          
+        </Grid>
+
         <Grid item xs={12} >
           <Grid container spacing={5}>
                                                           <Grid item xs={1}></Grid>
@@ -256,21 +277,6 @@ function Movietimain() {
           </Grid>  
 
                                           <Grid item xs={1}></Grid>  
-        </Grid>
-
-        <Grid container spacing={5}>
-          <Grid item xs={12}
-            style={{
-              display: 'flex' ,
-              justifyContent: 'center'          
-              }} 
-          >
-            <Card className={classes.card}
-            >
-              {/*영화 선호 장르*/}
-              <Chart_genre data={genredict}/>
-            </Card>
-          </Grid>    
         </Grid>
       </Grid>
     </div>
