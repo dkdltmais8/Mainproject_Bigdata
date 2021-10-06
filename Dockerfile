@@ -19,7 +19,7 @@ RUN mkdir /config
 
 ADD /config/requirements.txt /config/
 
-RUN apt-get install libmysqlclient-dev
+RUN apt-get install -y libmysqlclient-dev
 RUN pip3 install -r /config/requirements.txt
 
 RUN mkdir /src;
