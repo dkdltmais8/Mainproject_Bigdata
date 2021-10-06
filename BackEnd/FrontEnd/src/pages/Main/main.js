@@ -109,7 +109,10 @@ function Main( {history} ){
 
   },[]);
 
-  axios.get(movietiCollaboMoviesUrl,headers)
+  const headers = {
+    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
+  }
+  axios.get(movietiCollaboMoviesUrl,headers)  
   .then((res)=>{
     console.log(res.data,"애 나오긴햇어?");
     setMovietiCollaboMoviesUrl(res.data);
@@ -248,7 +251,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{margin:70}}>MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
                 </Grid>
               )
 
