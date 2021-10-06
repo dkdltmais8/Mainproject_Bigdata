@@ -6,7 +6,7 @@ services:
         ports:
             - "80:80"
         volumes:
-            - ./BackEnd:/src
+            - ./BackEnd:/BackEnd
             - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - web
@@ -22,7 +22,7 @@ services:
         depends_on:
             - db
         volumes:
-            - ./BackEnd:/src
+            - ./BackEnd:/BackEnd
 
     db:
         image: mysql
