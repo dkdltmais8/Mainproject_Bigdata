@@ -7,7 +7,7 @@ services:
             - "80:80"
         volumes:
             - ./BackEnd:/src
-            - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./BackEnd/config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - web
 
