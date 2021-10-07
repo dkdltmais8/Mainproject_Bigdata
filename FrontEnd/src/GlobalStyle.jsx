@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: fontPrimary;
     line-height: 1.5;
     justify-content:center;
-    background-color: #000000;
+    background-color: #101010;
     color: white;
   }
 
