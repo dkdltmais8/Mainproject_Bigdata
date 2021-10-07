@@ -33,7 +33,7 @@ function Movietipage8() {
           }}
       >        
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 08.  
+        Q. 08 
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         영화 원데이클래스에 참여하게 된 당신! 

@@ -187,6 +187,7 @@ function Main( {history} ){
                 <Spinner/>
                 :(
                 <div>
+                  <h2>나와 같은 Movieti가 좋아한 영화</h2>
                   <Slider {...sub_carousel_settings}>
                     {
                       movietiCollaboMovies.map((movietiCollaboMovie,idx)=>(
@@ -209,6 +210,7 @@ function Main( {history} ){
                       ))
                     }
                   </Slider>
+                  <h2>나의 Movieti 추천 영화</h2>
                   <Slider {...sub_carousel_settings}>
                     {
                       movietiMovies.map((movietiMovie,idx)=>(
@@ -242,17 +244,20 @@ function Main( {history} ){
                   </Grid>
                 </div>)
               ):
-              (
-                <Grid
+                (
+                  loading ?
+                    <Spinner/>
+                  :(
+                  <Grid
                     container
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                   >
                   <Button size="large" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
-                </Grid>
+                  </Grid>
+                  )
               )
-
             }
               <h2>추천 영화</h2>
               <Slider {...sub_carousel_settings}>

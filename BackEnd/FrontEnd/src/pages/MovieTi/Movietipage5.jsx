@@ -33,7 +33,7 @@ function Movietipage5() {
           }}
       >        
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 05.  
+        Q. 05
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         지금 보고싶은 영화가 개봉했다. 당신의 선택은? 

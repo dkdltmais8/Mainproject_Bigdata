@@ -33,7 +33,7 @@ function Movietipage7() {
           }}
       >     
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 07.  
+        Q. 07
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         친구가 오늘 너무 짜증나서 공포영화를 보겠다고 한다.

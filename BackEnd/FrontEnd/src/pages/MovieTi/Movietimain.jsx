@@ -45,7 +45,7 @@ function Movietimain() {
             marginTop: 100        
             }} 
         >
-          <Typography variant="h3" align="center" color="text.secondary" paragraph>
+          <Typography variant="h2" align="center" color="text.secondary" paragraph>
             MovieTI      
           </Typography>
         </Grid>

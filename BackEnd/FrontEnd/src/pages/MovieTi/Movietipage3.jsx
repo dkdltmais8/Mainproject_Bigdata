@@ -33,7 +33,7 @@ function Movietipage3() {
           }}
       >    
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 03.  
+        Q. 03
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         스파이가 된 당신! 당신이 맡게 될 일은?

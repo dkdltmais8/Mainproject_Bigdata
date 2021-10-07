@@ -51,7 +51,7 @@ function Movietipage13() {
           }}
       >        
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 13.  
+        Q. 13 
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         내가 본 영화에 대해서 친구가 어땠는지 물어본다. 나는..

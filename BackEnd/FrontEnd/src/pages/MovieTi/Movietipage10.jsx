@@ -33,7 +33,7 @@ function Movietipage10() {
           }}
       >       
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 10.  
+        Q. 10
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         영화를 보는데 열린 결말로 끝났다! 당신의 행동은?

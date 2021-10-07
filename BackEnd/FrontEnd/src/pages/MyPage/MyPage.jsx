@@ -122,7 +122,7 @@ function Mypage() {
       <Layout>
         </Layout>
         <Grid item xs={12}>
-            <Typography variant="h3" align="center" className={classes.text3}>
+            <Typography variant="h2" align="center" className={classes.text3}>
             내 취향 분석</Typography>
         </Grid>
 
