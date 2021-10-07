@@ -5,13 +5,16 @@ import Grid from '@material-ui/core/Grid';
 import Item from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-
+import Spinner from '../../components/Spinner.js';
 
 
 function Survey( {history} ){
   const [movies,setMovies] = useState([])
   const url = "http://localhost:8000/movie/survey"
+  const [loading, setLoading] = useState(true);
+
   useEffect(()=>{
+    setLoading(false);
     axios.get(url)
     .then((res)=>{
       console.log(res.data);
@@ -67,11 +70,13 @@ function Survey( {history} ){
   // console.log(result);
 
   const submitEvent =() =>{
+    setLoading(true);
     axios.post("http://localhost:8000/accounts/survey",{
       result:result,
       id:localStorage.getItem("id")
     })
     .then((res)=>{
+      setLoading(false);
       console.log(res.data);
       localStorage.setItem('servey', true)
       history.push("/main")
@@ -81,6 +86,17 @@ function Survey( {history} ){
     })
   }
 
+  if (loading) return (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+      <Spinner/>
+    </Grid>
+  )
+  
   return (
     <div>
       <Grid
@@ -89,7 +105,9 @@ function Survey( {history} ){
         justifyContent="center"
         alignItems="center"
       >
-        <p>시청한 영화를 평가해주세요(5개 이상!)</p>
+        {/* <p>시청한 영화를 평가해주세요(5개 이상!)</p> */}
+        <h1>시청한 영화를 평가해주세요(5개 이상!)</h1>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
       </Grid>
       <PosterContainer>
         <Grid container>
@@ -132,7 +150,8 @@ function Survey( {history} ){
                         :null
                     }
                   </span>
-                  <p>{movie.title}</p>
+                  {/* <p>{movie.title}</p> */}
+                  <p></p>
                   </div>
                 </Grid>
               )) 

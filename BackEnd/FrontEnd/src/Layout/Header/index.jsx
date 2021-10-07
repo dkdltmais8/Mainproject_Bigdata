@@ -16,7 +16,8 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
-
+import {AiFillHome} from "react-icons/ai";
+import {AiOutlineSearch} from "react-icons/ai";
 
 const HideOnScroll=(props)=>{
   const { children, window } = props;
@@ -101,18 +102,18 @@ const Header = props => {
 
   return (
     <HideOnScroll {...props}>
-    <AppBar position="relative" style={{ background: '#8561c5', boxShadow: 'none'}}>
+    <AppBar position="relative" style={{ background: '#101010', boxShadow: 'none'}}>
       <Grid container  justify="space-between" alignItems="center" spacing={12}
       > 
         <Grid item xs={3}>
-            <Button
+            <AiFillHome
               // size="small"
               onClick={()=>{
                 history.push('/main');
               }}
-              variant="contained" color="primary">
-              Lead me
-            </Button> 
+              style={{ fontSize: '30px', color: 'violet' }}>
+            Lead Me
+            </AiFillHome> 
         </Grid>
                     
         <Grid item xs={7}
@@ -150,13 +151,13 @@ const Header = props => {
                         justifyContent: 'center',
                       }} 
                     >
-                        <Button 
+                        <AiOutlineSearch
                           onClick = { ()=> {history.push({
                           pathname:`movie/search/title/${searchWord}`,
                           state:{searchWord:searchWord},
-                        })}} variant="contained" color="primary">
-                          검색
-                        </Button>  
+                        })}}
+                        style={{ fontSize: '30px', color: 'violet' }}>
+                        </AiOutlineSearch>  
                   </Grid>        
                   </Grid>            
                 </form>
@@ -179,6 +180,7 @@ const Header = props => {
                   style={{                  
                     display: 'flex' ,    
                     justifyContent: 'center',
+                    color:'violet',
                   }} 
                 >안녕하세요 {name}님!!</InputLabel>
                 <Select                

@@ -12,9 +12,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import requests
 import copy
 import random
-from accounts.models import Comment, User, Rating, Tempmovieti, Movie, Recommendationmovie, Movieti
+from accounts.models import Comment, User, Rating, Tempmovieti, Movie, Recommendationmovie, Movieti, Recommendationmovieti
 from .serializers import MovieSurveyListSerializer, MovieDetailSerializer, CommentSerializer, MovietiListSerializer
 from accounts.serializers import UserMovieti
+import accounts.views as accountviews
 
 # Create your views here.
 
@@ -93,7 +94,8 @@ def get_upcoming_movie(request):
 @permission_classes([IsAuthenticated])
 def get_movieti_movielist(request):
     result = []
-    if Movieti.objects.get(movieti=request.user.movieti):
+    # if Movieti.objects.get(movieti=request.user.movieti):
+    if request.user.movieti:
         movielist = Movieti.objects.get(movieti=request.user.movieti).movielist
     # try:
     #     movielist = Movieti.objects.filter(movieti=request.user.movieti).movielist
@@ -120,6 +122,27 @@ def get_recommend_movielist(request):
     result = []
     if Recommendationmovie.objects.filter(uid=request.user.uid):
         movielist = Recommendationmovie.objects.filter(uid=request.user.uid)
+        for i in range(len(movielist)):
+            movie = Movie.objects.get(
+                movieid=movielist[i].movieid.movieid)
+            temp2 = {}
+            temp2['tmdb_id'] = movie.tmdb_id
+            temp2['title'] = movie.title
+            temp2['poster_path'] = movie.poster_path
+            temp2['backdrop_path'] = movie.backdrop_path
+            result.append(temp2)
+        return Response(result, status=status.HTTP_200_OK)
+    else:
+        return Response(result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_recommend_movieti_list(request):
+    result = []
+    if Recommendationmovieti.objects.filter(uid=request.user.uid):
+        movielist = Recommendationmovieti.objects.filter(uid=request.user.uid)
         for i in range(len(movielist)):
             movie = Movie.objects.get(
                 movieid=movielist[i].movieid.movieid)
@@ -284,11 +307,17 @@ def calc_movieti_result(request):
     # movieti 결과를 테이블에 저장
     Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
 
-    changedata = {"email": user.email, "password": user.password, "movieti": final_mvti}
+    changedata = {"email": user.email,
+                  "password": user.password, "movieti": final_mvti}
 
     serializer = UserMovieti(user, data=changedata)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+
+        sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
+        if(sum >= 12):
+            rec_result = accountviews.recomm_movieti(request.user)
+            accountviews.movieti_result_insert(request.user, rec_result)
         result = MovietiListSerializer(
             Movieti.objects.get(movieti=final_mvti)).data
         return Response(result, status=status.HTTP_200_OK)

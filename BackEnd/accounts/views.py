@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import UserSignupSerializer
 from django.contrib.auth import get_user_model
-from .models import Movie, User, Rating, Tempmovieti, Recommendationmovie
-import pandas as pd 
+from .models import Movie, User, Rating, Tempmovieti, Recommendationmovie, Recommendationmovieti
+import pandas as pd
 import numpy as np
 import pymysql
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -16,6 +16,7 @@ from ast import literal_eval
 from collections import Counter
 import json
 from sklearn.metrics.pairwise import cosine_similarity
+
 
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -42,7 +43,7 @@ def analysis_user_favorite(request):
         # 유저가 평가한 영화 가져오기
         movie_list = Rating.objects.filter(uid_id=user.uid)
 
-        rate_list = [] # 평가 점수 리스트
+        rate_list = []  # 평가 점수 리스트
         for i in range(len(movie_list)):
             rate_list.append(movie_list[i].rating)
 
@@ -132,38 +133,41 @@ def analysis_movie_favorite(request):
     # print(n.toarray())
     # print(cnt_vect.vocabulary_)
 
-    keywords_dict = dict(sorted(cnt_vect.vocabulary_.items(), key=operator.itemgetter(1)))
+    keywords_dict = dict(
+        sorted(cnt_vect.vocabulary_.items(), key=operator.itemgetter(1)))
     # 단어의 빈도수 행렬나온것을 열기준으로 합해서 리스트로 변환함
     cnt_keyword = n.toarray().sum(axis=0).tolist()
     # key만 뽑아내서 리스트로 만들어줌
     arr_county = list(keywords_dict.keys())
     # 딕셔너리 value값을 빈도로 변경해줌
-    for i in range(len(cnt_keyword)) :
+    for i in range(len(cnt_keyword)):
         keywords_dict[arr_county[i]] = cnt_keyword[i]
-
 
     # 나라 전처리
     df['production_countries'] = df['production_countries'].apply(literal_eval)
-    df['production_countries'] = df['production_countries'].apply(lambda x : [y['name'] for y in x])
+    df['production_countries'] = df['production_countries'].apply(
+        lambda x: [y['name'] for y in x])
     # 데이터 타입 변경
     df = df.astype({'production_countries': 'str'})
-    df['production_countries'] = df['production_countries'].str.replace(" ", "_")
+    df['production_countries'] = df['production_countries'].str.replace(
+        " ", "_")
 
     country_vect = CountVectorizer(min_df=2)
     c = country_vect.fit_transform(df['production_countries'])
     # print(country_vect.vocabulary_)
     # print(c.toarray())
 
-    country_dict = dict(sorted(country_vect.vocabulary_.items(), key=operator.itemgetter(1)))
+    country_dict = dict(
+        sorted(country_vect.vocabulary_.items(), key=operator.itemgetter(1)))
     # 단어의 빈도수 행렬나온것을 열기준으로 합해서 리스트로 변환함
     cnt_country = c.toarray().sum(axis=0).tolist()
 
     # key만 뽑아내서 리스트로 만들어줌
     arr_county = list(country_dict.keys())
     # 딕셔너리 value값을 빈도로 변경해줌
-    for i in range(len(cnt_country)) :
+    for i in range(len(cnt_country)):
         country_dict[arr_county[i]] = cnt_country[i]
-    
+
     # print(genre_dict)
     # print(keywords_dict)
     # print(country_dict)
@@ -208,6 +212,8 @@ def signup(request):
         return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # 이메일 중복 api 만들기
+
+
 @api_view(['POST'])
 def checkEmail(request):
     user_email = request.data.get('user_email')
@@ -255,7 +261,9 @@ def survey_result(request):
     else:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# 다시 설문조사하기 
+# 다시 설문조사하기
+
+
 @api_view(['DELETE'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -296,11 +304,14 @@ def survey_result_func(userid):
     # print(movieid_lst)
     good_movie = []
     bad_movie = []
+    movie_num = []
     for c, i in df3.iterrows():
         if i.rating >= 3:
             good_movie.append(i.movieid)
+            movie_num.append(i.movieid)
         else:
             bad_movie.append(i.movieid)
+            movie_num.append(i.movieid)
     dataframe_table = pd.DataFrame()
     # print(good_movie,bad_movie)
     ##########################################################################################################################################
@@ -350,7 +361,7 @@ def survey_result_func(userid):
         # print(df4.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
         #     'weighted_vote', ascending=False).head(3))
         dataframe_table = pd.concat([dataframe_table, df4.loc[similar_movies_index, [
-                                    'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(3)])
+                                    'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(5)])
         # print('------------------------------------------------------'*5)
     for i in bad_movie:
         input_movie = i
@@ -373,25 +384,191 @@ def survey_result_func(userid):
         # print(df4.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
         #     'weighted_vote', ascending=False).head(3))
         dataframe_table = pd.concat([dataframe_table, df4.loc[similar_movies_index, [
-                                    'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(3)])
+                                    'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(5)])
         # # # Create your views here.
         # print('------------------------------------------------------'*5)
     # print('------------------------------------------------------'*5)
     dataframe_table = dataframe_table.sort_values(
-        'weighted_vote', ascending=False)[:10]
+        'weighted_vote', ascending=False)[:15]
     # print(dataframe_table)
     result = []
     for c, i in dataframe_table.iterrows():
-        if i.movieid not in result:
+        if i.movieid not in result and i.movieid not in movie_num:
             result.append(i.movieid)
     # print(result)
-    return result
+    return result[:10]
     #########################################################설문 기반 추천 끝!#########################################################################
 
 
 def result_insert(user, result):
     for i in result:
         Recommendationmovie.objects.create(
+            movieid=Movie.objects.get(movieid=i),
+            uid=user
+        )
+
+
+def recomm_movieti(myuser):
+    with open("./example.json", "r", encoding="utf8") as f:
+        contents = f.read()  # string 타입
+        json_data_realreal = json.loads(contents)
+
+    df1 = pd.DataFrame(json_data_realreal)
+    my_movieTi = myuser.movieti
+    # print("====================="*5)
+    # print(my_movieTi)
+    conn = pymysql.connect(
+        user='root',
+        password='ssafy',
+        database='bigdatapjt',
+        host='localhost',
+        port=3306,
+        charset='utf8',
+        autocommit=True,
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    cursor = conn.cursor()
+    sql = f'select * from bigdatapjt.rating where movieti = "{my_movieTi}"'
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    # conn.close()
+    df2 = pd.DataFrame(res)
+    # print(df1)
+    # print('------------------------------------------------------'*5)
+    # print(df2)
+    # print('------------------------------------------------------'*5)
+    user_movie_rating = pd.merge(df2, df1, on='movieid')
+    # print(user_movie_rating.loc[:,['ratingid','rating','movieid','uid_id','movieti']])
+    # movie_user_rating = user_movie_rating.pivot_table('rating',index='title',columns='uid_id')
+    user_movie_rating = user_movie_rating.pivot_table(
+        'rating', columns='title', index='uid_id')
+    # print(movie_user_rating)
+    # print('------------------------------------------------------'*5)
+
+    # print(user_movie_rating)
+    # movie_user_rating.fillna(0,inplace=True)
+    user_movie_rating.fillna(0, inplace=True)
+    # print(movie_user_rating)
+    # print('------------------------------------------------------'*5)
+
+    # print(user_movie_rating)
+    # similar_movie = cosine_similarity(movie_user_rating,movie_user_rating)
+    similar_user = cosine_similarity(user_movie_rating, user_movie_rating)
+    # print(similar_movie)
+    # print(similar_user)
+    # movie_df = pd.DataFrame(data=similar_movie,index=movie_user_rating.index,columns=movie_user_rating.index)
+    user_df = pd.DataFrame(
+        data=similar_user, index=user_movie_rating.index, columns=user_movie_rating.index)
+    # print(movie_df)
+    # print('------------------------------------------------------'*5)
+    # print(user_df)
+
+    ans = user_df[[myuser.uid]].sort_values(by=myuser.uid, ascending=False)[
+        :6]   # 1대신에 request.user.uid
+    # print(ans)
+    similar_userlist = []
+    for c, i in ans.iterrows():
+        similar_userlist.append(c)
+    similar_userlist = similar_userlist[1:4]
+    # print(similar_userlist)
+    # print('------------------------------------------------------'*5)
+    #####################################################비슷한 유저3명이 좋아한 영화들 찾기(_별점 4점이상_)#######################################################
+    # print('비슷한 유저3명이 좋아한 영화들 찾기(_별점 4점이상_)')
+    # print('------------------------------------------------------'*5)
+
+    similar_userlist = tuple(similar_userlist)
+    # print(f'{similar_userlist}')
+    # cursor = conn.cursor()
+    sql = f'select * from bigdatapjt.rating where uid_id in {similar_userlist} and rating >=4'
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    df5 = pd.DataFrame(res)
+    # print(df5)
+    user_movie_goodlist = []
+    for c, i in df5.iterrows():
+        user_movie_goodlist.append(i.movieid)
+    # print(user_movie_goodlist)
+    # print('------------------------------------------------------'*5)
+    user_movie_goodlist = tuple(user_movie_goodlist)
+    sql = f'select * from bigdatapjt.movie where movieid in {user_movie_goodlist}'
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    conn.close()
+    df6 = pd.DataFrame(res)
+    # print(df6)
+    user_good_movielist = []
+    for c, i in df6.iterrows():
+        user_good_movielist.append(i.movieid)
+    # print(user_good_movielist)
+    # print('------------------------------------------------------'*5)
+    # print('------------------------------------------------------'*5)
+    ################################################## 추천알고리즘##########################################################################
+    # print('추천알고리즘')
+    # print('------------------------------------------------------'*5)
+
+    C = df1['vote_average'].mean()
+
+    m = df1['vote_count'].quantile(0.6)
+
+    def weighted_vote_average(record):
+        v = record['vote_count']
+        R = record['vote_average']
+
+        return ((v/(v+m)) * R) + ((m/(m+v)) * C)
+
+    df1['weighted_vote'] = df1.apply(weighted_vote_average, axis=1)
+    # ###########################################################################################################################################
+    df1['keywords'] = df1['keywords'].apply(literal_eval)
+    df1['genre'] = df1['genre'].apply(literal_eval)
+
+    df1['genre'] = df1['genre'].apply(lambda x: [y['name'] for y in x])
+    df1['keywords'] = df1['keywords'].apply(lambda x: [y['name'] for y in x])
+
+    df1['recommend_item'] = df1['keywords'].apply(lambda x: ' '.join(x))
+    df1['recommend_item'] += df1['genre'].apply(lambda x: ' '.join(x))
+    # user_movie_goodlist = list(user_movie_goodlist)
+    # input_movie에 rating한 영화 이름집어넣기
+    user_good_movielist_table = pd.DataFrame()
+    for i in user_good_movielist:
+        input_movie = i
+        input_title = df1[df1['movieid'] == input_movie]['title']
+        tfidf_vec = TfidfVectorizer(ngram_range=(1, 5))
+        # print('------------------------------------------------------'*5)
+        # print(f'키워드+장르 - TfidfVectorizer    {input_title}')
+        # print('------------------------------------------------------'*5)
+        tfidf_matrix = tfidf_vec.fit_transform(df1['recommend_item'])
+        genres_similarity = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+        # #######################################################별점이 3점 이상이면 #################################################
+        # print('너무 좋아!')
+        # print('------------------------------------------------------'*5)
+
+        similar_index = np.argsort(-genres_similarity)
+        movie_index = df1[df1['movieid'] == input_movie].index.values
+        similar_movies = similar_index[movie_index, :20]
+        similar_movies_index = similar_movies.reshape(-1)
+        # print(df1.loc[similar_movies_index, ['title', 'movieid', 'weighted_vote']].sort_values(
+            # 'weighted_vote', ascending=False).head(5))
+        user_good_movielist_table = pd.concat([user_good_movielist_table, df1.loc[similar_movies_index, [
+                                                'title', 'movieid', 'weighted_vote']].sort_values('weighted_vote', ascending=False).head(5)])
+        # print('------------------------------------------------------'*5)
+    # print(user_good_movielist_table.sort_values(
+        # by='weighted_vote', ascending=False))
+    user_good_movielist_table = user_good_movielist_table.sort_values(
+        by='weighted_vote', ascending=False)
+    res = []
+    for c, i in user_good_movielist_table.iterrows():
+        if i.movieid not in res:
+            res.append(i.movieid)
+    # print(res)
+
+    # print('------------------------------------------------------'*5)
+    return res[:10]
+
+
+def movieti_result_insert(user, result):
+    for i in result:
+        Recommendationmovieti.objects.create(
             movieid=Movie.objects.get(movieid=i),
             uid=user
         )

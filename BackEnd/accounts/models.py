@@ -30,6 +30,7 @@ class Movie(models.Model):
     class Meta:
         db_table = 'movie'
 
+
 class Movieti(models.Model):
     movieti = models.CharField(primary_key=True, max_length=4)
     character = models.CharField(max_length=128, blank=True, null=True)
@@ -44,6 +45,7 @@ class Movieti(models.Model):
 
     class Meta:
         db_table = 'movieti'
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     uid = models.AutoField(primary_key=True)
@@ -65,8 +67,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Comment(models.Model):
     commentid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(User, on_delete=models.CASCADE, db_column='uid', related_name='my_comments')
-    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movieid', related_name='comments')
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
+                            db_column='uid', related_name='my_comments')
+    movieid = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, db_column='movieid', related_name='comments')
     comment = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -75,8 +79,10 @@ class Comment(models.Model):
 
 class Rating(models.Model):
     ratingid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='rating_movies')
-    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movieid')
+    uid = models.ForeignKey(settings.AUTH_USER_MODEL,
+                            on_delete=models.CASCADE, related_name='rating_movies')
+    movieid = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, db_column='movieid')
     rating = models.PositiveIntegerField(blank=True, null=True)
     survey = models.BooleanField(default=False)
     movieti = models.CharField(max_length=4, blank=True, null=True)
@@ -84,13 +90,28 @@ class Rating(models.Model):
     class Meta:
         db_table = 'rating'
 
+
 class Recommendationmovie(models.Model):
     recommendid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(User, on_delete=models.CASCADE, db_column='uid', related_name='my_recommended')
-    movieid = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movieid')
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
+                            db_column='uid', related_name='my_recommended')
+    movieid = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, db_column='movieid')
 
     class Meta:
         db_table = 'recommendationmovie'
+
+
+class Recommendationmovieti(models.Model):
+    recid = models.AutoField(primary_key=True)
+    uid = models.ForeignKey(User, on_delete=models.CASCADE,
+                            db_column='uid', blank=True, null=True)
+    movieid = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, db_column='movieid', blank=True, null=True)
+
+    class Meta:
+        db_table = 'recommendationmovieti'
+
 
 class Tempmovieti(models.Model):
     uid = models.AutoField(primary_key=True)
@@ -105,4 +126,3 @@ class Tempmovieti(models.Model):
 
     class Meta:
         db_table = 'tempmovieti'
-

@@ -14,6 +14,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import { borderColor } from "@mui/system";
+import Spinner from '../../components/Spinner.js';
 
 const style = {
   position: 'absolute',
@@ -49,6 +50,7 @@ const actor_carousel_settings = {
 };
 
 function Detail(props){
+  const [loading, setLoading] = useState(true);
 
   const [value, setValue] = React.useState(0);
 
@@ -66,6 +68,7 @@ function Detail(props){
   }
 
   useEffect(() => {
+    setLoading(true);
     const headers = {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
     }
@@ -76,6 +79,7 @@ function Detail(props){
       setrelatedMovies(res.data.movielist)
       setActors(res.data.cast)
       setValue(res.data.rating)
+      setLoading(false)
     })
     .catch((err)=>{
       console.log(err)
@@ -159,6 +163,17 @@ function Detail(props){
       console.log(err)
     })
   }
+
+  if (loading) return (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+      <Spinner/>
+    </Grid>
+  )
 
   return (
     <Box sx={style} style={{color:"black"}}>
