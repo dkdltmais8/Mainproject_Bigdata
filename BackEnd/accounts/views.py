@@ -126,7 +126,7 @@ def analysis_movie_favorite(request):
         genre_dict[arr[i]] = cnt_list[i]
 
     df['keywords'] = df['keywords'].str.replace(" ", "_")
-    print(df['keywords'])
+    # print(df['keywords'])
     # 2번 이상 나온 키워드만 가져오기
     cnt_vect = CountVectorizer(min_df=2)
     n = cnt_vect.fit_transform(df['keywords'])
