@@ -23,11 +23,11 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: '50vw',
   height: '100vh',
-  bgcolor: 'background.paper',
+  bgcolor: '#161318',
   border: '2px solid #000',
   boxShadow: 24,
   overflow:"scroll",
-  overflowX:"hidden",
+  overflowX: "hidden",
   p: 4,
 };
 
@@ -176,7 +176,7 @@ function Detail(props){
   )
 
   return (
-    <Box sx={style} style={{color:"black"}}>
+    <Box sx={style} style={{color:"white"}}>
       <h1>{movie.title} </h1>
       <Grid container spacing={3}>
         <Grid item xs={4}>
@@ -242,13 +242,18 @@ function Detail(props){
         >
           
           <Grid item xs={8}>
+          {/* <CssTextField label="댓글 작성하기" id="standard-search" /> */}
             <TextField 
               onChange={(e)=>setUserComment(e.target.value)}
               id="standard-search"
               label="댓글 작성하기"
               type="search"
               variant="standard"
-              style={{width:"100%"}}
+              color="secondary"
+              style={{ width: "100%" }}
+              InputLabelProps={{
+                style: { color: '#B0B0B0' },
+              }}
               />
           </Grid>
           <Grid item xs={2}>
@@ -369,5 +374,6 @@ const ActorPoster = styled.img`
   color:black;
   border-radius:10px;
 `;
+
 
 export default Detail;
