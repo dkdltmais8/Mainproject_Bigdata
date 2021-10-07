@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import Modal from '@mui/material/Modal';
 import Detail from './detail'
 import Spinner from '../../components/Spinner.js';
-import {AiOutlineRollback} from "react-icons/ai";
 
 const main_carousel_settings = {
   infinite: true,
@@ -34,8 +33,7 @@ function Main( {history} ){
   const [topRatedMovies,setTopRatedMovies] = useState([])
   const [upComingmovies,setUpComingMovies] = useState([])
   const [recommendMovies,setRecommendMovies] = useState([])
-  const [movietiMovies,setMovietiMovies] = useState([])
-  const [movieTi]= useState([])
+  const [movietiMovies,setMovietiMovies] = useState([])  
   const [movietiCollaboMovies,setMovietiCollaboMoviesUrl]= useState([])
 
   const [loading, setLoading] = useState(true); 
@@ -108,7 +106,7 @@ function Main( {history} ){
       console.log(err)
     })
 
-    axios.get(movietiCollaboMoviesUrl,headers)  
+    axios.get(movietiCollaboMoviesUrl,headers)
     .then((res)=>{
       console.log(res.data,"애 나오긴햇어?");
       setMovietiCollaboMoviesUrl(res.data);
