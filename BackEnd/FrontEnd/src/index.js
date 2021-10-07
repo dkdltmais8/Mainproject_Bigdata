@@ -8,10 +8,18 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "fontPrimary",
-    // h3: {
-    //   fontFamily: "fontSecondary"
-    // },
+    h2: {
+      fontFamily: "fontSecond"
+    },
+    h3: {
+      fontFamily: "fontPrimary"
+    },   
+    h4: {
+      fontFamily: "fontPrimary"
+    },  
+    h5: {
+      fontFamily: "fontPrimary"
+    },     
   },
   palette: {
     primary: {

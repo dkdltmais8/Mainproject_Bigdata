@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'relative',
   },
 }));
-function Movietimain() {
+function Mypage() {
   const classes = useStyles();
   const [genredict,setGenredict] = useState([])
   const [keywordsdict,setKeyworddict] = useState([])
@@ -61,13 +61,25 @@ function Movietimain() {
   const [avgrate, setAvgrate] = useState(0.0)
   const [mostrate, setMostrate] = useState([])
 
-  const ordered_country = {};
-  Object.keys(country).reverse().forEach(function(key) {
-    ordered_country[key] = country[key];
-  }); 
+  let ordered_country = [];
+  for (let number in country) {
+    ordered_country.push([number, country[number]]);
+  }
+  ordered_country.sort(function(a, b) {
+    return b[1] - a[1];
+  });
 
-  const name = Object.keys(ordered_country)
-  const number = Object.values(ordered_country)
+  if(ordered_country.length>=3){ordered_country = ordered_country.slice(0,3)};
+  
+  const name = ordered_country;
+  for (let index = 0; index < name.length; index++) {
+    if (name[index][0] === 'united_states_of_america')
+      name[index][0] = 'USA';
+    else if (name[index][0] === 'united_kingdom')
+      name[index][0] = 'UK';
+    else if (name[index][0] === 'united_arab_emirates')
+      name[index][0] = 'UAE';
+  }
 
   const rate = Object.keys(mostrate)
   const rate_number = Object.values(mostrate)
@@ -153,42 +165,22 @@ function Movietimain() {
                   영화 선호국가</Typography>
 
                 <Grid container spacing={2}>
-                    <Grid item xs={4}
+                  {
+                    name.map((nam,idx)=>(
+                      <Grid item xs={4}
                     style={{
                       display: 'relative' ,
                       justifyContent: 'center',
                       flexDirection: 'column'          
                       }} 
-                    >
+                >
                       <Typography variant="h5" align="center" className={classes.text}>
-                        {name[0]}</Typography>
+                        {nam[0]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
-                        {number[0]}</Typography>
+                        {nam[1]}</Typography>
                     </Grid>
-                    <Grid item xs={4}
-                    style={{
-                      display: 'relative' ,
-                      justifyContent: 'center',
-                      flexDirection: 'column'         
-                      }} 
-                    >
-                      <Typography variant="h5" align="center" className={classes.text}>
-                        {name[1]}</Typography>
-                        <Typography variant="h5" align="center" className={classes.text}>
-                        {number[1]}</Typography>
-                    </Grid>
-                    <Grid item xs={4}
-                    style={{
-                      display: 'flex' ,
-                      justifyContent: 'center',
-                      flexDirection: 'column'         
-                      }} 
-                    >
-                      <Typography variant="h5" align="center" className={classes.text}>
-                        {name[2]}</Typography>
-                        <Typography variant="h5" align="center" className={classes.text}>
-                        {number[2]}</Typography>
-                    </Grid>
+                    ))
+                  }
                 </Grid>
               </Card>
             </Grid>          
@@ -259,9 +251,9 @@ function Movietimain() {
               display: 'relative' ,
               justifyContent: 'center'          
               }} 
-          >              
+          >                
             <Typography variant="h4" align="center" className={classes.text3}>
-              평점 분포</Typography>  
+              평점 분포</Typography>
             <Card className={classes.card4}
             style={{
               backgroundColor:'#151515',
@@ -289,7 +281,8 @@ function Movietimain() {
             >
               {/*영화 선호태그*/}
               <Chart_tag data={keywordsdict}/>            
-            </Card>                        
+            </Card>           
+            
           </Grid>  
 
                                           <Grid item xs={1}></Grid>  
@@ -299,4 +292,4 @@ function Movietimain() {
   )
 }
 
-export default Movietimain
+export default Mypage
