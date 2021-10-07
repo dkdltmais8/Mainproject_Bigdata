@@ -10,7 +10,7 @@ import {
   Button
 } from '@material-ui/core'
 import axios from 'axios';
-
+import {AiFillHome} from "react-icons/ai";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '100%'
+    paddingTop: '100%',
   },
 }));
 function Movietimain() {
@@ -99,18 +99,16 @@ function Movietimain() {
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
           <Grid item style={{marginRight:200}}>
-                <Button
-                  // size="small"
-                  onClick={()=>{
-                    history.push('/main');
-                  }}
-                  variant="contained" color="primary"
-                  >
-                  메인페이지로 가기
-                </Button>
+            <AiFillHome
+              // size="small"
+              onClick={()=>{
+                history.push('/main');
+              }}
+              style={{ fontSize: '30px', color: 'violet' }}>
+            </AiFillHome> 
           </Grid>
                 
-          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:200}}>
+          <Typography variant="h3" align="center" paragraph style={{marginRight:200, color:'white'}}>
             MovieTI      
           </Typography>
           
@@ -120,7 +118,7 @@ function Movietimain() {
                   onClick={()=>{
                     history.push('/movie/movietimain');
                   }}
-                  variant="contained" color="primary"
+                  variant="contained" color="secondary"
                   >
                   다시 검사하기
                 </Button>

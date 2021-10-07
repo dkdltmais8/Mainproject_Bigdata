@@ -259,7 +259,9 @@ function Movietimain() {
               display: 'relative' ,
               justifyContent: 'center'          
               }} 
-          >                
+          >              
+            <Typography variant="h4" align="center" className={classes.text3}>
+              평점 분포</Typography>  
             <Card className={classes.card4}
             style={{
               backgroundColor:'#151515',
@@ -267,9 +269,7 @@ function Movietimain() {
             >
               {/*평점 분포*/}
               <Chart_star/>            
-            </Card>
-            <Typography variant="h4" align="center" className={classes.text3}>
-              평점 분포</Typography>
+            </Card>            
           </Grid>
 
           <Grid item xs={5}
@@ -278,6 +278,8 @@ function Movietimain() {
               justifyContent: 'center'          
               }} 
           >
+            <Typography variant="h4" align="center" className={classes.text3}>
+              선호 키워드</Typography>
             <Card className={classes.card4}
               style={{
                 display: 'flex' ,                
@@ -287,9 +289,7 @@ function Movietimain() {
             >
               {/*영화 선호태그*/}
               <Chart_tag data={keywordsdict}/>            
-            </Card>            
-            <Typography variant="h4" align="center" className={classes.text3}>
-              선호 키워드</Typography>
+            </Card>                        
           </Grid>  
 
                                           <Grid item xs={1}></Grid>  
