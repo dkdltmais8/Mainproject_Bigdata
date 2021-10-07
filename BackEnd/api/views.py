@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import requests
-from .models import Movie
+from accounts.models import Movie
 import json
 # Create your views here.
 
@@ -65,7 +65,7 @@ def get_datail_movie(request):
         movie.genre = genres
         movie.backdrop_path = result.get('backdrop_path')
         movie.runtime = result.get('runtime')
-        # movie.production_countries = result.get('production_countries')
+        movie.production_countries = result.get('production_countries')
         movie.save()
 
     return Response(status=status.HTTP_200_OK)
@@ -129,3 +129,5 @@ def get_movie_credits(request):
         movie.save()
 
     return Response(status=status.HTTP_200_OK)
+
+    #

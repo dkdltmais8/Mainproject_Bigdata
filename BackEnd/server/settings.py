@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import datetime
 from pathlib import Path
 import my_settings
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +29,7 @@ SECRET_KEY = my_settings.SECRET_KEY
 # 개발할때 로그를 남기는 부분, 운영할때 꼭 False로 변경해주기
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] #모든 호스트 허용
 
 
 # Application definition
@@ -82,18 +84,38 @@ ROOT_URLCONF = 'server.urls'
 #     ),
 # }
 
-# import datetime
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-#     'JWT_RESPONSE_PAYLOAD_HANDLER':
-#     'accounts.utils.jwt_response_payload_handler',
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny', 
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=10),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.utils.jwt_response_payload_handler',
+}
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ),
 # }
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'FrontEnd', 'build'), # 경로 변경
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,3 +180,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'FrontEnd', 'build', 'static'),
+]
+
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
