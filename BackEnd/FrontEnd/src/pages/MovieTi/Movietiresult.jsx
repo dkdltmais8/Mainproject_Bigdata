@@ -118,7 +118,7 @@ function Movietimain() {
                 <Button
                   // size="small"
                   onClick={()=>{
-                    history.push('/movie/movieti');
+                    history.push('/movie/movietimain');
                   }}
                   variant="contained" color="primary"
                   >

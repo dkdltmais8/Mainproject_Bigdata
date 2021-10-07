@@ -1,5 +1,6 @@
 // 전역으로 css를 적용시킬수있습니다.
 import { createGlobalStyle } from "styled-components";
+import './index.css';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -7,16 +8,27 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: "Helvetica", "Arial", sans-serif;
+    font-family: fontPrimary;
     line-height: 1.5;
     justify-content:center;
-    background-color: #000000;
+    background-color: #101010;
     color: white;
   }
 
   button{
+    font-family: fontPrimary;
     background-color: #7D54BD;
     color: white;
+  }
+
+  h2 {
+    font-family: fontSecond;
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-family: fontPrimary;
+    font-size: 2rem;
   }
 `;
 

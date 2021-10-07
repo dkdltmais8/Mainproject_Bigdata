@@ -86,5 +86,5 @@ export default App;
 
 //
 // npm install recharts
-// 
+// npm install react-icons --save
 

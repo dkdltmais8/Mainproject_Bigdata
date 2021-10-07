@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@mui/material/Modal';
 import Detail from './detail'
 import Spinner from '../../components/Spinner.js';
+import {AiOutlineRollback} from "react-icons/ai";
 
 const main_carousel_settings = {
   infinite: true,
@@ -115,21 +116,7 @@ function Main( {history} ){
     .catch((err)=>{
       console.log(err,"이거나옴?")
     })
-
-
-  }, []);
-  
-  const headers = {
-    headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
-  }
-  axios.get(movietiCollaboMoviesUrl,headers)
-  .then((res)=>{
-    console.log(res.data,"애 나오긴햇어?");
-    setMovietiCollaboMoviesUrl(res.data);
-  })
-  .catch((err)=>{
-    console.log(err,"이거나옴?")
-  })
+  },[]);
 
   const reSurvey = () =>{
     const headers = {
@@ -250,7 +237,7 @@ function Main( {history} ){
                     alignItems="center"
                   >
                     <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movietimain")}}>다시 검사하기</Button>
-                    <Button size="large" variant="contained" color="primary">결과 다시보기</Button>
+                    <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti/result")}}>결과 다시보기</Button>
                   </Grid>
                 </div>)
               ):
@@ -261,7 +248,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti")}} style={{margin:70}}>MovieTi 검사하기</Button>
+                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
                 </Grid>
               )
 
@@ -394,9 +381,8 @@ const MainPage = styled.div`
 const SubContent = styled.div`
   width:80%;
   margin:auto;
-  background-color:white;
-  border-style: solid;
-  color:black;
+  background-color:#101010;
+  color:violet;
   justify-content:center;
   aligin-content:center;
 `;
