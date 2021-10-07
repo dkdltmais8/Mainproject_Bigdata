@@ -3,13 +3,16 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
-import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Layout from '../../Layout';
-import Button from '@material-ui/core/Button';
-import Modal from '@mui/material/Modal';
+import {
+  Grid,
+  Button,
+  Modal,
+} from '@material-ui/core';
 import Detail from './detail'
 import Spinner from '../../components/Spinner.js';
+
 
 const main_carousel_settings = {
   infinite: true,
@@ -234,8 +237,8 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Button size="large" variant="contained" color="primary"  onClick = {()=> {history.push("/movie/movietimain")}}>다시 검사하기</Button>
-                    <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movieti/result")}}>결과 다시보기</Button>
+                    <Button size="large" color="primary"  onClick = {()=> {history.push("/movie/movietimain")}}>다시 검사하기</Button>
+                    <Button size="large" color="primary"  onClick = {()=> {history.push("/movie/movieti/result")}}>결과 다시보기</Button>
                   </Grid>
                 </div>)
               ):
@@ -246,7 +249,7 @@ function Main( {history} ){
                     justifyContent="center"
                     alignItems="center"
                   >
-                  <Button size="large" variant="contained" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
+                  <Button size="large" color="primary" onClick = {()=> {history.push("/movie/movietimain")}} style={{margin:70}}>MovieTi 검사하기</Button>
                 </Grid>
               )
 
@@ -280,7 +283,7 @@ function Main( {history} ){
                 justifyContent="center"
                 alignItems="center"
               >
-                <Button size="large" variant="contained" color="primary" onClick = { (e)=>reSurvey(e) } style={{marginBottom:10}}>다시추천받기</Button>
+                <Button size="large" color="primary" onClick = { (e)=>reSurvey(e) } style={{marginBottom:10}}>다시추천받기</Button>
               </Grid>
             </SubContent>
             <SubContent  id="new_movie">
@@ -380,7 +383,7 @@ const SubContent = styled.div`
   width:80%;
   margin:auto;
   background-color:#101010;
-  color:violet;
+  color:#e6e6e6;
   justify-content:center;
   aligin-content:center;
 `;
@@ -398,4 +401,5 @@ const MainCarousel = styled.img`
   color:black;
   filter: blur(20px);
 `;
+
 export default Main;

@@ -5,9 +5,17 @@ import {
   Grid,
   AppBar,
   Button,
+  makeStyles,
 } from '@material-ui/core';
 
+const useStyles = makeStyles((theme) => ({
+  button: {
+    color: theme.palette.common.white,
+  },
+}));
+
 function MovietiHeader() {
+  const classes = useStyles();
   const history = useHistory();
 
   return (
@@ -15,7 +23,8 @@ function MovietiHeader() {
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
           <Grid item style={{marginRight:200}}>
-            <Button
+            <Button     
+              className={classes.button}       
               size="large"
               onClick={()=>{
                 history.push('/main');

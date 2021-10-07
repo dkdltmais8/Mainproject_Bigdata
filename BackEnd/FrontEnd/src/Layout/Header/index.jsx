@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import {
   Grid,
   AppBar,
-  Button,
   useScrollTrigger,
   Slide,
   Box,

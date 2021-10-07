@@ -4,21 +4,31 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// import { createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-// const theme = createMuiTheme({
-//   typography: {
-//     fontFamily: "fontSecond",
-//   },
-//   button: {
-//     fontFamily: "fontSecond",
-//   },
-// });
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "fontPrimary",
+    // h3: {
+    //   fontFamily: "fontSecondary"
+    // },
+  },
+  palette: {
+    primary: {
+      main: '#42a5f5',
+    },
+    secondary: {
+      main: '#f57c00'
+    },
+  },
+});
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
