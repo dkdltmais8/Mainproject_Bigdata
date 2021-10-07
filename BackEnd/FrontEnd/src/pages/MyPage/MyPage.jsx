@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
   text2: {
     marginTop: 100,
   },
+  text3: {
+    marginTop: 30,
+    color:'violet'
+  },
   image: {
     marginTop: 15,
     height: "500px",
@@ -59,7 +63,7 @@ function Movietimain() {
 
   const ordered_country = {};
   Object.keys(country).reverse().forEach(function(key) {
-   ordered_country[key] = country[key];
+    ordered_country[key] = country[key];
   }); 
 
   const name = Object.keys(ordered_country)
@@ -73,7 +77,7 @@ function Movietimain() {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
     }
     
-    axios.get("http://localhost:8000/accounts/favorite/movie",headers)
+    axios.get("/accounts/favorite/movie",headers)
     .then((res)=>{
       // console.log(res.data.country_dict[1]);
       setGenredict(res.data.genre_dict)
@@ -85,7 +89,7 @@ function Movietimain() {
       console.log("이게안됨?")
     })
 
-    axios.get("http://localhost:8000/accounts/favorite/user",headers)
+    axios.get("/accounts/favorite/user",headers)
     .then((res)=>{
       // console.log(res.data);
       setMoviecount(res.data.rated_movie_cnt)
@@ -104,7 +108,7 @@ function Movietimain() {
       <Layout>
         </Layout>
         <Grid item xs={12}>
-            <Typography variant="h3" align="center" className={classes.text}>
+            <Typography variant="h3" align="center" className={classes.text3}>
             내 취향 분석</Typography>
         </Grid>
 
@@ -123,7 +127,7 @@ function Movietimain() {
           </Grid>    
 
           <Grid item xs={12}>
-            <Typography variant="h3" align="center" className={classes.text}>
+            <Typography variant="h3" align="center" className={classes.text3}>
             내 선호 영화 장르 </Typography>
         </Grid>
           
@@ -131,7 +135,7 @@ function Movietimain() {
 
         <Grid item xs={12} >
           <Grid container spacing={5}>
-                                                          <Grid item xs={1}></Grid>
+            <Grid item xs={1}></Grid>
             <Grid item xs={5}
               style={{
                 display: 'flex' ,                
@@ -141,7 +145,7 @@ function Movietimain() {
               <Card className={classes.card3}
               style={{
                 backgroundColor:'#151515',
-                color:'violet'
+                color:'#8884d8'
               }}
               >
                 {/* 영화 선호국가 */}
@@ -155,7 +159,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'          
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[0]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -167,7 +171,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'         
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[1]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -179,7 +183,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'         
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[2]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -188,7 +192,7 @@ function Movietimain() {
                 </Grid>
               </Card>
             </Grid>          
-   
+
             <Grid item xs={5}
               style={{
                 display: 'flex' ,
@@ -198,7 +202,7 @@ function Movietimain() {
               <Card className={classes.card3}
               style={{
                 backgroundColor:'#151515',
-                color:'violet'
+                color:'#8884d8'
               }}
               >
                 {/* 평가수 */}
@@ -209,9 +213,9 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column',
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
-                       평가된 영화 수</Typography>
+                      평가된 영화 수</Typography>
                     <Typography variant="h5" align="center" className={classes.text}>
                     {moviecount}</Typography>
                     
@@ -222,7 +226,7 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column'          
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
                       영화 평균 평점</Typography>
                     <Typography variant="h5" align="center" className={classes.text}>
@@ -234,7 +238,7 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column'        
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
                       가장 많이 준 평점</Typography>
                     <Typography variant="h6" align="center" className={classes.text}>
@@ -242,7 +246,7 @@ function Movietimain() {
                   </Grid>
                 </Grid>
               </Card>
-             </Grid>  
+            </Grid>  
                                               <Grid item xs={1}></Grid>
           </Grid>
         </Grid>
@@ -259,13 +263,12 @@ function Movietimain() {
             <Card className={classes.card4}
             style={{
               backgroundColor:'#151515',
-              color:'violet'
             }}
             >
               {/*평점 분포*/}
               <Chart_star/>            
             </Card>
-            <Typography variant="h4" align="center" className={classes.text}>
+            <Typography variant="h4" align="center" className={classes.text3}>
               평점 분포</Typography>
           </Grid>
 
@@ -278,13 +281,14 @@ function Movietimain() {
             <Card className={classes.card4}
               style={{
                 display: 'flex' ,                
-                justifyContent: 'center'          
+                justifyContent: 'center',
+                backgroundColor:'#151515',        
                 }} 
             >
               {/*영화 선호태그*/}
               <Chart_tag data={keywordsdict}/>            
             </Card>            
-            <Typography variant="h4" align="center" className={classes.text}>
+            <Typography variant="h4" align="center" className={classes.text3}>
               선호 키워드</Typography>
           </Grid>  
 

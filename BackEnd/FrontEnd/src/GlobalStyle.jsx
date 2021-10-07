@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     justify-content:center;
     background-color: #101010;
-    color: black;
+    color: white;
   }
 
   button{

@@ -11,7 +11,7 @@ import { Typography } from "@material-ui/core";
 
 function Survey( {history} ){
   const [movies,setMovies] = useState([])
-  const url = "http://localhost:8000/movie/survey"
+  const url = "/movie/survey"
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
@@ -72,7 +72,7 @@ function Survey( {history} ){
 
   const submitEvent =() =>{
     setLoading(true);
-    axios.post("http://localhost:8000/accounts/survey",{
+    axios.post("/accounts/survey",{
       result:result,
       id:localStorage.getItem("id")
     })
