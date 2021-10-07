@@ -82,10 +82,10 @@ def analysis_user_favorite(request):
 def analysis_movie_favorite(request):
     # DB에 접속, 필요한 정보 명시
     conn = pymysql.connect(
-        user='root',
-        password='ssafy',
+        user='jiahn',
+        password='jiahn1234',
         database='bigdatapjt',
-        host='localhost',
+        host='J5B305.p.ssafy.io',
         port=3306,
         charset='utf8',
         autocommit=True,
@@ -282,10 +282,10 @@ def survey_result_func(userid):
     df4 = pd.DataFrame(json_data_realreal)
     ################################################### DB에서 rating 테이블 불러오기############################################################
     conn = pymysql.connect(
-        user='root',
-        password='ssafy',
+        user='jiahn',
+        password='jiahn1234',
         database='bigdatapjt',
-        host='localhost',
+        host='J5B305.p.ssafy.io',
         port=3306,
         charset='utf8',
         autocommit=True,
@@ -418,10 +418,10 @@ def recomm_movieti(myuser):
     # print("====================="*5)
     # print(my_movieTi)
     conn = pymysql.connect(
-        user='root',
-        password='ssafy',
+        user='jiahn',
+        password='jiahn1234',
         database='bigdatapjt',
-        host='localhost',
+        host='J5B305.p.ssafy.io',
         port=3306,
         charset='utf8',
         autocommit=True,
