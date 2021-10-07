@@ -358,17 +358,18 @@ def search_movie_genre(request, searchword):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def set_rating(request, movieid):
-    print(request.data.get('result'), movieid, request.user)
+    # print(request.data.get('result'), movieid, request.user)
     movie = Movie.objects.get(tmdb_id=movieid)
     user = request.user
     rate = request.data.get('result')
-    print(movie, user)
+    # print(movie, user)
     if Rating.objects.filter(movieid=movie.movieid, uid_id=user.uid):
         return Response({'error': '동일한 영화를 이미 평가했습니다.'}, status=status.HTTP_409_CONFLICT)
     Rating.objects.create(
         movieid=Movie.objects.get(tmdb_id=movieid),
         uid=user,
         rating=rate,
+        movieti=user.movieti
     )
     return Response(status=status.HTTP_200_OK)
 

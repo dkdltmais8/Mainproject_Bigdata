@@ -71,6 +71,8 @@ function Mypage() {
 
   if(ordered_country.length>=3){ordered_country = ordered_country.slice(0,3)};
   
+  console.log(ordered_country)
+
   const name = ordered_country;
   for (let index = 0; index < name.length; index++) {
     if (name[index][0] === 'united_states_of_america')
@@ -252,7 +254,7 @@ function Mypage() {
               justifyContent: 'center'          
               }} 
           >                
-            <Typography variant="h4" align="center" className={classes.text3}>
+           <Typography variant="h4" align="center" className={classes.text3}>
               평점 분포</Typography>
             <Card className={classes.card4}
             style={{
@@ -261,7 +263,7 @@ function Mypage() {
             >
               {/*평점 분포*/}
               <Chart_star/>            
-            </Card>            
+            </Card>
           </Grid>
 
           <Grid item xs={5}
@@ -281,8 +283,7 @@ function Mypage() {
             >
               {/*영화 선호태그*/}
               <Chart_tag data={keywordsdict}/>            
-            </Card>           
-            
+            </Card>          
           </Grid>  
 
                                           <Grid item xs={1}></Grid>  
