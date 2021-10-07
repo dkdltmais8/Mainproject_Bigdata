@@ -33,7 +33,7 @@ function Movietipage12() {
           }}
       >     
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 12.  
+        Q. 12
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         미리 찾아봤던 영화 시간표가 다음날 시간표이다. 당신의 선택은?

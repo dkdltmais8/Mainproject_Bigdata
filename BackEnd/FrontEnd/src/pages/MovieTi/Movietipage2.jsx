@@ -35,7 +35,7 @@ function Movietipage2() {
           }}
       >        
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 02.  
+        Q. 02 
       </Typography>
       <Typography variant="h4" align="center" color="text.secondary" paragraph>
         같이 영화를 보러가기로 한 친구가 늦어서 영화를 못보게 된 당신! 친구에게 듣고 싶은 말은?

@@ -33,13 +33,13 @@ function Movietipage6() {
           }}
       >       
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 06.  
+        Q. 06
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         오랜만의 휴식시간. 더 끌리는 쪽은?
       </Typography>
       <div 
-       style={{
+        style={{
         display: 'flex' ,
         flexDirection: 'column',
         alignItems:"center",

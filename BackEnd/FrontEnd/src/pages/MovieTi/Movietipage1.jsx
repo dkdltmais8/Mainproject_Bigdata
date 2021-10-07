@@ -33,7 +33,7 @@ function Movietipage1() {
           }}
       >        
         <Typography variant="h2" align="center" color="text.secondary" paragraph>
-          Q 01.  
+          Q. 01  
         </Typography>
         <Typography variant="h3" align="center" color="text.secondary" paragraph>
           어떤 영화를 좋아하세요?  
