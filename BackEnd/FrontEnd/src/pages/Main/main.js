@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@mui/material/Modal';
 import Detail from './detail'
 import Spinner from '../../components/Spinner.js';
+import {AiOutlineRollback} from "react-icons/ai";
 
 const main_carousel_settings = {
   infinite: true,
@@ -380,9 +381,8 @@ const MainPage = styled.div`
 const SubContent = styled.div`
   width:80%;
   margin:auto;
-  background-color:white;
-  border-style: solid;
-  color:black;
+  background-color:#101010;
+  color:violet;
   justify-content:center;
   aligin-content:center;
 `;
