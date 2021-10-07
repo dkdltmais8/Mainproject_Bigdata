@@ -20,6 +20,12 @@ const theme = createMuiTheme({
     secondary: {
       main: '#f57c00'
     },
+    info: {
+      main: '#ab47bc'
+    },
+    success: {
+      main: '#e3f2fd'
+    },
   },
 });
 
