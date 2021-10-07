@@ -59,7 +59,7 @@ function Movietimain() {
 
   const ordered_country = {};
   Object.keys(country).reverse().forEach(function(key) {
-   ordered_country[key] = country[key];
+    ordered_country[key] = country[key];
   }); 
 
   const name = Object.keys(ordered_country)
@@ -73,7 +73,7 @@ function Movietimain() {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
     }
     
-    axios.get("http://localhost:8000/accounts/favorite/movie",headers)
+    axios.get("/accounts/favorite/movie",headers)
     .then((res)=>{
       // console.log(res.data.country_dict[1]);
       setGenredict(res.data.genre_dict)
@@ -85,7 +85,7 @@ function Movietimain() {
       console.log("이게안됨?")
     })
 
-    axios.get("http://localhost:8000/accounts/favorite/user",headers)
+    axios.get("/accounts/favorite/user",headers)
     .then((res)=>{
       // console.log(res.data);
       setMoviecount(res.data.rated_movie_cnt)
@@ -131,7 +131,7 @@ function Movietimain() {
 
         <Grid item xs={12} >
           <Grid container spacing={5}>
-                                                          <Grid item xs={1}></Grid>
+            <Grid item xs={1}></Grid>
             <Grid item xs={5}
               style={{
                 display: 'flex' ,                
@@ -155,7 +155,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'          
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[0]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -167,7 +167,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'         
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[1]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -179,7 +179,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'         
                       }} 
-                     >
+                    >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[2]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
@@ -188,7 +188,7 @@ function Movietimain() {
                 </Grid>
               </Card>
             </Grid>          
-   
+
             <Grid item xs={5}
               style={{
                 display: 'flex' ,
@@ -209,9 +209,9 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column',
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
-                       평가된 영화 수</Typography>
+                      평가된 영화 수</Typography>
                     <Typography variant="h5" align="center" className={classes.text}>
                     {moviecount}</Typography>
                     
@@ -222,7 +222,7 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column'          
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
                       영화 평균 평점</Typography>
                     <Typography variant="h5" align="center" className={classes.text}>
@@ -234,7 +234,7 @@ function Movietimain() {
                     justifyContent: 'center',
                     flexDirection: 'column'        
                     }} 
-                   >
+                  >
                     <Typography variant="h5" align="center" className={classes.text2}>
                       가장 많이 준 평점</Typography>
                     <Typography variant="h6" align="center" className={classes.text}>
@@ -242,7 +242,7 @@ function Movietimain() {
                   </Grid>
                 </Grid>
               </Card>
-             </Grid>  
+            </Grid>  
                                               <Grid item xs={1}></Grid>
           </Grid>
         </Grid>

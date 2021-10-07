@@ -71,7 +71,7 @@ function Movietipage13() {
           className={classes.submit}          
           onClick = {() => {      
             setLoading(true);            
-            axios.get(`http://localhost:8000/movie/movieti`, {
+            axios.get(`/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ function Movietipage13() {
           className={classes.submit}
           onClick = {() => {  
             setLoading(true);            
-            axios.get(`http://localhost:8000/movie/movieti`, {
+            axios.get(`/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'

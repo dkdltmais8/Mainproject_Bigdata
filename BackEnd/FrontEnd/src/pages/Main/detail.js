@@ -72,7 +72,7 @@ function Detail(props){
     const headers = {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
     }
-    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}`, headers)
+    axios.get(`/movie/${prop.tmdb_id}`, headers)
     .then((res)=>{
       console.log(res.data);
       setmovie(res.data)
@@ -85,7 +85,7 @@ function Detail(props){
       console.log(err)
     })
 
-    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,headers)
+    axios.get(`/movie/${prop.tmdb_id}/comment`,headers)
     .then((res)=>{
       console.log(res);
       setComments(res.data);
@@ -101,7 +101,7 @@ function Detail(props){
     if(isOpenedComments){
       setisOpenedComments(false);
     }else{
-      axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`, headers)
+      axios.get(`/movie/${prop.tmdb_id}/comment`, headers)
       .then((res)=>{
         setisOpenedComments(true);
       })
@@ -113,7 +113,7 @@ function Detail(props){
   }
 
   const SubmitComment = () =>{
-    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,
+    axios.post(`/movie/${prop.tmdb_id}/comment`,
     {
       comment: userComment,
     },
@@ -129,7 +129,7 @@ function Detail(props){
       console.log("SubmitComment")
     })
 
-    axios.get(`http://localhost:8000/movie/${prop.tmdb_id}/comment`,headers)
+    axios.get(`/movie/${prop.tmdb_id}/comment`,headers)
     .then((res)=>{
       console.log(res);
       setComments(res.data);
@@ -141,7 +141,7 @@ function Detail(props){
   }
 
   const DeleteComment = (commentid) =>{
-    axios.delete(`http://localhost:8000/movie/comment/${commentid}`,headers)
+    axios.delete(`/movie/comment/${commentid}`,headers)
     .then((res)=>{
       console.log(res);
       let filtered = comments.filter((element) => element.commentid !== commentid);
@@ -153,7 +153,7 @@ function Detail(props){
   }
 
   const clickRating = (newValue) =>{
-    axios.post(`http://localhost:8000/movie/${prop.tmdb_id}/rating`,{
+    axios.post(`/movie/${prop.tmdb_id}/rating`,{
       result:newValue,
     },headers)
     .then((res)=>{

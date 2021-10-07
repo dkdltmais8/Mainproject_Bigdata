@@ -53,7 +53,7 @@ function Movietipage8() {
           color="primary"          
           className={classes.submit}
           onClick = {() => {                 
-            axios.get(`http://localhost:8000/movie/movieti`, {
+            axios.get(`/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ function Movietipage8() {
           color="primary"
           className={classes.submit}
           onClick = {() => {                 
-            axios.get(`http://localhost:8000/movie/movieti`, {
+            axios.get(`/movie/movieti`, {
               headers: {
                 Authorization: `JWT ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ function Movietipage8() {
         <Typography variant="h6" align="center" gutterBottom>
           8/13
         </Typography>
-     </div>
+    </div>
     </Grid>
   </div>
   )
