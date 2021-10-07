@@ -47,12 +47,12 @@ function Main( {history} ){
   const handleClose = () => setOpen(false);
 
 
-  const nowMoviesUrl = "http://localhost:8000/movie/nowplaying"
-  const topRatedMoviesUrl = "http://localhost:8000/movie/toprated"
-  const upComingmoviesUrl = "http://localhost:8000/movie/upcoming"
-  const recommendMoviesUrl = "http://localhost:8000/movie/recommend/list"
-  const movietiMoviesUrl = "http://localhost:8000/movie/movieti/list"
-  const movietiCollaboMoviesUrl = "http://localhost:8000/movie/recommendmovieti/list"
+  const nowMoviesUrl = "/movie/nowplaying"
+  const topRatedMoviesUrl = "/movie/toprated"
+  const upComingmoviesUrl = "/movie/upcoming"
+  const recommendMoviesUrl = "/movie/recommend/list"
+  const movietiMoviesUrl = "/movie/movieti/list"
+  const movietiCollaboMoviesUrl = "/movie/recommendmovieti/list"
   
   useEffect(()=>{
     const headers = {
@@ -120,7 +120,7 @@ function Main( {history} ){
     const headers = {
       headers: {Authorization: `JWT ${localStorage.getItem('jwt')}`}
     }
-    axios.delete(`http://localhost:8000/accounts/resetsurvey`, headers)
+    axios.delete(`/accounts/resetsurvey`, headers)
     .then((res)=>{
       console.log(res.data);
       history.push("/survey");
