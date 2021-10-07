@@ -15,8 +15,8 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types'
-import {AiFillHome} from "react-icons/ai";
 import {AiOutlineSearch} from "react-icons/ai";
+import Logo from '../../image/Leadme.png';
 
 const HideOnScroll=(props)=>{
   const { children, window } = props;
@@ -84,7 +84,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: '40%',
   },
-
+  img: {
+    height: '30%',
+  },
 }));
 
 const Header = props => {
@@ -107,16 +109,17 @@ const Header = props => {
         <Grid item xs={3}
           style={{                  
             display: 'flex' ,    
-            justifyContent: 'center',
+            justifyContent: 'center',            
           }} 
         >
-            <AiFillHome
-              // size="small"
-              onClick={()=>{
-                history.push('/main');
-              }}
-              style={{ fontSize: '30px', color: 'violet' }}>
-            </AiFillHome> 
+          <img src={Logo} className={classes.img}
+            onClick={()=>{
+              history.push('/main');
+            }}
+            style={{
+            display: 'flex' ,
+            justifyContent: 'center',            
+          }} />
         </Grid>
                     
         <Grid item xs={7}

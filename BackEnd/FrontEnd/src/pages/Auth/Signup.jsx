@@ -6,10 +6,10 @@ import {
   TextField,
   Paper,
   Grid,
-  Typography,
   makeStyles,
 } from '@material-ui/core/';
 import axios from 'axios';
+import Logo from '../../image/Leadme.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0, 2),
     alignItems: "center"
   },
+  img2: {
+    width: '50%',
+    justifyContent: 'center',
+  },
 }));
 
 export default function SignUp() {
@@ -65,23 +69,27 @@ export default function SignUp() {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />      
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h1"
-            style={{
-              display: 'flex' ,
-              justifyContent: 'center',
+    <div className={classes.paper}>  
+          <div
+              style={{
+                display: 'flex' ,
+                justifyContent: 'center',
+                marginTop: 50,
+                }} 
+            >
+        <img src={Logo} className={classes.img2}
+              style={{
               marginTop: 60,
-              }} 
-          >
-            Lead me
-          </Typography>                      
+            }} />       
+          </div>      
             <div
               style={{
                 display: 'flex' ,
                 justifyContent: 'center',
                 marginTop: 50,
+                marginLeft: 70,
                 }} 
             >
               <TextField

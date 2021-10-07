@@ -242,7 +242,6 @@ function Detail(props){
         >
           
           <Grid item xs={8}>
-          {/* <CssTextField label="댓글 작성하기" id="standard-search" /> */}
             <TextField 
               onChange={(e)=>setUserComment(e.target.value)}
               id="standard-search"

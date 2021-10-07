@@ -4,10 +4,9 @@ import {
   Typography,
   Grid,
   AppBar,
-  Button,
   makeStyles,
 } from '@material-ui/core';
-import {AiFillHome} from "react-icons/ai";
+import Logo from '../image/Leadme.png';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,14 +22,15 @@ function MovietiHeader() {
     <div>
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
-          <Grid item style={{marginRight:200}}>
-          <AiFillHome
-              // size="small"
+          <Grid item style={{marginRight:0}}>
+            <img src={Logo} className={classes.img}
               onClick={()=>{
                 history.push('/main');
               }}
-              style={{ fontSize: '30px', color: 'violet' }}>
-            </AiFillHome> 
+              style={{
+              display: 'flex' ,
+              justifyContent: 'center',            
+            }} />
           </Grid>
                 
           <Typography variant="h3" align="center" paragraph style={{marginRight:250, color:"white"}}>

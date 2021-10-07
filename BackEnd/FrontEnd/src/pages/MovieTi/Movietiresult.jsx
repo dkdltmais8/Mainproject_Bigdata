@@ -10,7 +10,7 @@ import {
   Button
 } from '@material-ui/core'
 import axios from 'axios';
-
+import Logo from '../../image/Leadme.png';
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -99,19 +99,18 @@ function Movietimain() {
       <div>
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
-          <Grid item style={{marginRight:200}}>
-                <Button
-                  // size="small"
-                  onClick={()=>{
-                    history.push('/main');
-                  }}
-                  variant="contained" color="primary"
-                  >
-                  메인페이지로 가기
-                </Button>
+          <Grid item style={{marginRight:0}}>
+            <img src={Logo} className={classes.img}
+                onClick={()=>{
+                  history.push('/main');
+                }}
+                style={{
+                display: 'flex' ,
+                justifyContent: 'center',            
+              }} />
           </Grid>
                 
-          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:200}}>
+          <Typography variant="h3" align="center" paragraph style={{marginRight:200, color:'white'}}>
             MovieTI      
           </Typography>
           
@@ -121,7 +120,7 @@ function Movietimain() {
                   onClick={()=>{
                     history.push('/movie/movietimain');
                   }}
-                  variant="contained" color="primary"
+                  variant="outlined" color="secondary"
                   >
                   다시 검사하기
                 </Button>
@@ -137,7 +136,7 @@ function Movietimain() {
                   <Typography variant="h2" align="center">
                     {character}
                   </Typography>
-                  <Typography variant="h4" align="center" className={classes.text}>
+                  <Typography variant="h2" align="center" className={classes.text} style={{color:'white'}}>
                     {title}
                   </Typography>
                 </Grid>
@@ -166,7 +165,7 @@ function Movietimain() {
               </Grid>
               <Grid item xs={4}>
                   <Grid item xs={9}>
-                    <Typography variant="h3" align="center" style={{color:'violet'}}>
+                    <Typography variant="h2" align="center" style={{color:'violet'}}>
                       비슷한 영화
                     </Typography>
                   </Grid>
