@@ -6,6 +6,7 @@ import Item from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Spinner from '../../components/Spinner.js';
+import { Typography } from "@material-ui/core";
 
 
 function Survey( {history} ){
@@ -99,16 +100,16 @@ function Survey( {history} ){
   
   return (
     <div>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        {/* <p>시청한 영화를 평가해주세요(5개 이상!)</p> */}
-        <h1>시청한 영화를 평가해주세요(5개 이상!)</h1>
-        <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-      </Grid>
+      <Grid item xs={12}>
+            <Typography variant="h3" align="center"
+              style={{
+                marginTop:50,
+                marginBottom: 50,
+              }}
+            >
+            시청한 영화를 평가해주세요</Typography>
+        </Grid>
+
       <PosterContainer>
         <Grid container>
           <Grid item xs={1}>

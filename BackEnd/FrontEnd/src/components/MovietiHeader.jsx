@@ -7,6 +7,7 @@ import {
   Button,
   makeStyles,
 } from '@material-ui/core';
+import {AiFillHome} from "react-icons/ai";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,29 +24,20 @@ function MovietiHeader() {
       <AppBar position="relative" style={{ background: 'transparent', boxShadow: 'none', marginTop:20}}>
         <Grid container justify="space-around" alignItems="center">
           <Grid item style={{marginRight:200}}>
-            <Button     
-              className={classes.button}       
-              size="large"
+          <AiFillHome
+              // size="small"
               onClick={()=>{
                 history.push('/main');
               }}
-              variant="contained" color="primary"
-              >
-              메인페이지로 가기
-            </Button>
+              style={{ fontSize: '30px', color: 'violet' }}>
+            </AiFillHome> 
           </Grid>
                 
-          <Typography variant="h3" align="center" color="text.secondary" paragraph style={{marginRight:250}}>
+          <Typography variant="h3" align="center" paragraph style={{marginRight:250, color:"white"}}>
             MovieTI      
           </Typography>
           
           <Grid item>
-            <Button                  
-              size="large"
-              variant="contained" color="primary"
-              >                  
-              LEAD ME
-            </Button>
           </Grid>
         </Grid>
       </AppBar>

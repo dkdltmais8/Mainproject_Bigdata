@@ -104,14 +104,18 @@ const Header = props => {
     <AppBar position="relative" style={{ background: '#101010', boxShadow: 'none'}}>
       <Grid container  justify="space-between" alignItems="center" spacing={12}
       > 
-        <Grid item xs={3}>
+        <Grid item xs={3}
+          style={{                  
+            display: 'flex' ,    
+            justifyContent: 'center',
+          }} 
+        >
             <AiFillHome
               // size="small"
               onClick={()=>{
                 history.push('/main');
               }}
               style={{ fontSize: '30px', color: 'violet' }}>
-            Lead Me
             </AiFillHome> 
         </Grid>
                     
@@ -120,8 +124,7 @@ const Header = props => {
             display: 'flex' ,    
             justifyContent: 'center',
           }} 
-        >
-          {/* 회색 큰 박스 안에 그리드 or flex로 배치 */}
+        >          
             <Box bgcolor="" width="100%">
                 <form onSubmit={(e)=>{
                     e.preventDefault();                      
