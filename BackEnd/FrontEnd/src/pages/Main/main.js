@@ -382,7 +382,7 @@ const SubContent = styled.div`
   width:80%;
   margin:auto;
   background-color:#101010;
-  color:violet;
+  color:#e6e6e6;
   justify-content:center;
   aligin-content:center;
 `;

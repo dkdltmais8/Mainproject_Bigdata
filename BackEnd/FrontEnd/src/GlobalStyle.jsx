@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     font-family: fontSecond;
     font-size: 2rem;
+    color: violet;
   }
 
   h3 {

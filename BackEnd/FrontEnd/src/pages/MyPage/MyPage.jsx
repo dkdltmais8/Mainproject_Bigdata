@@ -139,6 +139,10 @@ function Movietimain() {
                 }} 
             >
               <Card className={classes.card3}
+              style={{
+                backgroundColor:'#151515',
+                color:'violet'
+              }}
               >
                 {/* 영화 선호국가 */}
                 <Typography variant="h4" align="center" className={classes.text}>
@@ -192,6 +196,10 @@ function Movietimain() {
                 }} 
             >
               <Card className={classes.card3}
+              style={{
+                backgroundColor:'#151515',
+                color:'violet'
+              }}
               >
                 {/* 평가수 */}
                 <Grid container spacing={3}>
@@ -199,7 +207,7 @@ function Movietimain() {
                   style={{
                     display: 'relative' ,
                     justifyContent: 'center',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
                     }} 
                    >
                     <Typography variant="h5" align="center" className={classes.text2}>
@@ -249,6 +257,10 @@ function Movietimain() {
               }} 
           >                
             <Card className={classes.card4}
+            style={{
+              backgroundColor:'#151515',
+              color:'violet'
+            }}
             >
               {/*평점 분포*/}
               <Chart_star/>            
