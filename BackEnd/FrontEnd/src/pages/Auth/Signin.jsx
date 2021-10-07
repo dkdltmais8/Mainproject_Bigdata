@@ -11,7 +11,7 @@ import {
   makeStyles,
 } from '@material-ui/core/';
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Logo from '../../image/Leadme.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,16 +63,14 @@ export default function SignIn() {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h1"
+        <div className={classes.paper}
+        >
+          <img src={Logo} 
             style={{
-              display: 'flex' ,
-              justifyContent: 'center',
-              marginTop: 60,
-              }}
-          >
-            Lead me
-          </Typography>
+            display: 'flex' ,
+            justifyContent: 'center',
+            marginTop: 60,
+          }} />
           <form className={classes.form} noValidate
             onSubmit={(e) => {
               e.preventDefault();
