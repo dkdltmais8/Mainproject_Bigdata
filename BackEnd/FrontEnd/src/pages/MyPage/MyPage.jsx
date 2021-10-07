@@ -68,6 +68,14 @@ function Movietimain() {
 
   const name = Object.keys(ordered_country)
   const number = Object.values(ordered_country)
+  for (let index = 0; index < name.length; index++) {
+    if (name[index] === 'united_states_of_america')
+      name[index] = 'USA';
+    else if (name[index] === 'united_kingdom')
+      name[index] = 'UK';
+    else if (name[index] === 'united_arab_emirates')
+      name[index] = 'UAE';
+  }
 
   const rate = Object.keys(mostrate)
   const rate_number = Object.values(mostrate)
@@ -159,7 +167,7 @@ function Movietimain() {
                       justifyContent: 'center',
                       flexDirection: 'column'          
                       }} 
-                    >
+                >
                       <Typography variant="h5" align="center" className={classes.text}>
                         {name[0]}</Typography>
                         <Typography variant="h5" align="center" className={classes.text}>
