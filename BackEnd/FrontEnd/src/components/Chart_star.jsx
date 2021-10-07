@@ -8,7 +8,7 @@ const Chart_star = () => {
   
 
   useEffect(()=>{
-    axios.get(`http://localhost:8000/accounts/favorite/user`, {
+    axios.get(`/accounts/favorite/user`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
