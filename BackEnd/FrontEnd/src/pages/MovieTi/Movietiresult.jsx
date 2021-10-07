@@ -25,22 +25,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
   text2: {
-    marginTop: 15,
+    marginTop: 40,
   },
   image: {
-    marginTop: 15,
+    marginTop: 65,
     height: "500px",
     width: "350px",    
   },
   card: {
     marginTop: 75,
-    height: '240px',
+    height: '30vh',
     width: '240px',
     display: 'flex',
     flexDirection: 'column',
   },
   cardMedia: {
     paddingTop: '100%',
+    height:"100%"
   },
 }));
 function Movietimain() {
@@ -163,7 +164,7 @@ function Movietimain() {
               </Grid>
               <Grid item xs={4}>
                   <Grid item xs={9}>
-                    <Typography variant="h3" align="center">
+                    <Typography variant="h3" align="center" style={{color:'violet'}}>
                       비슷한 영화
                     </Typography>
                   </Grid>
