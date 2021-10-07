@@ -68,11 +68,11 @@ const Chart_star = () => {
 
     return(
       <ResponsiveContainer width="100%" height="100%">
-          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data} fill='violet'>
+          <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data} fill='#8884d8'>
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" />
-            <PolarRadiusAxis />
-            <Radar name={name} dataKey= "A" stroke="violet" fill="violet" fillOpacity={0.7}/>
+            {/* <PolarRadiusAxis /> */}
+            <Radar name={name} dataKey= "A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.7}/>
           </RadarChart>
         </ResponsiveContainer>
     );  
