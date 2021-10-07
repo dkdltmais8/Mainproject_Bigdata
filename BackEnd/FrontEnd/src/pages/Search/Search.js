@@ -21,7 +21,7 @@ function Search( {history} ){
 
   const [searchedMovies,setSearchedMovies] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:8000/movie/search/title/${searchWord}`)
+    axios.get(`/movie/search/title/${searchWord}`)
     .then((res)=>{
       console.log(res.data);
       setSearchedMovies(res.data.movies)

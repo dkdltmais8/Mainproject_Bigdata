@@ -52,7 +52,7 @@ function Movietipage1() {
             color="primary"          
             className={classes.submit}          
             onClick = {() => {                 
-              axios.get(`http://localhost:8000/movie/movieti`, {
+              axios.get(`/movie/movieti`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ function Movietipage1() {
             color="primary"
             className={classes.submit}
             onClick = {() => {                 
-              axios.get(`http://localhost:8000/movie/movieti`, {
+              axios.get(`/movie/movieti`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ function Movietipage1() {
             color="primary"
             className={classes.submit}
             onClick = {() => {                 
-              axios.get(`http://localhost:8000/movie/movieti`, {
+              axios.get(`/movie/movieti`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ function Movietipage1() {
             color="primary"
             className={classes.submit}
             onClick = {() => {                 
-              axios.get(`http://localhost:8000/movie/movieti`, {
+              axios.get(`/movie/movieti`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'

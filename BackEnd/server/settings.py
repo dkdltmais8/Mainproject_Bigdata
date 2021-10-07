@@ -16,6 +16,7 @@ import my_settings
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +29,7 @@ SECRET_KEY = my_settings.SECRET_KEY
 # 개발할때 로그를 남기는 부분, 운영할때 꼭 False로 변경해주기
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] #모든 호스트 허용
 
 
 # Application definition
@@ -183,3 +184,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'FrontEnd', 'build', 'static'),
 ]
+
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')

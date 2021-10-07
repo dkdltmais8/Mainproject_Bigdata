@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 function Movietimain() {
 
   useEffect(()=>{
-    axios.get(`http://localhost:8000/movie/movieti`, {
+    axios.get(`/movie/movieti`, {
                 headers: {
                   Authorization: `JWT ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
