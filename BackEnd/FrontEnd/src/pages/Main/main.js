@@ -106,7 +106,7 @@ function Main( {history} ){
       console.log(err)
     })
 
-    axios.get(movietiCollaboMoviesUrl,headers)  
+    axios.get(movietiCollaboMoviesUrl,headers)
     .then((res)=>{
       console.log(res.data,"애 나오긴햇어?");
       setMovietiCollaboMoviesUrl(res.data);
