@@ -308,7 +308,7 @@ def calc_movieti_result(request):
     Rating.objects.filter(uid_id=user.uid).update(movieti=final_mvti)
 
     changedata = {"email": user.email,
-                  "password": user.password, "movieti": final_mvti}
+                    "password": user.password, "movieti": final_mvti}
 
     serializer = UserMovieti(user, data=changedata)
     if serializer.is_valid(raise_exception=True):
