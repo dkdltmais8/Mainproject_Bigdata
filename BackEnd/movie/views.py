@@ -259,11 +259,13 @@ def calc_movieti_result(request):
     mvti = Tempmovieti.objects.get(uid=user.uid)
 
     # 만약 movieti 검사를 새로 하는 것이라면
-    sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
-    if(sum >= 12):
-        mvti.E = mvti.I = mvti.N = mvti.S = mvti.T = mvti.F = mvti.J = mvti.P = 0
 
     getType = request.GET.get('result', None)
+    if(getType >= 'A' and getType <= 'Z'):
+        sum = mvti.E + mvti.I + mvti.N + mvti.S + mvti.T + mvti.F + mvti.J + mvti.P
+        if(sum >= 12):
+            mvti.E = mvti.I = mvti.N = mvti.S = mvti.T = mvti.F = mvti.J = mvti.P = 0
+
     if(getType == 'E'):
         mvti.E = mvti.E + 1
     elif(getType == 'I'):
