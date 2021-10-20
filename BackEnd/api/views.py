@@ -9,13 +9,13 @@ import json
 # Create your views here.
 
 url = 'https://api.themoviedb.org/3/movie'
-api_key = 'e65e678451c2b671218a36fb34998488'
+api_key = ''
 
 # 영화 db에 넣기
 @api_view(['GET'])
 def get_movie_list(request):
     url = 'https://api.themoviedb.org/3/movie/popular'
-    api_key = 'e65e678451c2b671218a36fb34998488'
+
     for x in range(1, 501) :
         response = requests.get(f'{url}?api_key={api_key}&language=ko-KR&page={str(x)}')
         # print(response.json().get('results'))
@@ -37,11 +37,6 @@ def get_movie_list(request):
 # 영화 detail정보 나머지 넣기
 @api_view(['GET'])
 def get_datail_movie(request):
-    url = 'https://api.themoviedb.org/3/movie'
-    api_key = 'e65e678451c2b671218a36fb34998488'
-
-    # response = requests.get('https://api.themoviedb.org/3/movie/497698?api_key=e65e678451c2b671218a36fb34998488&language=ko-KR')
-
     movie_id_list = Movie.objects.values('tmdb_id')
     # 새로운 리스트에 담기
     tmdb_id_list = []
@@ -74,9 +69,6 @@ def get_datail_movie(request):
 # 영화 키워드
 @api_view(['GET'])
 def get_movie_keywords(request):
-
-    # response = requests.get('https://api.themoviedb.org/3/movie/497698/keywords?api_key=e65e678451c2b671218a36fb34998488')
-    # result = response.json()
 
     movie_id_list = Movie.objects.values('tmdb_id')
 
@@ -129,5 +121,3 @@ def get_movie_credits(request):
         movie.save()
 
     return Response(status=status.HTTP_200_OK)
-
-    #

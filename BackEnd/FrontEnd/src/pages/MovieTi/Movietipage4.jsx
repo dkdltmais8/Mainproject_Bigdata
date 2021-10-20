@@ -33,7 +33,7 @@ function Movietipage4() {
           }}
       >        
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 04.  
+        Q. 04 
       </Typography>
       <Typography variant="h4" align="center" color="text.secondary" paragraph>
         귀신이 나온다는 소문이 있는 집에 머물게 된 당신! 자정이 넘은 시각 어디선가 알 수 없는 소리가 들려오는데,,,?

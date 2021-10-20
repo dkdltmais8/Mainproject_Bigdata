@@ -33,7 +33,7 @@ function Movietipage11() {
           }}
       >     
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 11.  
+        Q. 11
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         우리 내일 영화보고 뭐할래? 나는...

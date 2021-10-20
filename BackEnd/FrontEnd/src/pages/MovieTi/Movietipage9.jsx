@@ -33,7 +33,7 @@ function Movietipage9() {
           }}
       >       
       <Typography variant="h2" align="center" color="text.secondary" paragraph>
-        Q 09.  
+        Q. 09
       </Typography>
       <Typography variant="h3" align="center" color="text.secondary" paragraph>
         시험을 못봐서 우울해하는 친구에게 당신이 해줄 말은? 
