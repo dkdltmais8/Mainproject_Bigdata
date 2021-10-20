@@ -186,8 +186,9 @@ function Main( {history} ){
                 loading?
                 <Spinner/>
                 :(
-                <div>
-                  <h2>나와 같은 Movieti가 좋아한 영화</h2>
+                      <div>
+                        <h2>나와 같은 Movieti가 좋아한 영화</h2>
+
                   <Slider {...sub_carousel_settings}>
                     {
                       movietiCollaboMovies.map((movietiCollaboMovie,idx)=>(
